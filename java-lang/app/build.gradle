@@ -21,3 +21,11 @@ java {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+sourceSets {
+    main {
+        java {
+            exclude 'app.src.main.java.com'
+        }
+    }
+}
