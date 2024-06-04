@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 형변환 - 부동소수점 변수 ==> 정수 변수
 //

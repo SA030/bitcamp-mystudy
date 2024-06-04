@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 변수 사용 오류 II
 //- 변수에 값을 저장하지 않은 상태에서 변수를 사용할 수 없다.

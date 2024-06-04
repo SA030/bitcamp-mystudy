@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 배열 - 배열 인스턴스와 가비지
 //

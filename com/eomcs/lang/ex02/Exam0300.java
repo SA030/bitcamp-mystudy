@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex02;
+package ex02;
 
 //# 주석 - 애노테이션(annotation)
 //- 클래스, 변수(필드, 아규먼트, 로컬 변수), 메서드 선언에 붙이는 주석이다.

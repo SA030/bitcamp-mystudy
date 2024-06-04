@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 // # 변수(variables)
 // - 값을 저장하는 메모리

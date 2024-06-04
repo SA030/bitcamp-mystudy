@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 문자 변수 - 따옴표('', single quotation) 활용하기
 //

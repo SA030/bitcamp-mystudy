@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex06.assignment;
+package ex06.assignment;
 
 // 사용자로부터 나이를 입력 받아 성년/미성년 여부를 출력하라!
 public class Test04 {

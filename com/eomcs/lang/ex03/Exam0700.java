@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex03;
+package ex03;
 
 //# 이스케이프 문자(escape character) = 문자 제어 코드
 //- 화면에 출력하는 문자가 아니라 문자 출력을 제어하는 문자이다.

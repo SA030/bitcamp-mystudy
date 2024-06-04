@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex07;
+package ex07;
 
 //# 메서드 : JVM 메모리
 //
@@ -19,7 +19,7 @@ public class Exam0410 {
   }
 }
 // 실행 순서와 메모리
-// 1) java -classpath bin com.eomcs.lang.ex07.Exam0410
+// 1) java -classpath bin ex07.Exam0410
 //    => JVM은 클래스 정보를 Method Area 영역에 로드한다.
 // 2) main() 호출
 //    => JVM Stack 영역에 main() 메서드가 사용할 로컬 변수를 준비한다.

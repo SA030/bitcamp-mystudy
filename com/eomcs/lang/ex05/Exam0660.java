@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 증감 연산자 : 전위(pre-fix) 감소 연산자
 //

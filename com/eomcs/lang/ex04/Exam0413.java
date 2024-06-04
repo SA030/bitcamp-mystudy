@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 정수 변수 - 크기가 다른 변수끼리 값 할당
 //

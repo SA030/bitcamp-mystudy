@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex06;
+package ex06;
 
 //# 흐름 제어문 - 중첩된 반복문 탈출
 //

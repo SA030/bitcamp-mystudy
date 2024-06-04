@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 산술 연산자 : 우선 순위 
 //

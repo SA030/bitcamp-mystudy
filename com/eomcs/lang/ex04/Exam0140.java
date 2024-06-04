@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 변수 선언과 값 할당을 동시에 하기
 //- 변수과 동시에 값을 즉시 저장할 수 있다.

@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 변수에 값 할당
 //- 변수가 가리키는 메모리에 값을 저장하는 것

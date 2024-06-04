@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04.assignment;
+package ex04.assignment;
 
 public class Test01 {
     public static void main(String[] args) {

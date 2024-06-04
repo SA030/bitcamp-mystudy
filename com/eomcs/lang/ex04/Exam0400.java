@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 import java.sql.Date;
 

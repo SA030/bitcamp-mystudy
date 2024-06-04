@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 조건 연산자 => ? :
 //

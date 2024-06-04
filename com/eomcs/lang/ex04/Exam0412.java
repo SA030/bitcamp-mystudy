@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 정수 변수 - 변수와 리터럴의 크기
 //

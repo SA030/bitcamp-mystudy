@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 할당(배정,대입) 연산자  : +=  -=  *=  /=  %=  &=  |=  ^=  <<=  >>=  >>>=
 //

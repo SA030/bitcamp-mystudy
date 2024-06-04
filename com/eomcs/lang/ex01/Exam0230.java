@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex01;
+package ex01;
 
 //# 클래스 이름과 소스 파일 이름 III
 //- 클래스를 공개하는 경우 소스 파일 이름은 반드시 클래스 이름과 같아야 한다.

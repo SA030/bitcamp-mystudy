@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex06;
+package ex06;
 
 //# 흐름 제어문 - 조건문 if에 여러 문장을 묶기
 //

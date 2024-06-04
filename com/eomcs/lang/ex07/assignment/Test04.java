@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex07.assignment;
+package ex07.assignment;
 
 import java.util.Scanner;
 

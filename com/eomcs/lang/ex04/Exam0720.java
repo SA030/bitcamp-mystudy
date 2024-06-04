@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 변수의 종류 - 종류에 따른 변수의 사용 범위
 //

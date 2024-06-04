@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 배열 - 배열 메모리 초기화 
 public class Exam0570 {

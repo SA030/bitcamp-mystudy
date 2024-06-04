@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex03;
+package ex03;
 
 //# 정수 리터럴 - 메모리 크기에 따른 표기법
 //- 정수를 저장할 메모리의 크기를 지정할 수 있다.

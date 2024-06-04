@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex06.assignment;
+package ex06.assignment;
 
 public class Test01 {
 

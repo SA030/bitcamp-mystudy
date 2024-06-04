@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 부동소수점 변수 - 변수와 리터럴의 크기 III
 //

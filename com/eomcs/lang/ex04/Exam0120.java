@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 한 문장에서 여러 개의 변수를 선언하기
 //- 한 문장으로 같은 유형의 변수를 여러 개 선언할 수 있다.

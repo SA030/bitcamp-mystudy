@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04.assignment;
+package ex04.assignment;
 
 // 6단계: 형식을 갖춘 문자열 출력하기
 public class Test02 {

@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 비트 이동 연산자 : 비트 이동의 유효 범위
 //

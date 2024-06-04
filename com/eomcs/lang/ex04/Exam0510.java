@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 배열 - 배열을 선언하는 방법 
 // 배열?

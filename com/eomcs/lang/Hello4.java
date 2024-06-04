@@ -40,5 +40,5 @@ class Hello4 {
 //
 //* 주의!
 //- 소스 파일이 있는 위치를 패키지로 간주하고 다음과 같이 패키지를 지정한다면 컴파일 오류가 발생한다.
-//  예) $ java -cp bin/main com.eomcs.lang.Hello4
+//  예) $ java -cp bin/main Hello4
 //

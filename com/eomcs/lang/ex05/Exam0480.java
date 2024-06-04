@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05;
+package ex05;
 
 //# 비트 연산자 : 응용 V - 사용자 권한 관리에 적용
 //

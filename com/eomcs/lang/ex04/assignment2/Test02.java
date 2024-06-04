@@ -9,7 +9,7 @@
 // 컴퓨터: 가위
 // => 이겼습니다.
 //
-package com.eomcs.lang.ex04.assignment2;
+package ex04.assignment2;
 
 import java.util.Scanner;
 

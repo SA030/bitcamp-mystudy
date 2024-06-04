@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05.assignment;
+package ex05.assignment;
 
 //# 과제
 //- 다음 int 변수에 들어 있는 값을

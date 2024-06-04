@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex06;
+package ex06;
 
 //# 흐름 제어문 - switch와 break
 //

@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex07;
+package ex07;
 
 // # 배열의 생성은 어디서 하는 것이 좋은가?
 // - 상황에 따라 적합한 것을 선택하면 된다.

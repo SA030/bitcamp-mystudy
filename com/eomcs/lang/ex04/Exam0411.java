@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex04;
+package ex04;
 
 //# 정수 변수 - 변수의 메모리 크기
 // 

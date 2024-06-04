@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex05.assignment;
+package ex05.assignment;
 
 import java.util.Scanner;
 

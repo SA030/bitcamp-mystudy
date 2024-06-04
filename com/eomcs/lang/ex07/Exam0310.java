@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex07;
+package ex07;
 
 //# 메서드 : call by value
 //

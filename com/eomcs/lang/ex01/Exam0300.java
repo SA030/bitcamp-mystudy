@@ -1,4 +1,4 @@
-package com.eomcs.lang.ex01;
+package ex01;
 
 //# 소스 파일의 인코딩 지정하기
 //
@@ -25,7 +25,7 @@ class Exam0300 {
 // src/main/java/com/eomcs/lang/ex01/Exam0300.java
 //
 // 2) 실행하기
-// - $ java -cp bin/main com.eomcs.lang.ex01.Exam0300
+// - $ java -cp bin/main ex01.Exam0300
 
 // 2024-05-31
 // Java SE 18 버전부터는 기본 인코딩은 UTF-8 가정한다.
