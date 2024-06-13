@@ -8,48 +8,40 @@ public class App2 {
   static Scanner sc = new Scanner(System.in);
 
   static String[] mn = {"회원", "팀", "프로젝트", "게시판", "도움말", "종료"};
+  static String[] member = {"등록", "목록", "조회", "변경", "삭제", "이전"};
+  static int sel = 0;
 
 
   public static void main(String[] args) {
 
-    int ans = 0;
-    int mnlen = mn.length;
-    String command, menuTitle;
-
-    printMenu();
-
-    while (true) {
+    while (sel >= 0) {
       try {
-        // answer == "menu" (x)
-        // answer에 "menu"의 주소값이 입력되어있음
-        command = prompt();
-        if (command.equals("menu")) {
-          printMenu();
-        } else {
-          ans = Integer.parseInt(command);
-          menuTitle = getMenuTitle(ans);
-          if (menuTitle == null) {
-            System.out.println("[ERROR] 유효한 메뉴 번호가 아닙니다.");
-          } else if (menuTitle.equals("종료")) {
-            break;
-          } else {
-            System.out.println(menuTitle);
-          }
-        }
+        SelectMenu(printMain());
         // } catch (InputMismatchException e) { //숫자로 못 바꾸는 경우 에러메세지 출력
       } catch (NumberFormatException e) {
         System.out.println("[ERROR] 숫자로 메뉴 번호를 입력하세요.");
-        // sc.next();
       }
-
     }
 
     System.out.println("종료합니다.");
     sc.close();
-
   }
 
 
+  static String printMain() {
+    switch (sel) {
+      case 0:
+        printMenu();
+        break;
+      case 1:
+        printMemberMenu();
+        break;
+      default:
+        break;
+    }
+
+    return prompt();
+  }
 
   static void printMenu() {
 
@@ -74,22 +66,95 @@ public class App2 {
     System.out.println(line);
   }
 
+
+
+  static void printMemberMenu() {
+    String boldAnsi = "\033[1m";
+    String resetAnsi = "\033[0m";
+
+    String appTitle = boldAnsi + "[회원]" + resetAnsi;
+    String line = boldAnsi + "---------------------" + resetAnsi;
+
+
+    System.out.println(line);
+    System.out.println(appTitle);
+
+    for (int i = 0; i < member.length; i++) {
+      if (i == (member.length - 1)) {
+        System.out.printf("%d. %s\n", 9, member[i]);
+      } else {
+        System.out.printf("%d. %s\n", (i + 1), member[i]);
+      }
+    }
+    System.out.println(line);
+  }
+
+  static void SelectMenu(String command) {
+
+    int ans = 0;
+    String menuTitle;
+
+    if (command.equals("menu")) {
+      sel = 0;
+    } else {
+      ans = Integer.parseInt(command);
+      menuTitle = getMenuTitle(ans);
+      if (menuTitle == null) {
+        System.out.println("[ERROR] 유효한 메뉴 번호가 아닙니다.");
+      } else if (menuTitle.equals("회원")) {
+        sel = 1;
+      } else if (menuTitle.equals("이전")) {
+        sel--;
+      } else if (menuTitle.equals("종료")) {
+        sel = -1;
+      }
+      System.out.println(menuTitle);
+    }
+  }
+
   static String prompt() {
+    System.out.print("메인");
+    addPrompt();
     System.out.print("> ");
+
     return sc.nextLine();
   }
+
+
+
+  static void addPrompt() {
+    switch (sel) {
+      case 0:
+        break;
+      case 1:
+        System.out.print("/회원");
+        break;
+      default:
+        break;
+    }
+  }
+
+
 
   static boolean isValidateMenu(int menuNo) {
     return menuNo > 0 && menuNo <= mn.length;
   }
 
+
+
   static String getMenuTitle(int menuNo) {
-    // if (isValidateMenu(menuNo)) {
-    // return menus[menuNo - 1];
-    // }
-    // return null;
 
-    return isValidateMenu(menuNo) ? mn[menuNo - 1] : null;
+    switch (sel) {
+      case 0:
+        return isValidateMenu(menuNo) ? mn[menuNo - 1] : null;
+      case 1:
+        if (menuNo == 9) {
+          menuNo = member.length;
+        }
+        return isValidateMenu(menuNo) ? member[menuNo - 1] : null;
+      default:
+        return null;
+    }
+
   }
-
 }
