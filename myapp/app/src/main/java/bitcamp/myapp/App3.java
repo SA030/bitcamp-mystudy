@@ -9,12 +9,14 @@ public class App3 {
   static Scanner sc = new Scanner(System.in);
 
   static String[] mainMenu = {"회원", "팀", "프로젝트", "게시판", "도움말", "종료"};
-  static String[][] subMenu = {{"등록", "목록", "조회", "변경", "삭제", "이전"}, // 회원
-      {"등록", "목록", "조회", "변경", "삭제", "이전"}, // 팀
-      {"등록", "목록", "조회", "변경", "삭제", "이전"}, // 프로젝트
-      {"등록", "목록", "조회", "변경", "삭제", "이전"} // 게시판
+  static String[][] subMenu = { //
+      {"등록1", "목록", "조회", "변경", "삭제", "이전"}, // 1. 회원
+      {"등록2", "목록", "조회", "변경", "삭제", "이전"}, // 2. 팀
+      {"등록3", "목록", "조회", "변경", "삭제", "이전"}, // 3.프로젝트
+      {"등록4", "목록", "조회", "변경", "삭제", "이전"}, // 4. 게시판
+      {"등록5", "목록", "조회", "변경", "삭제", "이전"} // 5. 도움말
   };
-  static ArrayList<ArrayList<String>> memberList = new ArrayList<ArrayList<String>>();
+  static ArrayList<ArrayList<String>> UserList = new ArrayList<ArrayList<String>>();
   static int location = 0;
 
 
@@ -22,6 +24,7 @@ public class App3 {
 
     while (location >= 0) {
       printMenu();
+
       try {
         inputMenu(prompt());
       } catch (NumberFormatException e) {
@@ -51,13 +54,17 @@ public class App3 {
     System.out.println(line);
     System.out.println(appTitle + PrintLocation() + appTitleTail);
 
+    // 메뉴 출력
     for (int i = 0; i < locationMenu().length; i++) {
       if (i == (locationMenu().length - 1)) {
-        System.out.printf("%d. %s\n", 9, locationMenuItem(i));
+        System.out.printf("%d. %s\n", //
+            9, // 9. 종료|이전
+            locationMenuItem(i));
       } else {
         System.out.printf("%d. %s\n", (i + 1), locationMenuItem(i));
       }
     }
+
     System.out.println(line);
   }
 
@@ -76,12 +83,14 @@ public class App3 {
     return sc.nextLine();
   }
 
+  // 메뉴 이동시 Prompt 추가
   static void addPrompt() {
     if (location > 0) {
       System.out.printf("/%s", PrintLocation());
     }
   }
 
+  // 메뉴 현재 위치 출력
   static String PrintLocation() {
     if (location == 0) {
       return "메인";
@@ -118,20 +127,32 @@ public class App3 {
       System.out.println("[ERROR] 유효한 메뉴 번호가 아닙니다.");
     } else {
       inputMenuRun(ans);
-      location = inputMenuChange(menuTitle);
-      System.out.println(menuTitle);
+      location = locationChange(ans);
+      // System.out.println(menuTitle); ////////////////// check용///////////////////////
     }
   }
 
-  static int inputMenuChange(String menuTitle) {
+  // 현재 위치 변경
+  static int locationChange(int ans) {
+
+    String menuTitle;
+
+    if (location == 0) {
+      if (ans < mainMenu.length) {
+        return ans;
+      }
+    }
+
+    menuTitle = getMenuTitle(ans);
+    return locationChange(menuTitle);
+  }
+
+  // 현재 위치 변경(String)
+  static int locationChange(String menuTitle) {
 
     switch (menuTitle) {
       case "이전":
         return 0;
-      case "회원":
-        return 1;
-      case "팀":
-        return 2;
       case "종료":
         return -1;
       default:
@@ -139,76 +160,64 @@ public class App3 {
     }
   }
 
+  // sub_menu 출력
   static void inputMenuRun(int menuNo) {
     switch (location) {
-      case 0:
+      case 0: // 메인
         break;
-      case 1:
-        menuMember(menuNo);
+      case 1: // 회원
+        menuUser(menuNo);
         break;
-      case 2:
+      case 2: // 팀
         break;
-      case 3:
+      case 3: // 프로젝트
+        break;
+      case 4: // 게시판
+        break;
+      case 5: // 도움말
         break;
       default:
         break;
     }
   }
+
   ///////////////////////////////////////////////////////////
 
 
-  static void menuMember(int menuNo) {
+
+  ///////////////////////////////////////////////////////////
+  ////////////////////// User Menu ////////////////////////
+  ///////////////////////////////////////////////////////////
+
+  static void menuUser(int menuNo) {
+    if (isValidateMenu(menuNo)) {
+      System.out.printf("[%s]\n", subMenu[0][menuNo - 1]);
+    }
+
     switch (menuNo) {
       case 1: // 등록
-        addMember();
+        addUser();
         break;
       case 2: // 목록
-        printListMember();
+        printListUser();
         break;
       case 3: // 조회
-        printMember(InputMemberNo());
+        printUser(inputUserNo());
         break;
       case 4: // 변경
-        editMember(InputMemberNo());
+        editUser(inputUserNo());
+        break;
+      case 5: // 삭제
+        deleteUser(inputUserNo());
         break;
       default:
         break;
     }
   }
 
-  static void addMember() {
 
-    int memberNo = memberList.size();
-
-    memberList.add(new ArrayList<String>());
-
-    System.out.print("이름? ");
-    memberList.get(memberNo).add(sc.nextLine());
-    System.out.print("이메일? ");
-    memberList.get(memberNo).add(sc.nextLine());
-    System.out.print("암호? ");
-    memberList.get(memberNo).add(sc.nextLine());
-    System.out.print("연락처? ");
-    memberList.get(memberNo).add(sc.nextLine());
-  }
-
-  static void printListMember() {
-    System.out.printf("%-4s %-4s %s\n", "번호", "이름", "이메일");
-    for (int memberNo = 0; memberNo < memberList.size(); memberNo++) {
-      System.out.printf("%-4d %-4s %s\n", memberNo + 1, // 번호
-          memberList.get(memberNo).get(0), // 이름
-          memberList.get(memberNo).get(1) // 이메일
-      );
-    }
-  }
-
-  static void printMember(int memberNo) {
-    System.out.printf("이름: %s \n", memberList.get(memberNo).get(0));
-    System.out.printf("이메일: %s \n", memberList.get(memberNo).get(1));
-    System.out.printf("연락처: %s \n", memberList.get(memberNo).get(3));
-  }
-
-  static int InputMemberNo() {
+  // 회원 번호 입력
+  static int inputUserNo() {
     String ans;
     int num;
 
@@ -216,25 +225,110 @@ public class App3 {
     ans = sc.nextLine();
     num = Integer.parseInt(ans);
 
-    return isValidateMember(num) ? num : 0;
+    return checkUser(num) ? num : 0;
   }
 
-  static boolean isValidateMember(int memberNo) {
-    return memberNo > 0 && memberNo < memberList.size();
+  // 1. 등록
+  static void addUser() {
+
+    int UserNo = UserList.size();
+
+    UserList.add(new ArrayList<String>());
+
+    for (int UserInfo = 0; UserInfo < 4; UserInfo++) {
+      System.out.printf("%s? ", UserInfo(UserInfo));
+      UserList.get(UserNo).add(sc.nextLine());
+    }
+  }
+
+  // 2. 목록
+  static void printListUser() {
+    System.out.printf("%-3s %-5s %-15s\n", //
+        "번호", // 번호
+        UserInfo(0), // 이름
+        UserInfo(1)); // 이메일
+    for (int UserNo = 1; UserNo <= UserList.size(); UserNo++) {
+      System.out.printf("%-3d %-5s %-15s\n", //
+          UserNo, // 번호
+          printUser(UserNo, 0), // 이름
+          printUser(UserNo, 1) // 이메일
+      );
+    }
+  }
+
+  // 3. 조회
+  static void printUser(int UserNo) {
+    if (UserNo > 0) {
+      for (int UserInfo = 0; UserInfo < UserList.get(UserNo - 1).size(); UserInfo++) {
+        if (UserInfo == 2) {
+          continue;
+        }
+        System.out.printf("%s: %s \n", UserInfo(UserInfo), printUser(UserNo, UserInfo));
+      }
+    }
   }
 
 
-  static void editMember(int memberNo) {
+  // 4. 변경
+  static void editUser(int UserNo) {
+    if (UserNo > 0) {
+      for (int UserInfo = 0; UserInfo < UserList.get(UserNo).size(); UserInfo++) {
+        System.out.printf("%s(%s)? ", //
+            UserInfo(UserInfo), // 수정할 정보 메뉴
+            printUser(UserNo, UserInfo) // 현재 저장된 정보
+        );
 
-    System.out.printf("이름(%s)? ", memberList.get(memberNo).get(0));
-    memberList.get(memberNo).set(0, sc.nextLine());
-    System.out.printf("이메일(%s)? ", memberList.get(memberNo).get(1));
-    memberList.get(memberNo).set(1, sc.nextLine());
-    System.out.printf("암호(%s)? ", memberList.get(memberNo).get(2));
-    memberList.get(memberNo).set(2, sc.nextLine());
-    System.out.printf("연락처(%s)? ", memberList.get(memberNo).get(3));
-    memberList.get(memberNo).set(3, sc.nextLine());
+        UserList.get(UserNo - 1).set(UserInfo, sc.nextLine()); // 수정
+      }
+    }
+
   }
+
+  // 5. 삭제
+  static void deleteUser(int UserNo) {
+    if (UserNo > 0) {
+      UserList.remove(UserNo - 1);
+      System.out.println("삭제하였습니다.");
+    }
+  }
+
+  // 멤버 정보 UserInfo->String
+  static String UserInfo(int UserInfo) {
+    switch (UserInfo) {
+      case 0:
+        return "이름";
+      case 1:
+        return "이메일";
+      case 2:
+        return "암호";
+      case 3:
+        return "연락처";
+      default:
+        return null;
+    }
+  }
+
+
+  // 멤버 정보 출력
+  static String printUser(int UserNo, int UserInfo) {
+    return UserList.get(UserNo - 1).get(UserInfo);
+  }
+
+  // 회원 번호 유효 검사
+  static boolean isValidateUser(int UserNo) {
+    return UserNo > 0 && UserNo <= UserList.size();
+  }
+
+  // 회원 번호 있는지 확인
+  static boolean checkUser(int UserNo) {
+    if (isValidateUser(UserNo)) {
+      return true;
+    } else {
+      System.out.println("없는 회원입니다");
+      return false;
+    }
+  }
+  ///////////////////////////////////////////////////////////
 
 
 
@@ -242,17 +336,18 @@ public class App3 {
   ///////////////////// Location Array///////////////////////
   ///////////////////////////////////////////////////////////
 
+  // 현재 메뉴 위치의 배열 반환
   static String[] locationMenu() {
     if (location == 0) {
       return mainMenu;
     } else if (location > 0) {
-      return subMenu[location];
+      return subMenu[location - 1];
     } else {
       return null;
     }
   }
 
-
+  // 현재 메뉴 위치의 요소 반환
   static String locationMenuItem(int menuNo) {
     String[] menu = locationMenu();
     if (menuNo == menu.length) {
@@ -266,19 +361,20 @@ public class App3 {
 
 
   ///////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////
+  ///////////////////// Check Menu //////////////////////////
   ///////////////////////////////////////////////////////////
 
+  // 메뉴 번호 유효 검사
   static boolean isValidateMenu(int menuNo) {
     return menuNo > 0 && menuNo <= locationMenu().length;
   }
 
-
+  // 메뉴 이름 반환
   static String getMenuTitle(int menuNo) {
     int locationNo = locationMenu().length;
 
     if (menuNo == locationNo) {
-      menuNo = 9;
+      menuNo = 0;
     } else if (menuNo == 9) {
       menuNo = locationNo;
     }
