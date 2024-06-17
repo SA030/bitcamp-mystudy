@@ -2,12 +2,12 @@ package bitcamp.myapp.app;
 
 
 public class Menu {
+  DataEdit menu = new DataEdit();
+
   ///////////////////////////////////////////////////////////
   ////////////////////// input Menu /////////////////////////
   ///////////////////////////////////////////////////////////
   private static Menu m;
-
-  int current = 0;
 
 
   // setup Menu Instance
@@ -30,23 +30,22 @@ public class Menu {
   public void processMenu(String command) {
 
     if (command.equals("menu")) {
-      this.current = 0;
+      menu.setCurrent(0);
     } else {
-      this.current = processMenuInt(command);
+      menu.setCurrent(processMenuInt(command));
     }
   }
 
 
   private int processMenuInt(String command) {
-    Menu mn = new Menu();
 
     int ans = Integer.parseInt(command);
-    String menuTitle = mn.getMenuTitle(ans);
+    String menuTitle = getMenuTitle(ans);
 
 
     if (menuTitle == null) {
       System.out.println("[ERROR] 유효한 메뉴 번호가 아닙니다.");
-      return this.current;
+      return menu.getCurrent();
     } else {
       printSubMenu(ans);
       return changeLocation(ans);
@@ -55,12 +54,10 @@ public class Menu {
 
   // 현재 위치 변경
   private int changeLocation(int ans) {
-    DataList data = DataList.getInstance();
-
     String menuTitle = getMenuTitle(ans);
 
-    if (this.current == 0) {
-      if (ans < data.mainMenu.length) {
+    if (menu.getCurrent() == 0) {
+      if (ans < menu.getMenuArr().length) {
         return ans;
       }
     }
@@ -71,16 +68,14 @@ public class Menu {
       case "종료":
         return -1;
       default:
-        return this.current;
+        return menu.getCurrent();
     }
   }
 
   // sub_menu 이동
   private void printSubMenu(int menuNo) {
 
-
-
-    switch (this.current) {
+    switch (menu.getCurrent()) {
       case 0: // 메인
         break;
       case 1: // 회원
@@ -110,49 +105,35 @@ public class Menu {
 
   // 메뉴 이름 반환
   private String getMenuTitle(int menuNo) {
-    int locationNo = getCurrentArr().length;
+    int locationNo = menu.getMenuArr().length;
 
     if (menuNo == locationNo) {
       menuNo = 0;
     } else if (menuNo == 9) {
       menuNo = locationNo;
     }
-    return isValidateMenu(menuNo) ? getCurrentArrItem(menuNo - 1) : null;
+    return isValidateMenu(menuNo) ? getMenuArrItem(menuNo - 1) : null;
 
   }
 
   // 메뉴 번호 유효 검사
   private boolean isValidateMenu(int menuNo) {
-    return menuNo > 0 && menuNo <= getCurrentArr().length;
+    return menuNo > 0 && menuNo <= menu.getMenuArr().length;
   }
   ///////////////////////////////////////////////////////////
+
 
 
   ///////////////////////////////////////////////////////////
   ///////////////////// Location Array///////////////////////
   ///////////////////////////////////////////////////////////
-
-  // 현재 메뉴 위치의 배열 반환
-  protected String[] getCurrentArr() {
-
-    DataList data = DataList.getInstance();
-
-    if (this.current == 0) {
-      return data.mainMenu;
-    } else if (this.current > 0) {
-      return data.subMenu[this.current - 1];
-    } else {
-      return null;
-    }
-  }
-
   // 현재 메뉴 위치의 요소 반환
-  protected String getCurrentArrItem(int menuNo) {
-    String[] menu = getCurrentArr();
-    if (menuNo == menu.length) {
+  protected String getMenuArrItem(int menuNo) {
+    String[] menuArr = menu.getMenuArr();
+    if (menuNo == menuArr.length) {
       return null;
     }
-    return menu != null ? menu[menuNo] : null;
+    return menuArr != null ? menuArr[menuNo] : null;
   }
 
   ///////////////////////////////////////////////////////////

@@ -1,26 +1,26 @@
 package bitcamp.myapp.app;
 
-import java.util.Scanner;
-
 public class ProjectManager {
 
   public static void main(String[] args) {
 
-    DataPrinter p = new DataPrinter();
+    Printer p = new Printer();
     Menu mn = Menu.getInstance();
-    Scanner sc = new Scanner(System.in);
 
-    while (mn.current >= 0) {
-      p.Menu(mn.current);
+    // 더미데이터
+    mn.menu.data.addDummy();
+
+
+    while (mn.menu.getCurrent() >= 0) {
+      p.Menu(mn.menu.getCurrent());
 
       try {
-        mn.processMenu(p.prompt(mn.current));
+        mn.processMenu(p.prompt(mn.menu.getCurrent()));
       } catch (NumberFormatException e) {
         System.out.println("[ERROR] 숫자로 메뉴 번호를 입력하세요.");
       }
     }
 
     System.out.println("종료합니다.");
-    sc.close();
   }
 }

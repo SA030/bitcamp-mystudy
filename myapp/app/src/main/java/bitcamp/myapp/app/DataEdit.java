@@ -4,25 +4,23 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataEdit {
+  Data data = Data.getInstance();
   Scanner sc = new Scanner(System.in);
-  DataList data = DataList.getInstance();
+
+
 
   String[] getMenuArr() {
-    Menu mn = Menu.getInstance();
-    int current = mn.current;
 
-    if (current == 0) {
+    if (getCurrent() == 0) {
       return data.mainMenu;
     } else {
-      return data.subMenu[current - 1];
+      return data.subMenu[getCurrent() - 1];
     }
   }
 
   ArrayList<ArrayList<String>> getListArr() {
-    Menu mn = Menu.getInstance();
-    int current = mn.current;
 
-    switch (current) {
+    switch (getCurrent()) {
       case 1:
         return data.UserList;
       case 2:
@@ -33,39 +31,39 @@ public class DataEdit {
   }
 
   String MenuName() {
-    Menu mn = Menu.getInstance();
-    int current = mn.current;
 
-    return data.mainMenu[current - 1];
+    return data.mainMenu[getCurrent() - 1];
   }
+
+
 
   /////////////////////////////////////////////// USER ///////////////////////////////////////
   // public 멤버 정보 Int->String
-  public String getUserItemString(int UserInfo) {
-    switch (UserInfo) {
+  public String getUserItemString(int userItem) {
+    switch (userItem) {
       case 0:
-        return "이름";
+        return "Name";
       case 1:
-        return "이메일";
+        return "Email";
       case 2:
-        return "암호";
+        return "PW";
       case 3:
-        return "연락처";
+        return "Phone";
       default:
         return null;
     }
   }
 
   // 멤버 정보 String->Int
-  public int getUserItemInt(String UserInfo) {
-    switch (UserInfo) {
-      case "이름":
+  public int getUserItemInt(String userItem) {
+    switch (userItem) {
+      case "Name":
         return 0;
-      case "이메일":
+      case "Email":
         return 1;
-      case "암호":
+      case "PW":
         return 2;
-      case "연락처":
+      case "Phone":
         return 3;
       default:
         return -1;
@@ -73,21 +71,38 @@ public class DataEdit {
   }
 
 
+  public String Scanner() {
+    String ans = sc.nextLine();
+
+    return ans;
+  }
+
+
+  ///////////////////////////////////////////// Current ///////////////////////////////////////
+  public int getCurrent() {
+    return data.current;
+  }
+
+  public void setCurrent(int current) {
+    data.current = current;
+  }
+
+
   /////////////////////////////////////////////// Team ///////////////////////////////////////
   // public 멤버 정보 Int->String
-  public String getTeamItemString(int TeamInfo) {
-    switch (TeamInfo) {
+  public String getTeamItemString(int teamItem) {
+    switch (teamItem) {
       case 0:
-        return "팀명";
+        return "Team-Name";
       default:
-        return "팀원";
+        return "User";
     }
   }
 
   // 멤버 정보 String->Int
-  public int getTeamItemInt(String TeamInfo) {
-    switch (TeamInfo) {
-      case "팀명":
+  public int getTeamItemInt(String teamItem) {
+    switch (teamItem) {
+      case "Team-Name":
         return 0;
       default:
         return 1;
@@ -100,57 +115,73 @@ public class DataEdit {
     return getListArr().size();
   }
 
-  public int size(int No) {
-    return getListArr().get(No - 1).size();
+  public int size(int no) {
+    return getListArr().get(no - 1).size();
   }
 
-  public String getItem(int No, int Item) {
-    return getListArr().get(No - 1).get(Item);
+  public String getItem(int no, int item) {
+    return getListArr().get(no - 1).get(item);
   }
 
-  public String getItem(int No, String Item) {
-    Menu mn = Menu.getInstance();
-    int current = mn.current;
+  public String getItem(int no, String item) {
+    int current = getCurrent();
 
     switch (current) {
       case 1:
-        return getListArr().get(No - 1).get(getUserItemInt(Item));
+        return getListArr().get(no - 1).get(getUserItemInt(item));
       case 2:
-        return getListArr().get(No - 1).get(getTeamItemInt(Item));
+        return getListArr().get(no - 1).get(getTeamItemInt(item));
       default:
         return null;
     }
   }
 
-  public String getUserItem(int No, int Item) {
-    return data.UserList.get(No - 1).get(Item);
+
+  public String getUserItem(int no, int item) {
+    try {
+      return data.UserList.get(no - 1).get(item);
+    } catch (IndexOutOfBoundsException e) {
+      return null;
+    }
   }
 
-  public String getUserItem(String No, int Item) {
-    return data.UserList.get(Integer.parseInt(No) - 1).get(Item);
+  public String getUserItem(String no, int item) {
+    try {
+      return data.UserList.get(Integer.parseInt(no) - 1).get(item);
+    } catch (IndexOutOfBoundsException e) {
+      return null;
+    }
+  }
+
+  public int userSize() {
+    return data.UserList.size();
   }
 
   public void add() {
     getListArr().add(new ArrayList<String>());
   }
 
-  public void add(int No) {
-    getListArr().get(No).add(sc.nextLine());
+  public void add(int no) {
+    getListArr().get(no).add(Scanner());
   }
 
-  public void add(int No, String Item) {
-    getListArr().get(No).add(Item);
+  public void add(int No, int item) {
+    getListArr().get(No).add(String.format("%d", item));
   }
 
-  public void remove(int No) {
-    getListArr().remove(No - 1);
+  public void add(int no, String item) {
+    getListArr().get(no).add(item);
   }
 
-  public void remove(int No, int Item) {
-    getListArr().get(No - 1).remove(Item);
+  public void remove(int no) {
+    getListArr().remove(no - 1);
   }
 
-  public void set(int No, int Item) {
-    getListArr().get(No - 1).set(Item, sc.nextLine());
+  public void remove(int no, int item) {
+    getListArr().get(no - 1).remove(item);
+  }
+
+  public void set(int no, int item) {
+    getListArr().get(no - 1).set(item, Scanner());
   }
 }

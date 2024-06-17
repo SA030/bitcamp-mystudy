@@ -1,11 +1,9 @@
 package bitcamp.myapp.app;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class User {
 
-  Scanner sc = new Scanner(System.in);
   DataEdit user = new DataEdit();
 
 
@@ -42,12 +40,14 @@ public class User {
 
 
   // 번호 입력
-  private int inputNo() {
+  protected int inputNo() {
+
     String ans;
     int num;
 
     System.out.printf("%s 번호? ", user.MenuName());
-    ans = sc.nextLine();
+
+    ans = user.Scanner();
     num = Integer.parseInt(ans);
 
     return checkUser(num) ? num : 0;
@@ -57,7 +57,6 @@ public class User {
   private void add() {
 
     int UserNo = user.size();
-
     // User 번호 등록
     user.add();
 
@@ -81,7 +80,7 @@ public class User {
 
 
     // Print Title
-    str += String.format("%-3s ", "번호");
+    str += String.format("%-3s ", "N");
     for (int i : num) {
       str += String.format("%-10s ", UserInfo.get(i));
     }
@@ -139,15 +138,15 @@ public class User {
 
   // 회원 번호 유효 검사
   private boolean isValidateUser(int UserNo) {
-    return UserNo > 0 && UserNo <= user.size();
+    return UserNo > 0 && UserNo <= user.userSize();
   }
 
   // 회원 번호 있는지 확인
-  private boolean checkUser(int UserNo) {
+  protected boolean checkUser(int UserNo) {
     if (isValidateUser(UserNo)) {
       return true;
     } else {
-      System.out.printf("없는 %s입니다.\n", user.MenuName());
+      System.out.printf("없는 회원입니다.\n");
       return false;
     }
   }
