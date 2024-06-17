@@ -7,7 +7,7 @@ public class ProjectManager {
     Printer p = new Printer();
     Menu mn = Menu.getInstance();
 
-    // 더미데이터
+    //더미데이터
     mn.menu.data.addDummy();
 
 
