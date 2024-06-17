@@ -4,40 +4,45 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataEdit {
-  Data data = Data.getInstance();
   Scanner sc = new Scanner(System.in);
 
+  private ArrayList<ArrayList<String>> UserList = new ArrayList<ArrayList<String>>();
+  private ArrayList<ArrayList<String>> TeamList = new ArrayList<ArrayList<String>>();
 
+  private static DataEdit data;
 
-  String[] getMenuArr() {
+  public static DataEdit getInstance() {
 
-    if (getCurrent() == 0) {
-      return data.mainMenu;
-    } else {
-      return data.subMenu[getCurrent() - 1];
+    if (data == null) {
+      data = new DataEdit();
     }
+
+    return data;
   }
 
-  ArrayList<ArrayList<String>> getListArr() {
+  public static void freeInstance() {
+    data = null;
+  }
 
-    switch (getCurrent()) {
+
+
+  public ArrayList<ArrayList<String>> getListArr() {
+    Menu menu = Menu.getInstance();
+    int current = menu.getCurrent();
+
+    switch (current) {
       case 1:
-        return data.UserList;
+        return this.UserList;
       case 2:
-        return data.TeamList;
+        return this.TeamList;
       default:
         return null;
     }
   }
 
-  String MenuName() {
-
-    return data.mainMenu[getCurrent() - 1];
-  }
 
 
-
-  /////////////////////////////////////////////// USER ///////////////////////////////////////
+  ////////////////////////////////////// USER ///////////////////////////////////////
   // public 멤버 정보 Int->String
   public String getUserItemString(int userItem) {
     switch (userItem) {
@@ -78,17 +83,8 @@ public class DataEdit {
   }
 
 
-  ///////////////////////////////////////////// Current ///////////////////////////////////////
-  public int getCurrent() {
-    return data.current;
-  }
 
-  public void setCurrent(int current) {
-    data.current = current;
-  }
-
-
-  /////////////////////////////////////////////// Team ///////////////////////////////////////
+  ////////////////////////////////////// Team ///////////////////////////////////////
   // public 멤버 정보 Int->String
   public String getTeamItemString(int teamItem) {
     switch (teamItem) {
@@ -110,8 +106,7 @@ public class DataEdit {
   }
 
 
-  /////////////////////////////////////////////// Data Edit
-  ///////////////////////////////////////
+  ///////////////////////////// Data Edit ///////////////////////////////////////
   public int size() {
     return getListArr().size();
   }
@@ -125,7 +120,8 @@ public class DataEdit {
   }
 
   public String getItem(int no, String item) {
-    int current = getCurrent();
+    Menu menu = Menu.getInstance();
+    int current = menu.getCurrent();
 
     switch (current) {
       case 1:
@@ -140,7 +136,7 @@ public class DataEdit {
 
   public String getUserItem(int no, int item) {
     try {
-      return data.UserList.get(no - 1).get(item);
+      return this.UserList.get(no - 1).get(item);
     } catch (IndexOutOfBoundsException e) {
       return null;
     }
@@ -148,14 +144,14 @@ public class DataEdit {
 
   public String getUserItem(String no, int item) {
     try {
-      return data.UserList.get(Integer.parseInt(no) - 1).get(item);
+      return this.UserList.get(Integer.parseInt(no) - 1).get(item);
     } catch (IndexOutOfBoundsException e) {
       return null;
     }
   }
 
   public int userSize() {
-    return data.UserList.size();
+    return this.UserList.size();
   }
 
   public void add() {
