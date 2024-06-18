@@ -1,4 +1,4 @@
-package bitcamp.myapp.app;
+package bitcamp.myapp.app.util;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,7 +7,17 @@ public class DataEdit {
   Scanner sc = new Scanner(System.in);
 
   private ArrayList<ArrayList<String>> UserList = new ArrayList<ArrayList<String>>();
+  // [A][B]
+  // A: User Number(0~...)
+  // B0: User Name
+  // B1: Email
+  // B2: PassWord
+  // B3: Phone number
   private ArrayList<ArrayList<String>> TeamList = new ArrayList<ArrayList<String>>();
+  // [A][B]
+  // A: Team Number(0~...)
+  // B0: Team Name
+  // B1...: User number(1~...)
 
   private static DataEdit data;
 

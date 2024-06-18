@@ -1,5 +1,7 @@
 package bitcamp.myapp.app;
 
+import bitcamp.myapp.app.command.Printer;
+
 public class ProjectManager {
 
   public static void main(String[] args) {

@@ -1,4 +1,7 @@
-package bitcamp.myapp.app;
+package bitcamp.myapp.app.command;
+
+import bitcamp.myapp.app.util.DataEdit;
+import bitcamp.myapp.app.util.Menu;
 
 public class Printer {
   Menu menu = Menu.getInstance();

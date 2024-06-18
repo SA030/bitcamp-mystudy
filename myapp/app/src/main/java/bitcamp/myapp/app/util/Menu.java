@@ -1,5 +1,7 @@
-package bitcamp.myapp.app;
+package bitcamp.myapp.app.util;
 
+import bitcamp.myapp.app.submenu.Team;
+import bitcamp.myapp.app.submenu.User;
 
 public class Menu {
   private int current = 0;

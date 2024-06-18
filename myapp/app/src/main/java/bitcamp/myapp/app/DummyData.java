@@ -1,5 +1,8 @@
 package bitcamp.myapp.app;
 
+import bitcamp.myapp.app.util.DataEdit;
+import bitcamp.myapp.app.util.Menu;
+
 public class DummyData {
   DataEdit data = DataEdit.getInstance();
   Menu menu = Menu.getInstance();
