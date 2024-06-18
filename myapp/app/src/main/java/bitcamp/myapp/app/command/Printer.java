@@ -22,7 +22,7 @@ public class Printer {
 
 
     System.out.println(line);
-    System.out.println(appTitle + currentMenu(menu.getCurrent()) + appTitleTail);
+    System.out.println(appTitle + menu.MenuName() + appTitleTail);
 
     // 메뉴 출력
     for (int i = 0; i < menu.getMenuArr().length; i++) {
@@ -59,19 +59,19 @@ public class Printer {
   // 메뉴 이동시 Prompt 추가
   private void addPrompt(int current) {
     if (current > 0) {
-      System.out.printf("/%s", currentMenu(current));
+      System.out.printf("/%s", menu.MenuName());
     }
   }
 
   // 메뉴 현재 위치 출력
-  private String currentMenu(int current) {
-
-    if (current == 0) {
-      return "메인";
-    } else {
-      return menu.getMenuArr()[current - 1];
-    }
-  }
+  // private String currentMenu(int current) {
+  //
+  // if (current == 0) {
+  // return "메인";
+  // } else {
+  // return menu.getMenuArr()[current - 1];
+  // }
+  // }
 
   ///////////////////////////////////////////////////////////
   //////////////////////// Current //////////////////////////

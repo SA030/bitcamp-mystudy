@@ -3,30 +3,32 @@ package bitcamp.myapp.app.submenu;
 import java.util.ArrayList;
 import bitcamp.myapp.app.util.DataEdit;
 import bitcamp.myapp.app.util.Menu;
+import bitcamp.myapp.app.vo.User;
 
-public class User {
+public class UserMenu {
 
   DataEdit data = DataEdit.getInstance();
+  User user = User.getInstance();
 
 
   ///////////////////////////////////////////////////////////
   ////////////////////// static User ////////////////////////
   ///////////////////////////////////////////////////////////
-  private static User user;
+  private static UserMenu userMenu;
 
   // setup User Instance
-  public static User getInstance() {
+  public static UserMenu getInstance() {
 
-    if (user == null) {
-      user = new User();
+    if (userMenu == null) {
+      userMenu = new UserMenu();
     }
 
-    return user;
+    return userMenu;
   }
 
   // reset User Instance
   public static void freeInstance() {
-    user = null;
+    userMenu = null;
   }
 
   ///////////////////////////////////////////////////////////
@@ -82,19 +84,31 @@ public class User {
   // 1. 등록
   private void add() {
 
-    int UserNo = data.size();
-    // User 번호 등록
-    data.add();
+    String[] item = new String[4];
+    // int UserNo = data.size();
+    //
+    // // User 번호 등록
+    // data.add();
+    //
+    // // User 정보 등록
+    // for (int UserInfo = 0; UserInfo < 4; UserInfo++) {
+    // System.out.printf("%s? ", data.getUserItemString(UserInfo));
+    // data.add(UserNo);
+    // }
 
     // User 정보 등록
-    for (int UserInfo = 0; UserInfo < 4; UserInfo++) {
-      System.out.printf("%s? ", data.getUserItemString(UserInfo));
-      data.add(UserNo);
+    for (int UserItem = 0; UserItem < 4; UserItem++) {
+      System.out.printf("%s? ", data.getUserItemString(UserItem));
+      item[UserItem] = data.Scanner();
     }
+    data.add(new User(item));
   }
 
   // 2. 목록
   private void printList(int... num) {
+
+    String name, email, tel;
+
     // Title Copy //////////////////////////////////////////////
     ArrayList<String> UserInfo = new ArrayList<String>();
     String str = "";
@@ -114,12 +128,21 @@ public class User {
 
 
     // Print List
-    for (int UserNo = 1; UserNo <= data.size(); UserNo++) {
+    // for (int UserNo = 1; UserNo <= data.size(); UserNo++) {
+    // str += String.format("%-3s ", UserNo);
+    // for (int i : num) {
+    // str += String.format("%-10s ", data.getItem(UserNo, UserInfo.get(i)));
+    // }
+    // str += String.format("\n");
+    // }
+    for (int UserNo = 1; UserNo <= data.arrSize(); UserNo++) {
+
+      name = data.getUser(UserNo).getName();
+      email = data.getUser(UserNo).getEmail();
+      tel = data.getUser(UserNo).getTel();
+
       str += String.format("%-3s ", UserNo);
-      for (int i : num) {
-        str += String.format("%-10s ", data.getItem(UserNo, UserInfo.get(i)));
-      }
-      str += String.format("\n");
+      str += String.format("%-10s %-10s %-10s \n", name, email, tel);
     }
 
     // Print Total
@@ -128,27 +151,41 @@ public class User {
 
   // 3. 조회
   private void print(int UserNo) {
+    String name, email, tel;
+
     if (UserNo > 0) {
-      for (int UserInfo = 0; UserInfo < data.size(UserNo); UserInfo++) {
-        if (UserInfo == 2) {
-          continue;
-        }
-        System.out.printf("%s: %s \n", data.getUserItemString(UserInfo),
-            data.getItem(UserNo, UserInfo));
-      }
+      name = data.getUser(UserNo).getName();
+      email = data.getUser(UserNo).getEmail();
+      tel = data.getUser(UserNo).getTel();
+
+      System.out.printf("%s: %s \n", data.getUser(0), name);
+      System.out.printf("%s: %s \n", data.getUser(1), email);
+      System.out.printf("%s: %s \n", data.getUser(2), tel);
+
     }
   }
 
   // 4. 변경
   private void edit(int UserNo) {
+    // if (UserNo > 0) {
+    // for (int UserInfo = 0; UserInfo < data.size(UserNo); UserInfo++) {
+    // System.out.printf("%s(%s)? ", //
+    // data.getUserItemString(UserInfo), // 수정할 정보 메뉴
+    // data.getItem(UserNo, UserInfo) // 현재 저장된 정보
+    // );
+    // data.set(UserNo, UserInfo); // 수정
+    // }
+    // }
+
     if (UserNo > 0) {
-      for (int UserInfo = 0; UserInfo < data.size(UserNo); UserInfo++) {
-        System.out.printf("%s(%s)? ", //
-            data.getUserItemString(UserInfo), // 수정할 정보 메뉴
-            data.getItem(UserNo, UserInfo) // 현재 저장된 정보
-        );
-        data.set(UserNo, UserInfo); // 수정
-      }
+      System.out.printf("%s(%s)? ", data.getUserItemString(0), data.getUser(UserNo).getName()); // 이름
+      data.getUser(UserNo).setName(data.Scanner());;
+      System.out.printf("%s(%s)? ", data.getUserItemString(1), data.getUser(UserNo).getEmail()); // 이메일
+      data.getUser(UserNo).setEmail(data.Scanner());;
+      System.out.printf("%s(%s)? ", data.getUserItemString(2), data.getUser(UserNo).getPassword()); // 비밀번호
+      data.getUser(UserNo).setPassword(data.Scanner());;
+      System.out.printf("%s(%s)? ", data.getUserItemString(3), data.getUser(UserNo).getTel()); // 전화번호
+      data.getUser(UserNo).setTel(data.Scanner());;
     }
 
   }

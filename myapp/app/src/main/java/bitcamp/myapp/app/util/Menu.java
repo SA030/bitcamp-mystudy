@@ -1,7 +1,8 @@
 package bitcamp.myapp.app.util;
 
-import bitcamp.myapp.app.submenu.Team;
-import bitcamp.myapp.app.submenu.User;
+import bitcamp.myapp.app.submenu.ProjectMenu;
+import bitcamp.myapp.app.submenu.TeamMenu;
+import bitcamp.myapp.app.submenu.UserMenu;
 
 public class Menu {
   private int current = 0;
@@ -46,6 +47,7 @@ public class Menu {
     } else {
       this.current = processMenuInt(command);
     }
+
   }
 
   // command: 유효 메뉴 번호 검사
@@ -94,14 +96,16 @@ public class Menu {
       case 0: // 메인
         break;
       case 1: // 회원
-        User u = new User();
+        UserMenu u = new UserMenu();
         u.menuUser(menuNo);
         break;
       case 2: // 팀
-        Team t = new Team();
+        TeamMenu t = new TeamMenu();
         t.menuTeam(menuNo);
         break;
       case 3: // 프로젝트
+        ProjectMenu p = new ProjectMenu();
+        p.menuProject(menuNo);
         break;
       case 4: // 게시판
         break;
@@ -175,7 +179,11 @@ public class Menu {
 
   // 현재 위치(current)의 메뉴 이름 반환
   public String MenuName() {
-    return this.mainMenu[this.current - 1];
+    if (this.current == 0) {
+      return "메인";
+    } else {
+      return this.mainMenu[this.current - 1];
+    }
   }
 
 
