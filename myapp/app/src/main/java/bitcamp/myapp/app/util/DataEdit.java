@@ -15,25 +15,15 @@ public class DataEdit {
   Menu menu = Menu.getInstance();
   int current = menu.getCurrent();
 
-  // private ArrayList<ArrayList<String>> UserList = new ArrayList<ArrayList<String>>();
-  // [A][B]
-  // A: User Number(0~...)
-  // B0: User Name
-  // B1: Email
-  // B2: PassWord
-  // B3: Phone number
   private ArrayList<User> UserList = new ArrayList<User>();
-
-  // private ArrayList<ArrayList<String>> TeamList = new ArrayList<ArrayList<String>>();
-  // [A][B]
-  // A: Team Number(0~...)
-  // B0: Team Name
-  // B1...: User number(1~...)
   private ArrayList<Team> TeamList = new ArrayList<Team>();
   private ArrayList<Project> ProjectList = new ArrayList<Project>();
 
 
 
+  ///////////////////////////////////////////////////////////
+  //////////////// private Instance DataEdit ////////////////
+  ///////////////////////////////////////////////////////////
   private static DataEdit data;
 
   public static DataEdit getInstance() {
@@ -50,7 +40,12 @@ public class DataEdit {
   }
 
 
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////// Get Update List /////////////////////
+  ///////////////////////////////////////////////////////////
   public ArrayList<?> getListArr() {
+
     switch (menu.getCurrent()) {
       case 1:
         return UserList;
@@ -63,45 +58,16 @@ public class DataEdit {
     }
   }
 
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// Scanner /////////////////////////
+  ///////////////////////////////////////////////////////////
   public String Scanner() {
     String ans = sc.nextLine();
 
     return ans;
   }
-
-  ////////////////////////////////////// USER ///////////////////////////////////////
-  // 멤버 정보 Int->String
-  public String getUserItemString(int userItem) {
-    switch (userItem) {
-      case 0:
-        return "Name";
-      case 1:
-        return "Email";
-      case 2:
-        return "PW";
-      case 3:
-        return "Phone";
-      default:
-        return null;
-    }
-  }
-
-  // 멤버 정보 String->Int
-  public int getUserItemInt(String userItem) {
-    switch (userItem) {
-      case "Name":
-        return 0;
-      case "Email":
-        return 1;
-      case "PW":
-        return 2;
-      case "Phone":
-        return 3;
-      default:
-        return -1;
-    }
-  }
-
 
   ////////////////////////////////////// Team ///////////////////////////////////////
   // 팀 정보 Int->String
@@ -166,7 +132,7 @@ public class DataEdit {
       case 2:
         return team.getSize();
       case 3:
-        return pro.getSize();
+        return pro.getMemberSize();
       default:
         return 0;
     }
@@ -187,49 +153,12 @@ public class DataEdit {
   public Project getPro(int no) {
     return ProjectList.get(no - 1);
   }
-  // public String getItem(int no, int item) {
-  // return getListArr().get(no - 1).get(item);
-  // }
-  //
-  // public String getItem(int no, String item) {
-  // Menu menu = Menu.getInstance();
-  // int current = menu.getCurrent();
-  //
-  // switch (current) {
-  // case 1:
-  // return getListArr().get(no - 1).get(getUserItemInt(item));
-  // case 2:
-  // return getListArr().get(no - 1).get(getTeamItemInt(item));
-  // default:
-  // return null;
-  // }
-  // }
-  //
-  //
-  // public String getUserItem(int no, int item) {
-  // try {
-  // return this.UserList.get(no - 1).get(item);
-  // } catch (IndexOutOfBoundsException e) {
-  // return null;
-  // }
-  // }
-  //
-  // public String getUserItem(String no, int item) {
-  // try {
-  // return this.UserList.get(Integer.parseInt(no) - 1).get(item);
-  // } catch (IndexOutOfBoundsException e) {
-  // return null;
-  // }
-  // }
+
+
 
   public int userSize() {
     return UserList.size();
   }
-
-
-  // public void add(int no) {
-  // getListArr().get(no).add(Scanner());
-  // }
 
   public void add(User user) {
     UserList.add(user);
@@ -247,14 +176,6 @@ public class DataEdit {
     getListArr().remove(no - 1);
   }
 
-  // public void remove(int no, int item) {
-  // getListArr().get(no - 1).remove(item);
-  // }
-
-  // public void set(int no, int item) {
-  // getListArr().get(no - 1).set(item, Scanner());
-  // }
-
   public void set(int no) {
 
     switch (menu.getCurrent()) {
@@ -271,9 +192,9 @@ public class DataEdit {
         break;
       case 3:
         Project pro = ProjectList.get(no);
-        pro.setName(Scanner());
-        pro.setAccount(Scanner());
-        pro.setStart(Scanner());
+        pro.setTitle(Scanner());
+        pro.setDiscription(Scanner());
+        pro.setStartDate(Scanner());
         pro.setEnd(Scanner());
         break;
     }

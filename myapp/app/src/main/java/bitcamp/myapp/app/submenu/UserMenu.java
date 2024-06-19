@@ -7,12 +7,11 @@ import bitcamp.myapp.app.vo.User;
 
 public class UserMenu {
 
-  DataEdit data = DataEdit.getInstance();
-  User user = User.getInstance();
-
+  private DataEdit data = DataEdit.getInstance();
+  private User user = User.getInstance();
 
   ///////////////////////////////////////////////////////////
-  ////////////////////// static User ////////////////////////
+  ////////////////// private Instance User //////////////////
   ///////////////////////////////////////////////////////////
   private static UserMenu userMenu;
 
@@ -24,12 +23,14 @@ public class UserMenu {
     }
 
     return userMenu;
-  }
+  }// Method getInstance END
 
   // reset User Instance
   public static void freeInstance() {
     userMenu = null;
-  }
+  }// Method freeInstance END
+
+
 
   ///////////////////////////////////////////////////////////
   //////////////////////// User Menu ////////////////////////
@@ -37,181 +38,229 @@ public class UserMenu {
 
   public void menuUser(int menuNo) {
 
-    Menu menu = Menu.getInstance();
-
-    if (menuNo < menu.getMenuArr().length - 1) {
-      System.out.printf("[%s]\n", menu.getMenuArr()[menuNo - 1]);
-    }
-
-
     switch (menuNo) {
       case 1: // 등록
         add();
         break;
       case 2: // 목록
-        printList(0, 1);
+        printList();
         break;
       case 3: // 조회
-        print(inputNo());
+        print(inputUserNo());
         break;
       case 4: // 변경
-        edit(inputNo());
+        edit(inputUserNo());
         break;
       case 5: // 삭제
-        delete(inputNo());
+        delete(inputUserNo());
         break;
       default:
         break;
     }
-  }
+
+  }// Method menuUser END
 
 
-  // 번호 입력
-  protected int inputNo() {
 
-    Menu menu = Menu.getInstance();
-    String ans;
-    int num;
-
-    System.out.printf("%s 번호? ", menu.MenuName());
-
-    ans = data.Scanner();
-    num = Integer.parseInt(ans);
-
-    return checkUser(num) ? num : 0;
-  }
-
-  // 1. 등록
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 1. 등록 /////////////////////////
+  ///////////////////////////////////////////////////////////
   private void add() {
 
     String[] item = new String[4];
-    // int UserNo = data.size();
-    //
-    // // User 번호 등록
-    // data.add();
-    //
-    // // User 정보 등록
-    // for (int UserInfo = 0; UserInfo < 4; UserInfo++) {
-    // System.out.printf("%s? ", data.getUserItemString(UserInfo));
-    // data.add(UserNo);
-    // }
 
     // User 정보 등록
-    for (int UserItem = 0; UserItem < 4; UserItem++) {
-      System.out.printf("%s? ", data.getUserItemString(UserItem));
+    for (int UserItem = 0; UserItem < user.getSize(); UserItem++) {
+      System.out.printf("%s? ", user.getUserItemString(UserItem));
       item[UserItem] = data.Scanner();
     }
     data.add(new User(item));
-  }
+  }// Method add END
 
-  // 2. 목록
-  private void printList(int... num) {
 
-    String name, email, tel;
 
-    // Title Copy //////////////////////////////////////////////
-    ArrayList<String> UserInfo = new ArrayList<String>();
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 2. 목록 /////////////////////////
+  ///////////////////////////////////////////////////////////
+  private void printList() {
+
+    ArrayList<String> userPublicInfo;
+
+    int numWidth = 3;
+    int titleWidth = 10;
     String str = "";
 
-    for (int i : num) {
-      UserInfo.add(data.getUserItemString(i));
-    }
-    ////////////////////////////////////////////////////////////
+    // N Name Email Phone
+    str += printTitle(numWidth);
 
 
-    // Print Title
-    str += String.format("%-3s ", "N");
-    for (int i : num) {
-      str += String.format("%-10s ", UserInfo.get(i));
-    }
-    str += String.format("\n");
-
-
-    // Print List
-    // for (int UserNo = 1; UserNo <= data.size(); UserNo++) {
-    // str += String.format("%-3s ", UserNo);
-    // for (int i : num) {
-    // str += String.format("%-10s ", data.getItem(UserNo, UserInfo.get(i)));
-    // }
-    // str += String.format("\n");
-    // }
+    // 1 A A A
+    // 2 B B B
+    // 3 C C C
     for (int UserNo = 1; UserNo <= data.arrSize(); UserNo++) {
+      userPublicInfo = getPublicItem(UserNo);
 
-      name = data.getUser(UserNo).getName();
-      email = data.getUser(UserNo).getEmail();
-      tel = data.getUser(UserNo).getTel();
-
-      str += String.format("%-3s ", UserNo);
-      str += String.format("%-10s %-10s %-10s \n", name, email, tel);
+      // 회원 번호
+      str += formString(numWidth, UserNo);
+      // 회원 공개 정보
+      for (int userInfo = 0; userInfo < userPublicInfo.size(); userInfo++) {
+        str += formString(titleWidth, userPublicInfo.get(userInfo));
+      }
+      str += String.format("\n");
     }
 
     // Print Total
     System.out.print(str);
-  }
+  }// Method printList END
+   ///////////////////////////////////////////////////////////
 
-  // 3. 조회
-  private void print(int UserNo) {
-    String name, email, tel;
 
-    if (UserNo > 0) {
-      name = data.getUser(UserNo).getName();
-      email = data.getUser(UserNo).getEmail();
-      tel = data.getUser(UserNo).getTel();
+  // Print Title
+  private String printTitle(int numWidth) {
 
-      System.out.printf("%s: %s \n", data.getUser(0), name);
-      System.out.printf("%s: %s \n", data.getUser(1), email);
-      System.out.printf("%s: %s \n", data.getUser(2), tel);
+    // Copy Title List
+    ArrayList<String> userPublicTitle = getPublicTitle();
 
+    String str = "";
+
+    // N
+    str += formString(numWidth, "N");
+    // 회원 공개 정보 Title
+    for (int i = 0; i < userPublicTitle.size(); i++) {
+      str += formString(10, userPublicTitle.get(i));
     }
-  }
+    str += String.format("\n");
 
-  // 4. 변경
+    return str;
+  }// Method printTitle END
+
+  // Title 간격 조정
+  private String formString(int width, String text) {
+    return String.format("%-" + width + "s", text);
+  }// Method formString END
+
+  private String formString(int width, int text) {
+    return String.format("%-" + width + "d", text);
+  }// Method formString END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 3. 조회 /////////////////////////
+  ///////////////////////////////////////////////////////////
+  private void print(int userNo) {
+
+    String str = "";
+
+    ArrayList<String> userPublicTitle = getPublicTitle();
+    ArrayList<String> userPublicInfo = getPublicItem(userNo);
+
+    if (userPublicInfo != null) {
+      for (int i = 0; i < userPublicInfo.size(); i++) {
+        // 유저 공개 정보 Title
+        str += formString(5, userPublicTitle.get(i));
+        str += (": ");
+        // 유저 공개 정보
+        str += formString(5, userPublicInfo.get(i));
+        str += String.format("\n");
+      }
+
+      System.out.print(str);
+    }
+  }// Method print END
+
+
+  // 회원 공개 정보 Tile
+  private ArrayList<String> getPublicTitle() {
+
+    if (user != null) {
+      return user.getPublicUserTitle();
+    }
+    return null;
+  }// Method getPublicTitle END
+
+  // 회원 공개 정보
+  private ArrayList<String> getPublicItem(int UserNo) {
+    if (getUser(UserNo) != null) {
+      return getUser(UserNo).getPublicUserItem();
+    }
+    return null;
+  }// Method getPublicInfo END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 4. 변경 /////////////////////////
+  ///////////////////////////////////////////////////////////
   private void edit(int UserNo) {
-    // if (UserNo > 0) {
-    // for (int UserInfo = 0; UserInfo < data.size(UserNo); UserInfo++) {
-    // System.out.printf("%s(%s)? ", //
-    // data.getUserItemString(UserInfo), // 수정할 정보 메뉴
-    // data.getItem(UserNo, UserInfo) // 현재 저장된 정보
-    // );
-    // data.set(UserNo, UserInfo); // 수정
-    // }
-    // }
 
-    if (UserNo > 0) {
-      System.out.printf("%s(%s)? ", data.getUserItemString(0), data.getUser(UserNo).getName()); // 이름
-      data.getUser(UserNo).setName(data.Scanner());;
-      System.out.printf("%s(%s)? ", data.getUserItemString(1), data.getUser(UserNo).getEmail()); // 이메일
-      data.getUser(UserNo).setEmail(data.Scanner());;
-      System.out.printf("%s(%s)? ", data.getUserItemString(2), data.getUser(UserNo).getPassword()); // 비밀번호
-      data.getUser(UserNo).setPassword(data.Scanner());;
-      System.out.printf("%s(%s)? ", data.getUserItemString(3), data.getUser(UserNo).getTel()); // 전화번호
-      data.getUser(UserNo).setTel(data.Scanner());;
+    User user = getUser(UserNo);
+
+    if (user != null) {
+      for (int itemNo = 0; itemNo < user.getSize(); itemNo++) {
+        System.out.printf("%s(%s)? ", user.getUserItemString(itemNo), user.getItem(itemNo));
+        user.setItem(itemNo, data.Scanner());
+      }
     }
+  }// Method edit END
 
-  }
 
-  // 5. 삭제
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 5. 삭제 /////////////////////////
+  ///////////////////////////////////////////////////////////
   private void delete(int UserNo) {
+
     if (UserNo > 0) {
       data.remove(UserNo);
       System.out.println("삭제하였습니다.");
     }
-  }
+  }// Method delete END
 
+
+
+  ///////////////////////////////////////////////////////////
+  //////////////////////// get User /////////////////////////
+  ///////////////////////////////////////////////////////////
   // 회원 번호 유효 검사
   private boolean isValidateUser(int UserNo) {
     return UserNo > 0 && UserNo <= data.userSize();
-  }
+  }// Method isValidateUser END
 
   // 회원 번호 있는지 확인
-  protected boolean checkUser(int UserNo) {
+  boolean checkUser(int UserNo) {
+
     if (isValidateUser(UserNo)) {
       return true;
     } else {
       System.out.printf("없는 회원입니다.\n");
       return false;
     }
-  }
-  ///////////////////////////////////////////////////////////
+  }// Method checkUser END
 
-}
+  // 회원 번호 입력
+  int inputUserNo() {
+
+    Menu menu = Menu.getInstance();
+    String ans;
+    int num;
+
+    System.out.printf("%s 번호? ", menu.getMenuName());
+
+    ans = data.Scanner();
+    num = Integer.parseInt(ans);
+
+    return checkUser(num) ? num : 0;
+  }// Method inputUserNo END
+
+  // 회원 정보 가져오기
+  User getUser(int UserNo) {
+
+    if (UserNo > 0) {
+      return data.getUser(UserNo);
+    }
+    return null;
+  }// Method getUser END
+
+
+}// Class UserMenu END

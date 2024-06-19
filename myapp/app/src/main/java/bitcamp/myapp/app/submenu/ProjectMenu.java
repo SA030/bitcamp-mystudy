@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 import bitcamp.myapp.app.util.DataEdit;
-import bitcamp.myapp.app.util.Menu;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.User;
 
@@ -16,12 +15,6 @@ public class ProjectMenu {
 
   public void menuProject(int menuNo) {
 
-    Menu menu = Menu.getInstance();
-
-    if (menuNo < menu.getMenuArr().length - 1) {
-      System.out.printf("[%s]\n", menu.getMenuArr()[menuNo - 1]);
-    }
-
     switch (menuNo) {
       case 1: // 등록
         add();
@@ -30,13 +23,13 @@ public class ProjectMenu {
         printList(0, 1, 2, 3);
         break;
       case 3: // 조회
-        print(user.inputNo());
+        print(user.inputUserNo());
         break;
       case 4: // 변경
-        edit(user.inputNo());
+        edit(user.inputUserNo());
         break;
       case 5: // 삭제
-        delete(user.inputNo());
+        delete(user.inputUserNo());
         break;
       default:
         break;
@@ -76,12 +69,12 @@ public class ProjectMenu {
 
       if (user.checkUser(Integer.parseInt(item))) {
         no = Integer.parseInt(item);
-        addUser = addPro.getUser();
+        addUser = addPro.getMembers();
 
         if (addUser.containsKey(no)) {
           System.out.printf("'%s'은 현재 팀원입니다.\n", addUser.get(no).getName());
         } else {
-          addPro.setUser(no, data.getUser(no));
+          addPro.setMembers(no, data.getUser(no));
           System.out.printf("'%s'을 추가했습니다.\n", addUser.get(no).getName());
         }
       }
@@ -110,10 +103,10 @@ public class ProjectMenu {
 
     for (int proNo = 1; proNo <= data.arrSize(); proNo++) {
       str += String.format("%-3s ", proNo);
-      str += String.format("%-15s ", data.getPro(proNo).getName());
-      str += String.format("%-15s ", data.getPro(proNo).getAccount());
-      str += String.format("%-15s ", data.getPro(proNo).getStart());
-      str += String.format("%-15s \n", data.getPro(proNo).getEnd());
+      str += String.format("%-15s ", data.getPro(proNo).getTitle());
+      str += String.format("%-15s ", data.getPro(proNo).getDiscription());
+      str += String.format("%-15s ", data.getPro(proNo).getStartDate());
+      str += String.format("%-15s \n", data.getPro(proNo).getEndDate());
     }
 
 
@@ -123,11 +116,11 @@ public class ProjectMenu {
 
   // 3. 조회
   private void print(int proNo) {
-    String proName = data.getPro(proNo).getName();
-    String proAccount = data.getPro(proNo).getAccount();
-    String proStart = data.getPro(proNo).getStart();
-    String proEnd = data.getPro(proNo).getEnd();
-    Set<Integer> userName = data.getPro(proNo).getUser().keySet();
+    String proName = data.getPro(proNo).getTitle();
+    String proAccount = data.getPro(proNo).getDiscription();
+    String proStart = data.getPro(proNo).getStartDate();
+    String proEnd = data.getPro(proNo).getEndDate();
+    Set<Integer> userName = data.getPro(proNo).getMembers().keySet();
 
 
     if (proNo > 0) {
@@ -152,7 +145,7 @@ public class ProjectMenu {
   // 3-1. 팀원 이름 조회
   private String printUserName(int proNo, int userNo) {
 
-    return data.getPro(proNo).getUser().get(userNo).getName();
+    return data.getPro(proNo).getMembers().get(userNo).getName();
   }
 
 
@@ -185,34 +178,34 @@ public class ProjectMenu {
       // Edit Project name
       System.out.printf("%s(%s) ", //
           data.getProItemString(0), // 수정할 정보 메뉴
-          data.getPro(proNo).getName() // 현재 저장된 정보
+          data.getPro(proNo).getTitle() // 현재 저장된 정보
       );
-      data.getPro(proNo).setName(data.Scanner()); // 수정
+      data.getPro(proNo).setTitle(data.Scanner()); // 수정
 
       // Edit Account
       System.out.printf("%s(%s) ", //
           data.getProItemString(1), // 수정할 정보 메뉴
-          data.getPro(proNo).getAccount() // 현재 저장된 정보
+          data.getPro(proNo).getDiscription() // 현재 저장된 정보
       );
-      data.getPro(proNo).setAccount(data.Scanner()); // 수정
+      data.getPro(proNo).setDiscription(data.Scanner()); // 수정
 
       // Edit Start
       System.out.printf("%s(%s) ", //
           data.getProItemString(2), // 수정할 정보 메뉴
-          data.getPro(proNo).getStart() // 현재 저장된 정보
+          data.getPro(proNo).getStartDate() // 현재 저장된 정보
       );
-      data.getPro(proNo).setStart(data.Scanner()); // 수정
+      data.getPro(proNo).setStartDate(data.Scanner()); // 수정
 
       // Edit End
       System.out.printf("%s(%s) ", //
           data.getProItemString(3), // 수정할 정보 메뉴
-          data.getPro(proNo).getEnd() // 현재 저장된 정보
+          data.getPro(proNo).getEndDate() // 현재 저장된 정보
       );
       data.getPro(proNo).setEnd(data.Scanner()); // 수정
       /*************************************************************/
 
       // Delete Team user
-      HashMap<Integer, User> editUser = data.getPro(proNo).getUser();
+      HashMap<Integer, User> editUser = data.getPro(proNo).getMembers();
       ArrayList<Integer> editUserNo = new ArrayList<Integer>();
       int num;
 

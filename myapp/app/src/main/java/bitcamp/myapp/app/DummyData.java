@@ -24,7 +24,7 @@ public class DummyData {
     menu.setCurrent(2);
     addTeamDummy();
     menu.setCurrent(3);
-    addProDummy();
+    addProjectDummy();
     menu.setCurrent(0);
   }
 
@@ -59,8 +59,8 @@ public class DummyData {
 
 
 
-  // 미리 프로젝트 추가(2팀 ABC/DEF)
-  private void addProDummy() {
+  // 미리 프로젝트 추가(2팀 ABC/DEF, 2024-06-18~2024-11-29)
+  private void addProjectDummy() {
     String proName;
 
     for (int proNo = 0; proNo < 2; proNo++) {
@@ -68,13 +68,13 @@ public class DummyData {
       Project pro = new Project();
       proName = String.format("%c%c%c", 'A' + (3 * proNo), 'B' + (3 * proNo), 'C' + (3 * proNo));
 
-      pro.setName(proName);
-      pro.setAccount(proName);
-      pro.setStart("2024-06-18");
+      pro.setTitle(proName);
+      pro.setDiscription(proName);
+      pro.setStartDate("2024-06-18");
       pro.setEnd("2024-11-29");
-      pro.setUser(1 + (3 * proNo), data.getUser(1 + (3 * proNo)));// A
-      pro.setUser(2 + (3 * proNo), data.getUser(2 + (3 * proNo)));// B
-      pro.setUser(3 + (3 * proNo), data.getUser(3 + (3 * proNo)));// C
+      pro.setMembers(1 + (3 * proNo), data.getUser(1 + (3 * proNo)));// A
+      pro.setMembers(2 + (3 * proNo), data.getUser(2 + (3 * proNo)));// B
+      pro.setMembers(3 + (3 * proNo), data.getUser(3 + (3 * proNo)));// C
 
       data.add(pro); //
     }

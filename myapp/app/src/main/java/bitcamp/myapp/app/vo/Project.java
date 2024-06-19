@@ -4,35 +4,39 @@ import java.util.HashMap;
 
 public class Project {
 
-  private String name;
-  private String account;
-  private String start;
-  private String end;
-  HashMap<Integer, User> user = new HashMap<Integer, User>();
-  private int size = 0;
+  private String title;
+  private String description;
+  private String startDate;
+  private String endDate;
+  HashMap<Integer, User> members = new HashMap<Integer, User>();
+  private int membertSize = 0;
 
   public Project() {
 
   }
 
-  public Project(String name) {
-    this.name = name;
+  public Project(String title) {
+    this.title = title;
   }
 
-  public Project(String name, String account, String start, String end) {
-    this.name = name;
-    this.account = account;
-    this.start = start;
-    this.end = end;
+  public Project(String title, String description, String startDate, String endDate) {
+    this.title = title;
+    this.description = description;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
 
   public Project(String[] item) {
-    this.name = item[0];
-    this.account = item[1];
-    this.start = item[2];
-    this.end = item[3];
+    this.title = item[0];
+    this.description = item[1];
+    this.startDate = item[2];
+    this.endDate = item[3];
   }
 
+
+  ///////////////////////////////////////////////////////////
+  ////////////////// private Instance ///////////////////////
+  ///////////////////////////////////////////////////////////
 
   private static Project pro;
 
@@ -49,57 +53,71 @@ public class Project {
     pro = null;
   }
 
-  public String getName() {
-    return name;
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// public getter, setter ///////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  public String getTitle() {
+    return title;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public String getAccount() {
-    return account;
+  public String getDiscription() {
+    return description;
   }
 
-  public void setAccount(String account) {
-    this.account = account;
+  public void setDiscription(String description) {
+    this.description = description;
   }
 
-  public String getStart() {
-    return start;
+  public String getStartDate() {
+    return startDate;
   }
 
-  public void setStart(String start) {
-    this.start = start;
+  public void setStartDate(String startDate) {
+    this.startDate = startDate;
   }
 
-  public String getEnd() {
-    return end;
+  public String getEndDate() {
+    return endDate;
   }
 
-  public void setEnd(String end) {
-    this.end = end;
+  public void setEnd(String endDate) {
+    this.endDate = endDate;
   }
 
-  public HashMap<Integer, User> getUser() {
-    return user;
+  public HashMap<Integer, User> getMembers() {
+    return members;
   }
 
-  public void setUser(HashMap<Integer, User> user) {
-    this.user.putAll(user);;
+  public void setMembers(HashMap<Integer, User> members) {
+    this.members.putAll(members);;
   }
 
-  public void setUser(int num, User user) {
-    this.user.put(num, user);
-    this.size += 1;
+  public void setMembers(int members, User user) {
+    this.members.put(members, user);
+    this.membertSize += 1;
   }
 
-  public int getSize() {
-    return size;
+  public int getMemberSize() {
+    return membertSize;
   }
 
-  public void setSize(int size) {
-    this.size = size;
+  public void setMemberSize(int membertSize) {
+    this.membertSize = membertSize;
   }
 
 }

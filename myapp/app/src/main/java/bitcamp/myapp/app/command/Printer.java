@@ -9,7 +9,7 @@ public class Printer {
   ///////////////////////////////////////////////////////////
   /////////////////////// Print Menu ////////////////////////
   ///////////////////////////////////////////////////////////
-
+  // 현재 메뉴 출력
   public void printMenu() {
 
     String boldAnsi = "\033[1m";
@@ -22,9 +22,18 @@ public class Printer {
 
 
     System.out.println(line);
-    System.out.println(appTitle + menu.MenuName() + appTitleTail);
+    System.out.println(appTitle + menu.getMenuName() + appTitleTail);
 
     // 메뉴 출력
+    // ---------------------
+    // [메인]
+    // 1. 회원
+    // 2. 팀
+    // 3. 프로젝트
+    // 4. 게시판
+    // 5. 도움말
+    // 9. 종료
+    // ---------------------
     for (int i = 0; i < menu.getMenuArr().length; i++) {
       if (i == (menu.getMenuArr().length - 1)) {
         System.out.printf("%d. %s\n", //
@@ -37,48 +46,41 @@ public class Printer {
 
     System.out.println(line);
   }
+
   ///////////////////////////////////////////////////////////
   ///////////////////////// Prompt //////////////////////////
   ///////////////////////////////////////////////////////////
-
+  // User Prompt 출력
   public void printPrompt() {
-    menu.processMenu(prompt(menu.getCurrent()));
+    menu.processMenu(printMenuPrompt(menu.getCurrent()));
   }
 
-
-  private String prompt(int current) {
+  // User Prompt 위치 출력
+  private String printMenuPrompt(int current) {
     DataEdit p = new DataEdit();
 
+    // 메인/회원>__
     System.out.print("메인");
-    addPrompt(current);
+    addMenuPrompt(current);
     System.out.print("> ");
 
     return p.Scanner();
   }
 
   // 메뉴 이동시 Prompt 추가
-  private void addPrompt(int current) {
+  private void addMenuPrompt(int current) {
     if (current > 0) {
-      System.out.printf("/%s", menu.MenuName());
+      // 회원>__
+      System.out.printf("/%s", menu.getMenuName());
     }
   }
 
-  // 메뉴 현재 위치 출력
-  // private String currentMenu(int current) {
-  //
-  // if (current == 0) {
-  // return "메인";
-  // } else {
-  // return menu.getMenuArr()[current - 1];
-  // }
-  // }
 
   ///////////////////////////////////////////////////////////
-  //////////////////////// Current //////////////////////////
+  /////////////////////// isValidate ////////////////////////
   ///////////////////////////////////////////////////////////
-
-  public int getCurrent() {
-    return menu.getCurrent();
+  // printer 동작 가능한지 여부 확인
+  public boolean isValidatePrinter() {
+    return menu.getCurrent() >= 0 ? true : false;
   }
-
 }

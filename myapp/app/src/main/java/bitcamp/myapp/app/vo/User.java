@@ -1,13 +1,28 @@
 package bitcamp.myapp.app.vo;
 
+import java.util.ArrayList;
+import bitcamp.myapp.app.util.Title;
+
 public class User {
+
+  public Title title = Title.getInstance();
 
   private String name;
   private String email;
   private String password;
   private String tel;
-  private int size = 4;
 
+
+
+  ///////////////////////////////////////////////////////////
+  ////////////////// User Constructor ///////////////////////
+  ///////////////////////////////////////////////////////////
+  // default
+  public User() {
+
+  }
+
+  // name+info
   public User(String name, String email, String password, String tel) {
     this.name = name;
     this.email = email;
@@ -15,6 +30,7 @@ public class User {
     this.tel = tel;
   }
 
+  // item
   public User(String[] item) {
     this.name = item[0];
     this.email = item[1];
@@ -22,10 +38,10 @@ public class User {
     this.tel = item[3];
   }
 
-  public User() {
 
-  }
-
+  ///////////////////////////////////////////////////////////
+  ////////////////// private Instance ///////////////////////
+  ///////////////////////////////////////////////////////////
 
   private static User user;
 
@@ -42,10 +58,56 @@ public class User {
     user = null;
   }
 
+  ///////////////////////////////////////////////////////////
+  ///////////////// public getter, setter ///////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// Item getter, setter /////////////////////
+  ///////////////////////////////////////////////////////////
+
+  public String getItem(int itemNo) {
+    switch (itemNo) {
+      case 0:
+        return getName();
+      case 1:
+        return getEmail();
+      case 2:
+        return getPassword();
+      case 3:
+        return getTel();
+      default:
+        return null;
+    }
+  }// Method getItem END
+
+
+  public void setItem(int itemNo, String userItem) {
+    switch (itemNo) {
+      case 0:
+        setName(userItem);
+      case 1:
+        setEmail(userItem);
+      case 2:
+        setPassword(userItem);
+      case 3:
+        setTel(userItem);
+    }
+  }// Method setItem END
+
+  ///////////////////////////////////////////////////////////
 
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -76,14 +138,24 @@ public class User {
     this.tel = tel;
   }
 
+
+  ///////////////////////////////////////////////////////////
+
   public int getSize() {
-    return size;
+    return title.getUserTitleSize();
   }
 
-  public void setSize(int size) {
-    this.size = size;
+  public String getUserItemString(int userItem) {
+    return title.getItemString(userItem);
+  }
+
+  public ArrayList<String> getPublicUserTitle() {
+    return title.getPublicTitle();
+  }
+
+  public ArrayList<String> getPublicUserItem() {
+    return title.getPublicItem(getName());
   }
 
 
-
-}
+}// Class User END

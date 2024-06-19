@@ -28,12 +28,13 @@ public class Menu {
     }
 
     return m;
-  }
+  }// Method getInstance END
 
   // reset Menu Instance
   public static void freeInstance() {
     m = null;
-  }
+  }// Method freeInstance END
+
 
 
   ///////////////////////////////////////////////////////////
@@ -48,7 +49,7 @@ public class Menu {
       this.current = processMenuInt(command);
     }
 
-  }
+  }// Method processMenu END
 
   // command: 유효 메뉴 번호 검사
   private int processMenuInt(String command) {
@@ -62,14 +63,14 @@ public class Menu {
       return (this.current);
     } else {
       printSubMenu(ans);
-      int a = changeLocation(ans);
+      int a = changeCurrent(ans);
       return a;
 
     }
-  }
+  }// Method processMenuInt END
 
   // current 변경
-  private int changeLocation(int ans) {
+  private int changeCurrent(int ans) {
     String menuTitle = getMenuTitle(ans);
 
 
@@ -87,10 +88,18 @@ public class Menu {
       default:
         return this.current;
     }
-  }
+  }// Method changeLocation END
 
   // sub_menu 동작
   private void printSubMenu(int menuNo) {
+
+    Menu menu = Menu.getInstance();
+
+    if (this.current > 0) {
+      if (menuNo < menu.getMenuArr().length - 1) {
+        System.out.printf("[%s]\n", menu.getMenuArr()[menuNo - 1]);
+      }
+    }
 
     switch (this.current) {
       case 0: // 메인
@@ -114,7 +123,7 @@ public class Menu {
       default:
         break;
     }
-  }
+  }// Method printSubMenu END
 
 
 
@@ -132,12 +141,45 @@ public class Menu {
     }
     return isValidateMenu(menuNo) ? getMenuArrItem(menuNo - 1) : null;
 
-  }
+  }// Method getMenuTitle END
 
   // 메뉴 번호 유효 검사
   private boolean isValidateMenu(int menuNo) {
     return menuNo > 0 && menuNo <= getMenuArr().length;
-  }
+  }// Method isValidateMenu END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////// Location Menu ///////////////////////
+  ///////////////////////////////////////////////////////////
+  // 현재 위치(current)의 메뉴 배열 반환
+  public String[] getMenuArr() {
+
+    if (this.current == 0) {
+      return this.mainMenu;
+    } else {
+      return this.subMenu[this.current - 1];
+    }
+  }// Method getMenuArr END
+
+  // 현재 위치(current)의 메뉴 배열 요소 반환
+  public String getMenuArrItem(int menuNo) {
+    String[] menuArr = getMenuArr();
+    if (menuNo == menuArr.length) {
+      return null;
+    }
+    return menuArr != null ? menuArr[menuNo] : null;
+  }// Method getMenuArrItem END
+
+  // 현재 위치(current)의 메뉴 이름 반환
+  public String getMenuName() {
+    if (this.current == 0) {
+      return "메인";
+    } else {
+      return this.mainMenu[this.current - 1];
+    }
+  }// Method MenuName END
 
 
 
@@ -153,42 +195,6 @@ public class Menu {
   //////////////////////////// -- ///////////////////////////
   ///////////////////////////////////////////////////////////
 
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////// Location Array///////////////////////
-  ///////////////////////////////////////////////////////////
-  // 현재 위치(current)의 메뉴 배열 반환
-  public String[] getMenuArr() {
-
-    if (this.current == 0) {
-      return this.mainMenu;
-    } else {
-      return this.subMenu[this.current - 1];
-    }
-  }
-
-  // 현재 위치(current)의 메뉴 배열 요소 반환
-  public String getMenuArrItem(int menuNo) {
-    String[] menuArr = getMenuArr();
-    if (menuNo == menuArr.length) {
-      return null;
-    }
-    return menuArr != null ? menuArr[menuNo] : null;
-  }
-
-  // 현재 위치(current)의 메뉴 이름 반환
-  public String MenuName() {
-    if (this.current == 0) {
-      return "메인";
-    } else {
-      return this.mainMenu[this.current - 1];
-    }
-  }
-
-
-
-  ///////////////////// getter, setter //////////////////////
   public String[] getMainMenu() {
     return mainMenu;
   }
