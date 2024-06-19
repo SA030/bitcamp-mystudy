@@ -1,8 +1,12 @@
 package bitcamp.myapp.app.vo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import bitcamp.myapp.app.util.Title;
 
 public class Project {
+
+  public Title protitle = new Title(3);
 
   private String title;
   private String description;
@@ -11,6 +15,11 @@ public class Project {
   HashMap<Integer, User> members = new HashMap<Integer, User>();
   private int membertSize = 0;
 
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// Project Constructor /////////////////////
+  ///////////////////////////////////////////////////////////
   public Project() {
 
   }
@@ -34,6 +43,7 @@ public class Project {
   }
 
 
+
   ///////////////////////////////////////////////////////////
   ////////////////// private Instance ///////////////////////
   ///////////////////////////////////////////////////////////
@@ -54,6 +64,7 @@ public class Project {
   }
 
 
+
   ///////////////////////////////////////////////////////////
   ///////////////// public getter, setter ///////////////////
   ///////////////////////////////////////////////////////////
@@ -65,6 +76,39 @@ public class Project {
   ////////////////////////// ------ /////////////////////////
   //////////////////////////// -- ///////////////////////////
   ///////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// Item getter, setter /////////////////////
+  ///////////////////////////////////////////////////////////
+
+  public String getItem(int itemNo) {
+    switch (itemNo) {
+      case 0:
+        return getTitle();
+      case 1:
+        return getDiscription();
+      case 2:
+        return getStartDate();
+      case 3:
+        return getEndDate();
+      default:
+        return null;
+    }
+  }// Method getItem END
+
+
+  public void setItem(int itemNo, String userItem) {
+    switch (itemNo) {
+      case 0:
+        setTitle(userItem);
+      case 1:
+        setDiscription(userItem);
+      case 2:
+        setStartDate(userItem);
+      case 3:
+        setEnd(userItem);
+    }
+  }// Method setItem END
 
 
   public String getTitle() {
@@ -119,5 +163,24 @@ public class Project {
   public void setMemberSize(int membertSize) {
     this.membertSize = membertSize;
   }
+
+  ///////////////// title /////////////////////
+
+  public int getSize() {
+    return protitle.getTitleArrSize();
+  }
+
+  public String getProTitleString(int userItem) {
+    return protitle.getTitleString(userItem);
+  }
+
+  public ArrayList<String> getPublicProTitle() {
+    return protitle.getPublicTitle();
+  }
+
+  public ArrayList<Integer> getPublicProItem() {
+    return protitle.getPublicTitleNo();
+  }
+
 
 }

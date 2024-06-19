@@ -4,21 +4,96 @@ import java.util.ArrayList;
 
 public class Title {
 
+
   /********************************************************/
 
-  private ArrayList<accessTitle> setUserTitle() {
+  private ArrayList<AccessTitle> setUserTitle() {
 
-    ArrayList<accessTitle> userTitle = new ArrayList<accessTitle>();
+    ArrayList<AccessTitle> userTitle = new ArrayList<AccessTitle>();
 
-    userTitle.add(new accessTitle("Name", 1));
-    userTitle.add(new accessTitle("Email", 1));
-    userTitle.add(new accessTitle("PW", 0));
-    userTitle.add(new accessTitle("Tel", 1));
+    userTitle.add(new AccessTitle("Name", 1));
+    userTitle.add(new AccessTitle("Email", 1));
+    userTitle.add(new AccessTitle("PW", 0));
+    userTitle.add(new AccessTitle("Tel", 1));
 
     return userTitle;
-  }// Method setTitle END
+  }// Method setUserTitle END
+
+
+  private ArrayList<AccessTitle> setTeamTitle() {
+
+    ArrayList<AccessTitle> teamTitle = new ArrayList<AccessTitle>();
+
+    teamTitle.add(new AccessTitle("Team Name", 1));
+    teamTitle.add(new AccessTitle("User", 0));
+
+    return teamTitle;
+  }// Method setTeamTitle END
+
+
+  private ArrayList<AccessTitle> setProjectTitle() {
+
+    ArrayList<AccessTitle> projectTitle = new ArrayList<AccessTitle>();
+
+    projectTitle.add(new AccessTitle("Project Name", 1));
+    projectTitle.add(new AccessTitle("Description", 1));
+    projectTitle.add(new AccessTitle("Start(YYYY-MM-DD)", 1));
+    projectTitle.add(new AccessTitle("End(YYYY-MM-DD)", 1));
+    projectTitle.add(new AccessTitle("User", 0));
+
+    return projectTitle;
+  }// Method setProjectTitle END
 
   /********************************************************/
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  /////////////////////// Class Title ///////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+
+  ArrayList<AccessTitle> titleArr;
+  private final int titleArrSize;
+
+  public Title(int menuNo) {
+
+    switch (menuNo) {
+      case 1:
+        this.titleArr = setUserTitle();
+        break;
+      case 2:
+        this.titleArr = setTeamTitle();
+        break;
+      case 3:
+        this.titleArr = setProjectTitle();
+        break;
+      default:
+        this.titleArr = new ArrayList<AccessTitle>();
+        break;
+    }
+
+    this.titleArrSize = titleArr.size();
+  }
+
 
   ///////////////////////////////////////////////////////////
   ////////////////// private Instance ///////////////////////
@@ -26,10 +101,10 @@ public class Title {
 
   private static Title title;
 
-  public static Title getInstance() {
+  public static Title getInstance(int menuNo) {
 
     if (title == null) {
-      title = new Title();
+      title = new Title(menuNo);
     }
 
     return title;
@@ -42,20 +117,13 @@ public class Title {
 
 
   ///////////////////////////////////////////////////////////
-  //////////////////////// Title ////////////////////////////
+  ///////////////// accessTitle Constructor /////////////////
   ///////////////////////////////////////////////////////////
-
-  ArrayList<accessTitle> userTitle = setUserTitle();
-  private final int userTitleSize = userTitle.size();
-
-
-
-  ////////////////// Title Constructor //////////////////////
-  public class accessTitle {
+  public class AccessTitle {
     String title = "";
     int access = 0;
 
-    private accessTitle(String title, int access) {
+    private AccessTitle(String title, int access) {
       this.title = title;
       this.access = access;
     }
@@ -68,25 +136,29 @@ public class Title {
       return access;
     }
 
-  }// Class Title END
+  }// Class accessTitle END
 
-  //////////////////// Item getter ////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
+  /////////////////////// Item getter ///////////////////////
+  ///////////////////////////////////////////////////////////
 
   // get Title (Int->String)
-  public String getItemString(int userItem) {
+  public String getTitleString(int itemNo) {
 
-    if (userItem >= 0) {
-      return userTitle.get(userItem).getTitle();
+    if (itemNo >= 0) {
+      return titleArr.get(itemNo).getTitle();
     }
     return null;
   }// Method getItemString END
 
   // get Title (String->Int)
-  public int getItemInt(String userItem) {
+  public int getTitleInt(String item) {
 
-    for (int sz = 0; sz < userTitle.size(); sz++) {
-      if (getItemString(sz).equals(userItem)) {
-        return sz;
+    for (int size = 0; size < titleArrSize; size++) {
+      if (getTitleString(size).equals(item)) {
+        return size;
       }
     }
     return -1;
@@ -94,41 +166,45 @@ public class Title {
 
 
 
-  ///////////////// public Item getter /////////////////////
+  ///////////////////////////////////////////////////////////
+  /////////////////// public Item getter ////////////////////
+  ///////////////////////////////////////////////////////////
   // get public Title
   public ArrayList<String> getPublicTitle() {
 
     ArrayList<String> publicTitle = new ArrayList<String>();
 
-    for (int item = 0; item < userTitle.size(); item++) {
-      if (userTitle.get(item).getAccess() != 0) {
-        publicTitle.add(getItemString(item));
+    for (int itemNo = 0; itemNo < titleArrSize; itemNo++) {
+      if (titleArr.get(itemNo).getAccess() != 0) {
+        publicTitle.add(getTitleString(itemNo));
       }
     }
 
     return publicTitle;
   }// Method getPublicTitle END
 
+
+
   // get public Item
-  public ArrayList<String> getPublicItem(String item) {
+  public ArrayList<Integer> getPublicTitleNo() {
 
-    ArrayList<String> publicItem = new ArrayList<String>();
+    ArrayList<Integer> publicItem = new ArrayList<Integer>();
 
-    for (int itemNo = 0; itemNo < userTitle.size(); itemNo++) {
-      if (userTitle.get(itemNo).getAccess() != 0) {
-        publicItem.add(item);
+    for (int itemNo = 0; itemNo < titleArrSize; itemNo++) {
+      if (titleArr.get(itemNo).getAccess() != 0) {
+        publicItem.add(getTitleInt(getTitleString(itemNo)));
       }
     }
 
     return publicItem;
   }// Method getPublicItem END
 
-  public ArrayList<accessTitle> getUserTitle() {
-    return userTitle;
+  public ArrayList<AccessTitle> getTitleArr() {
+    return titleArr;
   }
 
-  public int getUserTitleSize() {
-    return userTitleSize;
+  public int getTitleArrSize() {
+    return titleArrSize;
   }
 
 

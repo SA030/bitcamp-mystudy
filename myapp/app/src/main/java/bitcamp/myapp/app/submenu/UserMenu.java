@@ -71,7 +71,7 @@ public class UserMenu {
 
     // User 정보 등록
     for (int UserItem = 0; UserItem < user.getSize(); UserItem++) {
-      System.out.printf("%s? ", user.getUserItemString(UserItem));
+      System.out.printf("%s? ", user.getUserTitleString(UserItem));
       item[UserItem] = data.Scanner();
     }
     data.add(new User(item));
@@ -83,28 +83,26 @@ public class UserMenu {
   ///////////////////////// 2. 목록 /////////////////////////
   ///////////////////////////////////////////////////////////
   private void printList() {
-
+    ArrayList<String> userPublicTitle = getPublicTitle();
     ArrayList<String> userPublicInfo;
 
     int numWidth = 3;
-    int titleWidth = 10;
+    int titleWidth = 15;
     String str = "";
 
-    // N Name Email Phone
-    str += printTitle(numWidth);
+    // 회원 정보 제목 출력
+    str += printTitle(numWidth, titleWidth);
 
 
-    // 1 A A A
-    // 2 B B B
-    // 3 C C C
-    for (int UserNo = 1; UserNo <= data.arrSize(); UserNo++) {
-      userPublicInfo = getPublicItem(UserNo);
+    // 회원 정보 출력
+    for (int UserNo = 1; UserNo <= data.getArrSize(); UserNo++) {
 
       // 회원 번호
       str += formString(numWidth, UserNo);
       // 회원 공개 정보
-      for (int userInfo = 0; userInfo < userPublicInfo.size(); userInfo++) {
-        str += formString(titleWidth, userPublicInfo.get(userInfo));
+      for (int titleNo = 0; titleNo < userPublicTitle.size(); titleNo++) {
+        userPublicInfo = getPublicItem(UserNo);
+        str += formString(titleWidth, userPublicInfo.get(titleNo));
       }
       str += String.format("\n");
     }
@@ -116,7 +114,7 @@ public class UserMenu {
 
 
   // Print Title
-  private String printTitle(int numWidth) {
+  private String printTitle(int numWidth, int titleWidth) {
 
     // Copy Title List
     ArrayList<String> userPublicTitle = getPublicTitle();
@@ -127,7 +125,7 @@ public class UserMenu {
     str += formString(numWidth, "N");
     // 회원 공개 정보 Title
     for (int i = 0; i < userPublicTitle.size(); i++) {
-      str += formString(10, userPublicTitle.get(i));
+      str += formString(titleWidth, userPublicTitle.get(i));
     }
     str += String.format("\n");
 
@@ -161,6 +159,7 @@ public class UserMenu {
         str += formString(5, userPublicTitle.get(i));
         str += (": ");
         // 유저 공개 정보
+        // System.out.println(userPublicInfo);
         str += formString(5, userPublicInfo.get(i));
         str += String.format("\n");
       }
@@ -182,7 +181,14 @@ public class UserMenu {
   // 회원 공개 정보
   private ArrayList<String> getPublicItem(int UserNo) {
     if (getUser(UserNo) != null) {
-      return getUser(UserNo).getPublicUserItem();
+      ArrayList<Integer> publicUserItemNo = getUser(UserNo).getPublicUserItem();
+      ArrayList<String> publicUserItem = new ArrayList<String>();
+
+      for (int itemNo = 0; itemNo < publicUserItemNo.size(); itemNo++) {
+        publicUserItem.add(getUser(UserNo).getItem(publicUserItemNo.get(itemNo)));
+      }
+
+      return publicUserItem;
     }
     return null;
   }// Method getPublicInfo END
@@ -198,7 +204,7 @@ public class UserMenu {
 
     if (user != null) {
       for (int itemNo = 0; itemNo < user.getSize(); itemNo++) {
-        System.out.printf("%s(%s)? ", user.getUserItemString(itemNo), user.getItem(itemNo));
+        System.out.printf("%s(%s)? ", user.getUserTitleString(itemNo), user.getItem(itemNo));
         user.setItem(itemNo, data.Scanner());
       }
     }

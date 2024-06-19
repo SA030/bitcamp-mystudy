@@ -30,11 +30,12 @@ public class DummyData {
 
   // 미리 회원 추가(5명 A~F)
   private void addUserDummy() {
-    String users;
+    String users, userpw;
 
     for (int userNo = 0; userNo < 6; userNo++) {
       users = String.format("%c", 'A' + userNo);
-      data.add(new User(users, users, users, users));
+      userpw = users + users + users + users;
+      data.add(new User(users, users + "@camp.com", userpw, "010-" + userpw + "-" + userpw));
     }
   }
 

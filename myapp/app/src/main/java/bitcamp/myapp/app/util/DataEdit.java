@@ -69,68 +69,15 @@ public class DataEdit {
     return ans;
   }
 
-  ////////////////////////////////////// Team ///////////////////////////////////////
-  // 팀 정보 Int->String
-  public String getTeamItemString(int teamItem) {
-    switch (teamItem) {
-      case 0:
-        return "Team Name";
-      default:
-        return "User";
-    }
-  }
 
-  // 팀 정보 String->Int
-  public int getTeamItemInt(String teamItem) {
-    switch (teamItem) {
-      case "Team Name":
-        return 0;
-      default:
-        return -1;
-    }
-  }
-
-  /////////////////////////////////// PROJECT ////////////////////////////////////
-  // 프로젝트 정보 Int->String
-  public String getProItemString(int proItem) {
-    switch (proItem) {
-      case 0:
-        return "Project Name";
-      case 1:
-        return "Account";
-      case 2:
-        return "Start(YYYY-MM-DD)";
-      case 3:
-        return "End(YYYY-MM-DD)";
-      default:
-        return "User";
-    }
-  }
-
-  // 프로젝트 정보 String->Int
-  public int getProItemInt(String proItem) {
-    switch (proItem) {
-      case "Project Name":
-        return 0;
-      case "Account":
-        return 1;
-      case "Start(YYYY-MM-DD)":
-        return 2;
-      case "End(YYYY-MM-DD)":
-        return 3;
-      default:
-        return -1;
-    }
-  }
-
-  ///////////////////////////// Data Edit ///////////////////////////////////////
+  /////////////////////// Data Edit ////////////////////////
   public int objectSize() {
 
     switch (menu.getCurrent()) {
       case 1:
         return user.getSize();
       case 2:
-        return team.getSize();
+        return team.getMemberSize();
       case 3:
         return pro.getMemberSize();
       default:
@@ -138,9 +85,21 @@ public class DataEdit {
     }
   }
 
-  public int arrSize() {
+  public int getArrSize() {
     return getListArr().size();
   }
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// public getter, setter ///////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
 
   public User getUser(int no) {
     return UserList.get(no - 1);
@@ -153,8 +112,6 @@ public class DataEdit {
   public Project getPro(int no) {
     return ProjectList.get(no - 1);
   }
-
-
 
   public int userSize() {
     return UserList.size();
@@ -174,31 +131,6 @@ public class DataEdit {
 
   public void remove(int no) {
     getListArr().remove(no - 1);
-  }
-
-  public void set(int no) {
-
-    switch (menu.getCurrent()) {
-      case 1:
-        User user = UserList.get(no);
-        user.setName(Scanner());
-        user.setEmail(Scanner());
-        user.setPassword(Scanner());
-        user.setTel(Scanner());
-        break;
-      case 2:
-        Team team = TeamList.get(no);
-        team.setName(Scanner());
-        break;
-      case 3:
-        Project pro = ProjectList.get(no);
-        pro.setTitle(Scanner());
-        pro.setDiscription(Scanner());
-        pro.setStartDate(Scanner());
-        pro.setEnd(Scanner());
-        break;
-    }
-
   }
 
   public ArrayList<User> getUserList() {

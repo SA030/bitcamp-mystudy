@@ -1,17 +1,21 @@
 package bitcamp.myapp.app.vo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import bitcamp.myapp.app.util.Title;
 
 public class Team {
 
+  public Title title = new Title(2);
+
   private String name;
   HashMap<Integer, User> user = new HashMap<Integer, User>();
-  private int size = 0;
+  private int memberSize = 0;
 
 
 
   ///////////////////////////////////////////////////////////
-  ////////////////// User Constructor ///////////////////////
+  ////////////////// Team Constructor ///////////////////////
   ///////////////////////////////////////////////////////////
   // default
   public Team() {
@@ -31,7 +35,7 @@ public class Team {
     HashMap<Integer, User> user1 = new HashMap<Integer, User>();
     user1.put(num, users);
 
-    this.size += 1;
+    this.memberSize += 1;
   }
 
   // name+HashUser
@@ -40,7 +44,7 @@ public class Team {
 
     user.putAll(users);
 
-    this.size += 1;
+    this.memberSize += 1;
   }
 
 
@@ -64,28 +68,6 @@ public class Team {
   }
 
 
-  ///////////////////////////////////////////////////////////
-  //////////////////////// Title ////////////////////////////
-  ///////////////////////////////////////////////////////////
-  // 팀 정보 Int->String
-  public String getTeamItemString(int teamItem) {
-    switch (teamItem) {
-      case 0:
-        return "Team Name";
-      default:
-        return "User";
-    }
-  }
-
-  // 팀 정보 String->Int
-  public int getTeamItemInt(String teamItem) {
-    switch (teamItem) {
-      case "Team Name":
-        return 0;
-      default:
-        return -1;
-    }
-  }
 
   ///////////////////////////////////////////////////////////
   ///////////////// public getter, setter ///////////////////
@@ -99,6 +81,27 @@ public class Team {
   //////////////////////////// -- ///////////////////////////
   ///////////////////////////////////////////////////////////
 
+  ///////////////////////////////////////////////////////////
+  ///////////////// Item getter, setter /////////////////////
+  ///////////////////////////////////////////////////////////
+
+  public String getItem(int itemNo) {
+    switch (itemNo) {
+      case 0:
+        return getName();
+      default:
+        return null;
+    }
+  }// Method getItem END
+
+
+  public void setItem(int itemNo, String userItem) {
+    switch (itemNo) {
+      case 0:
+        setName(userItem);
+    }
+  }// Method setItem END
+
   public String getName() {
     return name;
   }
@@ -107,12 +110,12 @@ public class Team {
     this.name = name;
   }
 
-  public int getSize() {
-    return size;
+  public int getMemberSize() {
+    return memberSize;
   }
 
-  public void setSize(int size) {
-    this.size = size;
+  public void setMemberSize(int size) {
+    this.memberSize = size;
   }
 
   public HashMap<Integer, User> getUser() {
@@ -125,8 +128,24 @@ public class Team {
 
   public void setUser(int num, User user) {
     this.user.put(num, user);
-    this.size += 1;
+    this.memberSize += 1;
+  }
+  ///////////////// title /////////////////////
+
+  // public int getSize() {
+  // return title.getUserTitleSize();
+  // }
+
+  public String getTeamTitleString(int teamItem) {
+    return title.getTitleString(teamItem);
   }
 
+  public ArrayList<String> getPublicTeamTitle() {
+    return title.getPublicTitle();
+  }
+
+  public ArrayList<Integer> getPublicTeamItem() {
+    return title.getPublicTitleNo();
+  }
 
 }

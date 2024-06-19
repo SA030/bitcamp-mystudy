@@ -5,7 +5,7 @@ import bitcamp.myapp.app.util.Title;
 
 public class User {
 
-  public Title title = Title.getInstance();
+  public Title title = new Title(1);
 
   private String name;
   private String email;
@@ -139,23 +139,22 @@ public class User {
   }
 
 
-  ///////////////////////////////////////////////////////////
+  ///////////////// title /////////////////////
 
   public int getSize() {
-    return title.getUserTitleSize();
+    return title.getTitleArrSize();
   }
 
-  public String getUserItemString(int userItem) {
-    return title.getItemString(userItem);
+  public String getUserTitleString(int userItem) {
+    return title.getTitleString(userItem);
   }
 
   public ArrayList<String> getPublicUserTitle() {
     return title.getPublicTitle();
   }
 
-  public ArrayList<String> getPublicUserItem() {
-    return title.getPublicItem(getName());
+  public ArrayList<Integer> getPublicUserItem() {
+    return title.getPublicTitleNo();
   }
-
 
 }// Class User END
