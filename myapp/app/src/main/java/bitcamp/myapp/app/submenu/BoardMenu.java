@@ -5,11 +5,8 @@ import bitcamp.myapp.app.vo.Team;
 
 public class BoardMenu {
 
-  MenuExtends data = MenuExtends.getInstance();
   UserMenu user = UserMenu.getInstance();
-
   Team team = Team.getInstance();
-
 
   ///////////////////////////////////////////////////////////
   ////////////////////// Team Menu //////////////////////////
@@ -24,25 +21,25 @@ public class BoardMenu {
     }
 
 
-    switch (menuNo) {
-      case 1: // 등록
-        add();
-        break;
-      case 2: // 목록
-        printList(0);
-        break;
-      case 3: // 조회
-        print(user.inputUserNo());
-        break;
-      case 4: // 변경
-        edit(user.inputUserNo());
-        break;
-      case 5: // 삭제
-        delete(user.inputUserNo());
-        break;
-      default:
-        break;
-    }
+    // switch (menuNo) {
+    // case 1: // 등록
+    // add();
+    // break;
+    // case 2: // 목록
+    // printList(0);
+    // break;
+    // case 3: // 조회
+    // print(user.inputSeqNo());
+    // break;
+    // case 4: // 변경
+    // edit(user.inputSeqNo());
+    // break;
+    // case 5: // 삭제
+    // delete(user.inputSeqNo());
+    // break;
+    // default:
+    // break;
+    // }
   }
 
 

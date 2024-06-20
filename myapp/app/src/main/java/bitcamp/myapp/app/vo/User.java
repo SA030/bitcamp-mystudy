@@ -29,6 +29,7 @@ public class User {
     this.email = email;
     this.password = password;
     this.tel = tel;
+
     seqNo += seqNo;
   }
 
@@ -38,6 +39,7 @@ public class User {
     this.email = item[1];
     this.password = item[2];
     this.tel = item[3];
+
     seqNo += seqNo;
   }
 

@@ -7,12 +7,34 @@ import java.util.Set;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
-public class TeamMenu {
+public class TeamMenu extends MenuExtends {
 
-  private MenuExtends data = MenuExtends.getInstance();
   private UserMenu user = UserMenu.getInstance();
 
   private Team team = Team.getInstance();
+
+  private ArrayList<Team> TeamList = new ArrayList<Team>();
+
+  ///////////////////////////////////////////////////////////
+  ////////////////// private Instance User //////////////////
+  ///////////////////////////////////////////////////////////
+  private static TeamMenu TeamMenu;
+
+  // setup User Instance
+  public static TeamMenu getInstance() {
+
+    if (TeamMenu == null) {
+      TeamMenu = new TeamMenu();
+    }
+
+    return TeamMenu;
+  }// Method getInstance END
+
+  // reset User Instance
+  public static void freeInstance() {
+    TeamMenu = null;
+  }// Method freeInstance END
+
 
 
   ///////////////////////////////////////////////////////////
@@ -20,25 +42,26 @@ public class TeamMenu {
   ///////////////////////////////////////////////////////////
   public void menuTeam(int menuNo) {
 
-    switch (menuNo) {
-      case 1: // 등록
-        add();
-        break;
-      case 2: // 목록
-        printList();
-        break;
-      case 3: // 조회
-        print(user.inputUserNo());
-        break;
-      case 4: // 변경
-        edit(user.inputUserNo());
-        break;
-      case 5: // 삭제
-        delete(user.inputUserNo());
-        break;
-      default:
-        break;
-    }
+    // switch (menuNo) {
+    // case 1: // 등록
+    // add();
+    // break;
+    // case 2: // 목록
+    // printList();
+    // break;
+    // case 3: // 조회
+    // print(user.inputSeqNo());
+    // break;
+    // case 4: // 변경
+    // edit(user.inputSeqNo());
+    // break;
+    // case 5: // 삭제
+    // delete(user.inputSeqNo());
+    // break;
+    // default:
+    // break;
+    // }
+
   }// Method menuTeam END
 
 
@@ -49,8 +72,8 @@ public class TeamMenu {
   private void add() {
 
     System.out.printf("%s? ", team.getTeamTitleString(0));
-    Team newTeam = new Team(data.Scanner());
-    data.add(newTeam);
+    Team newTeam = new Team(Scanner());
+    TeamList.add(newTeam);
     addUser(newTeam);
   }// Method add END
 
@@ -63,14 +86,14 @@ public class TeamMenu {
 
     for (;;) {
       System.out.printf("추가할 팀원 번호?(종료: 0) ");
-      ans = data.Scanner();
+      ans = Scanner();
 
       // 0 입력 시 팀원 등록 종료
       if (ans.equals("0")) {
         break;
       }
       // 팀원 등록
-      if (user.checkUser(Integer.parseInt(ans))) {
+      if (user.checkObject(Integer.parseInt(ans))) {
         userNo = Integer.parseInt(ans);
         addUser = addTeam.getUser();
 
@@ -79,7 +102,7 @@ public class TeamMenu {
           System.out.printf("'%s'은 현재 팀원입니다.\n", addUser.get(userNo).getName());
         } else {
           // userNo 팀원 등록
-          addTeam.setUser(userNo, data.getUser(userNo));
+          addTeam.setUser(userNo, user.getUser(userNo));
           System.out.printf("'%s'을 추가했습니다.\n", addUser.get(userNo).getName());
         }
       }
@@ -102,7 +125,7 @@ public class TeamMenu {
     str += printTitle(numWidth, titleWidth);
 
     // 팀 정보 출력
-    for (int proNo = 1; proNo <= data.getArrSize(); proNo++) {
+    for (int proNo = 1; proNo <= TeamList.size(); proNo++) {
 
       // 팀 번호
       str += formString(numWidth, proNo);
@@ -149,24 +172,12 @@ public class TeamMenu {
   }// Method printTitle END
 
 
-
-  // Title 간격 조정
-  private String formString(int width, String text) {
-    return String.format("%-" + width + "s", text);
-  }// Method formString END
-
-  private String formString(int width, int text) {
-    return String.format("%-" + width + "d", text);
-  }// Method formString END
-
-
-
   ///////////////////////////////////////////////////////////
   ///////////////////////// 3. 조회 /////////////////////////
   ///////////////////////////////////////////////////////////
   private void print(int teamNo) {
-    String teamName = data.getTeam(teamNo).getName();
-    Set<Integer> userName = data.getTeam(teamNo).getUser().keySet();
+    String teamName = getTeam(teamNo).getName();
+    Set<Integer> userName = getTeam(teamNo).getUser().keySet();
 
 
     if (teamNo > 0) {
@@ -184,7 +195,7 @@ public class TeamMenu {
 
   // 팀원 이름 조회
   private String printUserName(int teamNo, int userNo) {
-    return data.getTeam(teamNo).getUser().get(userNo).getName();
+    return getTeam(teamNo).getUser().get(userNo).getName();
   }// Method printUserName END
 
 
@@ -223,12 +234,12 @@ public class TeamMenu {
       // Edit Team name
       System.out.printf("%s(%s) ", //
           team.getTeamTitleString(0), // 수정할 정보 메뉴
-          data.getTeam(teamNo).getName() // 현재 저장된 정보
+          getTeam(teamNo).getName() // 현재 저장된 정보
       );
-      data.getTeam(teamNo).setName(data.Scanner()); // 수정
+      getTeam(teamNo).setName(Scanner()); // 수정
 
       // Delete Team user
-      HashMap<Integer, User> editUser = data.getTeam(teamNo).getUser();
+      HashMap<Integer, User> editUser = getTeam(teamNo).getUser();
       ArrayList<Integer> editUserNo = new ArrayList<Integer>();
       int num;
 
@@ -243,11 +254,11 @@ public class TeamMenu {
 
       // 팀원 삭제
       for (int userNo : editUserNo) {
-        data.getTeam(teamNo).getUser().remove(userNo);
+        getTeam(teamNo).getUser().remove(userNo);
       }
 
       // Add Team user
-      addUser(data.getTeam(teamNo));
+      addUser(getTeam(teamNo));
 
       // Edit End
       System.out.println("변경했습니다.");
@@ -262,7 +273,7 @@ public class TeamMenu {
   ///////////////////////////////////////////////////////////
   private void delete(int teamNo) {
     if (teamNo > 0) {
-      data.remove(teamNo);
+      removeTeam(teamNo);
       System.out.println("삭제하였습니다.");
     }
   }// Method delete END
@@ -276,7 +287,7 @@ public class TeamMenu {
     while (true) {
       // 삭제 여부?
       System.out.printf("%s 삭제(y/n)? ", userName);
-      ans = data.Scanner();
+      ans = Scanner();
 
       switch (ans) {
         case "y":
@@ -295,12 +306,43 @@ public class TeamMenu {
   }// Method deleteUser END
 
 
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// public getter, setter ///////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
   Team getTeam(int teamNo) {
 
     if (teamNo > 0) {
-      return data.getTeam(teamNo);
+      return TeamList.get(teamNo - 1);
     }
     return null;
   }// Method getTeam END
+
+  public void add(Team team) {
+    TeamList.add(team);
+  }
+
+  public void removeTeam(int no) {
+    TeamList.remove(no - 1);
+  }
+
+
+  public ArrayList<Team> getTeamList() {
+    return TeamList;
+  }
+
+  public void setTeamList(ArrayList<Team> teamList) {
+    TeamList = teamList;
+  }
 
 }// Class TeamMenu END

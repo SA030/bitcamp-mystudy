@@ -25,7 +25,7 @@ public class Title {
 
     ArrayList<AccessTitle> teamTitle = new ArrayList<AccessTitle>();
 
-    teamTitle.add(new AccessTitle("Team Name", 1)); // 0
+    teamTitle.add(new AccessTitle("Team_Name", 1)); // 0
     teamTitle.add(new AccessTitle("User", 0)); // 1
 
     return teamTitle;
@@ -36,11 +36,12 @@ public class Title {
 
     ArrayList<AccessTitle> projectTitle = new ArrayList<AccessTitle>();
 
-    projectTitle.add(new AccessTitle("Project Name", 1)); // 0
-    projectTitle.add(new AccessTitle("Description", 1)); // 1
-    projectTitle.add(new AccessTitle("Start(YYYY-MM-DD)", 1)); // 2
-    projectTitle.add(new AccessTitle("End(YYYY-MM-DD)", 1)); // 3
-    projectTitle.add(new AccessTitle("User", 0)); // 4
+    projectTitle.add(new AccessTitle("No", 1)); // 0
+    projectTitle.add(new AccessTitle("Project_Name", 1)); // 1
+    projectTitle.add(new AccessTitle("Description", 1)); // 2
+    projectTitle.add(new AccessTitle("Start(YYYY-MM-DD)", 1)); // 3
+    projectTitle.add(new AccessTitle("End(YYYY-MM-DD)", 1)); // 4
+    projectTitle.add(new AccessTitle("User", 0)); // 5
 
     return projectTitle;
   }// Method setProjectTitle END

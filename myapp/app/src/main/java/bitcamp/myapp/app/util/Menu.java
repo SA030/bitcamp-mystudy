@@ -109,15 +109,15 @@ public class Menu {
       case 0: // 메인
         break;
       case 1: // 회원
-        UserMenu u = new UserMenu();
+        UserMenu u = UserMenu.getInstance();
         u.menuUser(menuNo);
         break;
       case 2: // 팀
-        TeamMenu t = new TeamMenu();
+        TeamMenu t = TeamMenu.getInstance();
         t.menuTeam(menuNo);
         break;
       case 3: // 프로젝트
-        ProjectMenu p = new ProjectMenu();
+        ProjectMenu p = ProjectMenu.getInstance();
         p.menuProject(menuNo);
         break;
       case 4: // 게시판

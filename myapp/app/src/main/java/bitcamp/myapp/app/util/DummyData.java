@@ -1,15 +1,18 @@
 package bitcamp.myapp.app.util;
 
-import bitcamp.myapp.app.submenu.MenuExtends;
+import bitcamp.myapp.app.submenu.ProjectMenu;
+import bitcamp.myapp.app.submenu.TeamMenu;
+import bitcamp.myapp.app.submenu.UserMenu;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
 public class DummyData {
-  MenuExtends data = MenuExtends.getInstance();
   Menu menu = Menu.getInstance();
-  User user = User.getInstance();
-  Team team = Team.getInstance();
+
+  UserMenu userm = UserMenu.getInstance();
+  ProjectMenu prom = ProjectMenu.getInstance();
+  TeamMenu teamm = TeamMenu.getInstance();
 
 
   //////////////////////////////////////////////////////////////////////////////////
@@ -36,8 +39,8 @@ public class DummyData {
       userpw = users + users + users + users;
 
       User newUser = new User(users, users + "@camp.com", userpw, "010-" + userpw + "-" + userpw);
-      data.add(newUser);
-      newUser.setSeqNo(data.getUserList().size());
+      userm.add(newUser);
+      newUser.setSeqNo(userm.getUserList().size());
     }
   }
 
@@ -52,11 +55,12 @@ public class DummyData {
           String.format("%c%c%c", 'A' + (3 * teamNo), 'B' + (3 * teamNo), 'C' + (3 * teamNo));
 
       team.setName(teamName);
-      team.setUser(1 + (3 * teamNo), data.getUser(1 + (3 * teamNo)));// A
-      team.setUser(2 + (3 * teamNo), data.getUser(2 + (3 * teamNo)));// B
-      team.setUser(3 + (3 * teamNo), data.getUser(3 + (3 * teamNo)));// C
+      team.setUser(1 + (3 * teamNo), userm.getUser(1 + (3 * teamNo)));// A
+      team.setUser(2 + (3 * teamNo), userm.getUser(2 + (3 * teamNo)));// B
+      team.setUser(3 + (3 * teamNo), userm.getUser(3 + (3 * teamNo)));// C
 
-      data.add(team); //
+      teamm.add(team); //
+
     }
   }
 
@@ -75,11 +79,12 @@ public class DummyData {
       pro.setDiscription(proName);
       pro.setStartDate("2024-06-18");
       pro.setEnd("2024-11-29");
-      pro.setMembers(1 + (3 * proNo), data.getUser(1 + (3 * proNo)));// A
-      pro.setMembers(2 + (3 * proNo), data.getUser(2 + (3 * proNo)));// B
-      pro.setMembers(3 + (3 * proNo), data.getUser(3 + (3 * proNo)));// C
+      pro.setMembers(1 + (3 * proNo), userm.getUser(1 + (3 * proNo)));// A
+      pro.setMembers(2 + (3 * proNo), userm.getUser(2 + (3 * proNo)));// B
+      pro.setMembers(3 + (3 * proNo), userm.getUser(3 + (3 * proNo)));// C
 
-      data.add(pro); //
+      prom.add(pro); //
+      pro.setSeqNo(prom.getProjectList().size());
     }
   }
 }

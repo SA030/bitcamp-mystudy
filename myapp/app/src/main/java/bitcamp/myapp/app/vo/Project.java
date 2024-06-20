@@ -8,6 +8,7 @@ public class Project {
 
   public Title protitle = new Title(3);
 
+  private int seqNo = 0;
   private String title;
   private String description;
   private String startDate;
@@ -21,11 +22,13 @@ public class Project {
   ///////////////// Project Constructor /////////////////////
   ///////////////////////////////////////////////////////////
   public Project() {
-
+    seqNo += seqNo;
   }
 
   public Project(String title) {
     this.title = title;
+
+    seqNo += seqNo;
   }
 
   public Project(String title, String description, String startDate, String endDate) {
@@ -33,6 +36,8 @@ public class Project {
     this.description = description;
     this.startDate = startDate;
     this.endDate = endDate;
+
+    seqNo += seqNo;
   }
 
   public Project(String[] item) {
@@ -40,6 +45,8 @@ public class Project {
     this.description = item[1];
     this.startDate = item[2];
     this.endDate = item[3];
+
+    seqNo += seqNo;
   }
 
 
@@ -84,12 +91,14 @@ public class Project {
   public String getItem(int itemNo) {
     switch (itemNo) {
       case 0:
-        return getTitle();
+        return String.format("%d", getSeqNo());
       case 1:
-        return getDiscription();
+        return getTitle();
       case 2:
-        return getStartDate();
+        return getDiscription();
       case 3:
+        return getStartDate();
+      case 4:
         return getEndDate();
       default:
         return null;
@@ -100,16 +109,26 @@ public class Project {
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
-        setTitle(userItem);
+        setSeqNo(Integer.parseInt(userItem));
       case 1:
-        setDiscription(userItem);
+        setTitle(userItem);
       case 2:
-        setStartDate(userItem);
+        setDiscription(userItem);
       case 3:
+        setStartDate(userItem);
+      case 4:
         setEnd(userItem);
     }
   }// Method setItem END
 
+
+  public int getSeqNo() {
+    return seqNo;
+  }
+
+  public void setSeqNo(int seqNo) {
+    this.seqNo = seqNo;
+  }
 
   public String getTitle() {
     return title;
@@ -145,6 +164,10 @@ public class Project {
 
   public HashMap<Integer, User> getMembers() {
     return members;
+  }
+
+  public User getMembers(int userNo) {
+    return members.get(userNo);
   }
 
   public void setMembers(HashMap<Integer, User> members) {
