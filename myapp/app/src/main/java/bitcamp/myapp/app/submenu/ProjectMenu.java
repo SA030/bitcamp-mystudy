@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
-import bitcamp.myapp.app.util.DataEdit;
+import bitcamp.myapp.app.util.Menu;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.User;
 
 public class ProjectMenu {
-  private DataEdit data = DataEdit.getInstance();
+  private MenuExtends data = MenuExtends.getInstance();
   private UserMenu user = UserMenu.getInstance();
 
   private Project pro = Project.getInstance();
@@ -29,7 +29,7 @@ public class ProjectMenu {
         printList();
         break;
       case 3: // 조회
-        print(user.inputUserNo());
+        print();
         break;
       case 4: // 변경
         edit(user.inputUserNo());
@@ -172,13 +172,12 @@ public class ProjectMenu {
   ///////////////////////////////////////////////////////////
   ///////////////////////// 3. 조회 /////////////////////////
   ///////////////////////////////////////////////////////////
-  private void print(int proNo) {
+  private void print() {
     String str = "";
     int itemNo = 0;
-    Set<Integer> userName = getPro(proNo).getMembers().keySet();
-
-
-    if (proNo > 0) {
+    int proNo = inputUserNo();
+    if (proNo != 0) {
+      Set<Integer> userName = getPro(proNo).getMembers().keySet();
       // Print Project name
       for (; itemNo < pro.getSize() - 1; itemNo++) {
         str += String.format("%s: %s \n", pro.getProTitleString(itemNo),
@@ -308,6 +307,39 @@ public class ProjectMenu {
 
 
 
+  // 프로젝트 번호 유효 검사
+  private boolean isValidatePro(int proNo) {
+    return proNo > 0 && proNo <= data.getArrSize();
+  }// Method isValidateUser END
+
+  // 프로젝트 번호 있는지 확인
+  boolean checkPro(int proNo) {
+
+    if (isValidatePro(proNo)) {
+      return true;
+    } else {
+      System.out.printf("없는 프로젝트 입니다.\n");
+      return false;
+    }
+  }// Method checkUser END
+
+  // 회원 번호 입력
+  int inputUserNo() {
+
+    Menu menu = Menu.getInstance();
+    String ans;
+    int num;
+
+    System.out.printf("%s 번호? ", menu.getMenuName());
+
+    ans = data.Scanner();
+    num = Integer.parseInt(ans);
+
+    return checkPro(num) ? num : 0;
+  }// Method inputUserNo END
+
+
+  // 프로젝트 가져오기
   Project getPro(int proNo) {
 
     if (proNo > 0) {

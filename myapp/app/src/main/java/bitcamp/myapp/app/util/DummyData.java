@@ -1,13 +1,12 @@
-package bitcamp.myapp.app;
+package bitcamp.myapp.app.util;
 
-import bitcamp.myapp.app.util.DataEdit;
-import bitcamp.myapp.app.util.Menu;
+import bitcamp.myapp.app.submenu.MenuExtends;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
 public class DummyData {
-  DataEdit data = DataEdit.getInstance();
+  MenuExtends data = MenuExtends.getInstance();
   Menu menu = Menu.getInstance();
   User user = User.getInstance();
   Team team = Team.getInstance();
@@ -35,7 +34,10 @@ public class DummyData {
     for (int userNo = 0; userNo < 6; userNo++) {
       users = String.format("%c", 'A' + userNo);
       userpw = users + users + users + users;
-      data.add(new User(users, users + "@camp.com", userpw, "010-" + userpw + "-" + userpw));
+
+      User newUser = new User(users, users + "@camp.com", userpw, "010-" + userpw + "-" + userpw);
+      data.add(newUser);
+      newUser.setSeqNo(data.getUserList().size());
     }
   }
 

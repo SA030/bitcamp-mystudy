@@ -7,6 +7,7 @@ public class User {
 
   public Title title = new Title(1);
 
+  private int seqNo = 0;
   private String name;
   private String email;
   private String password;
@@ -19,7 +20,7 @@ public class User {
   ///////////////////////////////////////////////////////////
   // default
   public User() {
-
+    seqNo += seqNo;
   }
 
   // name+info
@@ -28,6 +29,7 @@ public class User {
     this.email = email;
     this.password = password;
     this.tel = tel;
+    seqNo += seqNo;
   }
 
   // item
@@ -36,6 +38,7 @@ public class User {
     this.email = item[1];
     this.password = item[2];
     this.tel = item[3];
+    seqNo += seqNo;
   }
 
 
@@ -77,12 +80,14 @@ public class User {
   public String getItem(int itemNo) {
     switch (itemNo) {
       case 0:
-        return getName();
+        return String.format("%d", getSeqNo());
       case 1:
-        return getEmail();
+        return getName();
       case 2:
-        return getPassword();
+        return getEmail();
       case 3:
+        return getPassword();
+      case 4:
         return getTel();
       default:
         return null;
@@ -93,13 +98,20 @@ public class User {
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
-        setName(userItem);
+        setSeqNo(Integer.parseInt(userItem));
+        break;
       case 1:
-        setEmail(userItem);
+        setName(userItem);
+        break;
       case 2:
-        setPassword(userItem);
+        setEmail(userItem);
+        break;
       case 3:
+        setPassword(userItem);
+        break;
+      case 4:
         setTel(userItem);
+        break;
     }
   }// Method setItem END
 
@@ -112,6 +124,14 @@ public class User {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getSeqNo() {
+    return this.seqNo;
+  }
+
+  public void setSeqNo(int seqNo) {
+    this.seqNo = seqNo;
   }
 
   public String getEmail() {

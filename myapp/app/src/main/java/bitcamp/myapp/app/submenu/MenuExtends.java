@@ -1,19 +1,19 @@
-package bitcamp.myapp.app.util;
+package bitcamp.myapp.app.submenu;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import bitcamp.myapp.app.util.Menu;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
-public class DataEdit {
+public class MenuExtends extends Menu {
   Scanner sc = new Scanner(System.in);
   User user = User.getInstance();
   Team team = Team.getInstance();
   Project pro = Project.getInstance();
 
   Menu menu = Menu.getInstance();
-  int current = menu.getCurrent();
 
   private ArrayList<User> UserList = new ArrayList<User>();
   private ArrayList<Team> TeamList = new ArrayList<Team>();
@@ -24,12 +24,12 @@ public class DataEdit {
   ///////////////////////////////////////////////////////////
   //////////////// private Instance DataEdit ////////////////
   ///////////////////////////////////////////////////////////
-  private static DataEdit data;
+  public static MenuExtends data;
 
-  public static DataEdit getInstance() {
+  public static MenuExtends getInstance() {
 
     if (data == null) {
-      data = new DataEdit();
+      data = new MenuExtends();
     }
 
     return data;
@@ -147,6 +147,14 @@ public class DataEdit {
 
   public void setTeamList(ArrayList<Team> teamList) {
     TeamList = teamList;
+  }
+
+  public ArrayList<Project> getProjectList() {
+    return ProjectList;
+  }
+
+  public void setProjectList(ArrayList<Project> projectList) {
+    ProjectList = projectList;
   }
 
 

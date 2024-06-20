@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
-import bitcamp.myapp.app.util.DataEdit;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
 public class TeamMenu {
 
-  private DataEdit data = DataEdit.getInstance();
+  private MenuExtends data = MenuExtends.getInstance();
   private UserMenu user = UserMenu.getInstance();
 
   private Team team = Team.getInstance();

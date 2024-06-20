@@ -1,13 +1,12 @@
 package bitcamp.myapp.app.submenu;
 
 import java.util.ArrayList;
-import bitcamp.myapp.app.util.DataEdit;
 import bitcamp.myapp.app.util.Menu;
 import bitcamp.myapp.app.vo.User;
 
 public class UserMenu {
 
-  private DataEdit data = DataEdit.getInstance();
+  private MenuExtends data = MenuExtends.getInstance();
   private User user = User.getInstance();
 
   ///////////////////////////////////////////////////////////
@@ -70,11 +69,15 @@ public class UserMenu {
     String[] item = new String[4];
 
     // User 정보 등록
-    for (int UserItem = 0; UserItem < user.getSize(); UserItem++) {
+
+    for (int UserItem = 1; UserItem < user.getSize(); UserItem++) {
       System.out.printf("%s? ", user.getUserTitleString(UserItem));
-      item[UserItem] = data.Scanner();
+      item[UserItem - 1] = data.Scanner();
     }
-    data.add(new User(item));
+    User newUser = new User(item);
+    data.add(newUser);
+    newUser.setSeqNo(data.getUserList().size());
+
   }// Method add END
 
 
@@ -95,13 +98,15 @@ public class UserMenu {
 
 
     // 회원 정보 출력
-    for (int UserNo = 1; UserNo <= data.getArrSize(); UserNo++) {
+    for (User user : data.getUserList()) {
 
-      // 회원 번호
-      str += formString(numWidth, UserNo);
-      // 회원 공개 정보
       for (int titleNo = 0; titleNo < userPublicTitle.size(); titleNo++) {
-        userPublicInfo = getPublicItem(UserNo);
+        userPublicInfo = getPublicItem(user.getSeqNo());
+
+        if (titleNo == 0) {
+          str += formString(numWidth, userPublicInfo.get(titleNo));
+          continue;
+        }
         str += formString(titleWidth, userPublicInfo.get(titleNo));
       }
       str += String.format("\n");
@@ -121,10 +126,12 @@ public class UserMenu {
 
     String str = "";
 
-    // N
-    str += formString(numWidth, "N");
     // 회원 공개 정보 Title
     for (int i = 0; i < userPublicTitle.size(); i++) {
+      if (i == 0) {
+        str += formString(numWidth, userPublicTitle.get(i));
+        continue;
+      }
       str += formString(titleWidth, userPublicTitle.get(i));
     }
     str += String.format("\n");
@@ -159,7 +166,6 @@ public class UserMenu {
         str += formString(5, userPublicTitle.get(i));
         str += (": ");
         // 유저 공개 정보
-        // System.out.println(userPublicInfo);
         str += formString(5, userPublicInfo.get(i));
         str += String.format("\n");
       }
@@ -203,7 +209,7 @@ public class UserMenu {
     User user = getUser(UserNo);
 
     if (user != null) {
-      for (int itemNo = 0; itemNo < user.getSize(); itemNo++) {
+      for (int itemNo = 1; itemNo < user.getSize(); itemNo++) {
         System.out.printf("%s(%s)? ", user.getUserTitleString(itemNo), user.getItem(itemNo));
         user.setItem(itemNo, data.Scanner());
       }
@@ -217,9 +223,15 @@ public class UserMenu {
   ///////////////////////////////////////////////////////////
   private void delete(int UserNo) {
 
-    if (UserNo > 0) {
-      data.remove(UserNo);
-      System.out.println("삭제하였습니다.");
+    if (getUser(UserNo) != null) {
+      for (int listNo = 0; listNo < data.getArrSize(); listNo++) {
+        if (data.getUserList().get(listNo).getSeqNo() == UserNo) {
+
+          data.getUserList().remove(listNo);
+          System.out.println("삭제하였습니다.");
+          return;
+        }
+      }
     }
   }// Method delete END
 
@@ -229,14 +241,23 @@ public class UserMenu {
   //////////////////////// get User /////////////////////////
   ///////////////////////////////////////////////////////////
   // 회원 번호 유효 검사
-  private boolean isValidateUser(int UserNo) {
-    return UserNo > 0 && UserNo <= data.userSize();
+  private boolean isValidateUser(int userNo) {
+
+    if (userNo > 0) {
+      for (int listNo = 0; listNo < data.getUserList().size(); listNo++) {
+        if (data.getUserList().get(listNo).getSeqNo() == userNo) {
+          return true;
+        }
+      }
+    }
+    return false;
+
   }// Method isValidateUser END
 
   // 회원 번호 있는지 확인
-  boolean checkUser(int UserNo) {
+  boolean checkUser(int userNo) {
 
-    if (isValidateUser(UserNo)) {
+    if (isValidateUser(userNo)) {
       return true;
     } else {
       System.out.printf("없는 회원입니다.\n");
@@ -259,11 +280,15 @@ public class UserMenu {
     return checkUser(num) ? num : 0;
   }// Method inputUserNo END
 
-  // 회원 정보 가져오기
+  // 회원 가져오기
   User getUser(int UserNo) {
 
     if (UserNo > 0) {
-      return data.getUser(UserNo);
+      for (int listNo = 0; listNo < data.getArrSize(); listNo++) {
+        if (data.getUserList().get(listNo).getSeqNo() == UserNo) {
+          return data.getUserList().get(listNo);
+        }
+      }
     }
     return null;
   }// Method getUser END

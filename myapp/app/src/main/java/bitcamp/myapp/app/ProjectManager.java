@@ -1,6 +1,7 @@
 package bitcamp.myapp.app;
 
 import bitcamp.myapp.app.command.Printer;
+import bitcamp.myapp.app.util.DummyData;
 
 public class ProjectManager {
 

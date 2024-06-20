@@ -42,13 +42,17 @@ public class Menu {
   ///////////////////////////////////////////////////////////
   // command: Home(menu)으로 이동
   public void processMenu(String command) {
-
-    if (command.equals("menu")) {
-      this.current = 0;
-    } else {
-      this.current = processMenuInt(command);
+    switch (command) {
+      case "menu":
+        this.current = 0;
+        break;
+      case "exit":
+        this.current = -1;
+        break;
+      default:
+        this.current = processMenuInt(command);
+        break;
     }
-
   }// Method processMenu END
 
   // command: 유효 메뉴 번호 검사

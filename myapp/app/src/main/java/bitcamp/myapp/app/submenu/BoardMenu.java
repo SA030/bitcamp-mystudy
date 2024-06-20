@@ -1,12 +1,11 @@
 package bitcamp.myapp.app.submenu;
 
-import bitcamp.myapp.app.util.DataEdit;
 import bitcamp.myapp.app.util.Menu;
 import bitcamp.myapp.app.vo.Team;
 
 public class BoardMenu {
 
-  DataEdit data = DataEdit.getInstance();
+  MenuExtends data = MenuExtends.getInstance();
   UserMenu user = UserMenu.getInstance();
 
   Team team = Team.getInstance();

@@ -1,6 +1,6 @@
 package bitcamp.myapp.app.command;
 
-import bitcamp.myapp.app.util.DataEdit;
+import bitcamp.myapp.app.submenu.MenuExtends;
 import bitcamp.myapp.app.util.Menu;
 
 public class Printer {
@@ -57,7 +57,7 @@ public class Printer {
 
   // User Prompt 위치 출력
   private String printMenuPrompt(int current) {
-    DataEdit p = new DataEdit();
+    MenuExtends p = new MenuExtends();
 
     // 메인/회원>__
     System.out.print("메인");
