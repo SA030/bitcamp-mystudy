@@ -110,15 +110,15 @@ public class Menu {
         break;
       case 1: // 회원
         UserMenu u = UserMenu.getInstance();
-        u.menuUser(menuNo);
+        u.menu(menuNo);
         break;
       case 2: // 팀
         TeamMenu t = TeamMenu.getInstance();
-        t.menuTeam(menuNo);
+        t.menu(menuNo);
         break;
       case 3: // 프로젝트
         ProjectMenu p = ProjectMenu.getInstance();
-        p.menuProject(menuNo);
+        p.menu(menuNo);
         break;
       case 4: // 게시판
         break;

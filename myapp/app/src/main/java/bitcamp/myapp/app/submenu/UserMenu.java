@@ -4,10 +4,22 @@ import java.util.ArrayList;
 import bitcamp.myapp.app.vo.User;
 
 public class UserMenu extends MenuExtends {
-  private static final int USER = 1;
+
 
   private User user = User.getInstance();
   private ArrayList<User> UserList = new ArrayList<User>();
+
+
+
+  /********************************************************/
+
+  private static final int USER = 1;
+  private int numWidth = 3;
+  private int titleWidth = 15;
+
+  /********************************************************/
+
+
 
   ///////////////////////////////////////////////////////////
   ////////////////// private Instance User //////////////////
@@ -34,24 +46,28 @@ public class UserMenu extends MenuExtends {
   ///////////////////////////////////////////////////////////
   //////////////////////// User Menu ////////////////////////
   ///////////////////////////////////////////////////////////
+  public void menu(int menuNo) {
+    menuUser(menuNo, USER, user, UserList, numWidth, titleWidth);
+  }
 
-  public void menuUser(int menuNo) {
+  public void menuUser(int menuNo, int titleNo, User user, ArrayList<User> UserList, //
+      int numWidth, int titleWidth) {
 
     switch (menuNo) {
       case 1: // 등록
-        add(USER, new User(), UserList);
+        add(titleNo, new User(), UserList);
         break;
       case 2: // 목록
-        printList(USER, user, UserList, 3, 15);
+        printList(titleNo, user, UserList, numWidth, titleWidth);
         break;
       case 3: // 조회
-        print(USER, user, UserList);
+        print(titleNo, user, UserList);
         break;
       case 4: // 변경
-        edit(USER, user, UserList);
+        edit(titleNo, user, UserList);
         break;
       case 5: // 삭제
-        delete(USER, UserList, inputSeqNo(USER, UserList));
+        delete(titleNo, UserList);
         break;
       default:
         break;

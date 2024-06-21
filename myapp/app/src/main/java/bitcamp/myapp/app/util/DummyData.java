@@ -55,12 +55,12 @@ public class DummyData {
           String.format("%c%c%c", 'A' + (3 * teamNo), 'B' + (3 * teamNo), 'C' + (3 * teamNo));
 
       team.setName(teamName);
-      team.setUser(1 + (3 * teamNo), userm.getUser(1 + (3 * teamNo)));// A
-      team.setUser(2 + (3 * teamNo), userm.getUser(2 + (3 * teamNo)));// B
-      team.setUser(3 + (3 * teamNo), userm.getUser(3 + (3 * teamNo)));// C
+      team.setMembers(1 + (3 * teamNo), userm.getUser(1 + (3 * teamNo)));// A
+      team.setMembers(2 + (3 * teamNo), userm.getUser(2 + (3 * teamNo)));// B
+      team.setMembers(3 + (3 * teamNo), userm.getUser(3 + (3 * teamNo)));// C
 
       teamm.add(team); //
-
+      team.setSeqNo(teamm.getTeamList().size());
     }
   }
 

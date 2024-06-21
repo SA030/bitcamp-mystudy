@@ -14,7 +14,7 @@ public class Project {
   private String startDate;
   private String endDate;
   HashMap<Integer, User> members = new HashMap<Integer, User>();
-  private int membertSize = 0;
+  private int memberSize = 0;
 
 
 
@@ -176,15 +176,15 @@ public class Project {
 
   public void setMembers(int members, User user) {
     this.members.put(members, user);
-    this.membertSize += 1;
+    this.memberSize += 1;
   }
 
   public int getMemberSize() {
-    return membertSize;
+    return memberSize;
   }
 
-  public void setMemberSize(int membertSize) {
-    this.membertSize = membertSize;
+  public void setMemberSize(int memberSize) {
+    this.memberSize = memberSize;
   }
 
   ///////////////// title /////////////////////

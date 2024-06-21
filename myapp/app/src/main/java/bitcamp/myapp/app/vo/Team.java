@@ -8,8 +8,9 @@ public class Team {
 
   public Title title = new Title(2);
 
+  private int seqNo = 0;
   private String name;
-  HashMap<Integer, User> user = new HashMap<Integer, User>();
+  HashMap<Integer, User> members = new HashMap<Integer, User>();
   private int memberSize = 0;
 
 
@@ -19,32 +20,36 @@ public class Team {
   ///////////////////////////////////////////////////////////
   // default
   public Team() {
-
+    seqNo += seqNo;
   }
 
   // name
   public Team(String name) {
     this.name = name;
 
+    seqNo += seqNo;
+
   }
 
   // name+user
-  public Team(String name, int num, User users) {
+  public Team(String name, int num, User members) {
     this.name = name;
 
-    HashMap<Integer, User> user1 = new HashMap<Integer, User>();
-    user1.put(num, users);
+    HashMap<Integer, User> newMembers = new HashMap<Integer, User>();
+    newMembers.put(num, members);
 
     this.memberSize += 1;
+    seqNo += seqNo;
   }
 
   // name+HashUser
-  public Team(String name, HashMap<Integer, User> users) {
+  public Team(String name, HashMap<Integer, User> members) {
     this.name = name;
 
-    user.putAll(users);
+    this.members.putAll(members);
 
     this.memberSize += 1;
+    seqNo += seqNo;
   }
 
 
@@ -88,6 +93,8 @@ public class Team {
   public String getItem(int itemNo) {
     switch (itemNo) {
       case 0:
+        return String.format("%d", getSeqNo());
+      case 1:
         return getName();
       default:
         return null;
@@ -98,9 +105,20 @@ public class Team {
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
+        setSeqNo(Integer.parseInt(userItem));
+      case 1:
         setName(userItem);
     }
   }// Method setItem END
+
+
+  public int getSeqNo() {
+    return seqNo;
+  }
+
+  public void setSeqNo(int seqNo) {
+    this.seqNo = seqNo;
+  }
 
   public String getName() {
     return name;
@@ -110,25 +128,29 @@ public class Team {
     this.name = name;
   }
 
+  public HashMap<Integer, User> getMembers() {
+    return members;
+  }
+
+  public User getMembers(int userNo) {
+    return members.get(userNo);
+  }
+
+  public void setMembers(HashMap<Integer, User> members) {
+    this.members.putAll(members);;
+  }
+
+  public void setMembers(int members, User user) {
+    this.members.put(members, user);
+    this.memberSize += 1;
+  }
+
   public int getMemberSize() {
     return memberSize;
   }
 
-  public void setMemberSize(int size) {
-    this.memberSize = size;
-  }
-
-  public HashMap<Integer, User> getUser() {
-    return user;
-  }
-
-  public void setUser(HashMap<Integer, User> user) {
-    this.user.putAll(user);;
-  }
-
-  public void setUser(int num, User user) {
-    this.user.put(num, user);
-    this.memberSize += 1;
+  public void setMemberSize(int memberSize) {
+    this.memberSize = memberSize;
   }
   ///////////////// title /////////////////////
 

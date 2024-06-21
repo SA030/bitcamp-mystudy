@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import bitcamp.myapp.app.vo.Project;
 
 public class ProjectMenu extends MenuExtends {
-  private static final int PROJECT = 3;
 
 
   private Project pro = Project.getInstance();
-
   private ArrayList<Project> ProjectList = new ArrayList<Project>();
+
+
+
+  /********************************************************/
+
+  private static final int PROJECT = 3;
+  private int numWidth = 3;
+  private int titleWidth = 20;
+
+  /********************************************************/
+
+
 
   ///////////////////////////////////////////////////////////
   ////////////////// private Instance User //////////////////
@@ -36,24 +46,29 @@ public class ProjectMenu extends MenuExtends {
   ///////////////////////////////////////////////////////////
   ///////////////////// Project Menu ////////////////////////
   ///////////////////////////////////////////////////////////
+  public void menu(int menuNo) {
+    menuProject(menuNo, PROJECT, pro, ProjectList, numWidth, titleWidth);
+  }
 
-  public void menuProject(int menuNo) {
+
+  public void menuProject(int menuNo, int titleNo, Project pro, ArrayList<Project> ProjectList, //
+      int numWidth, int titkeWidth) {
 
     switch (menuNo) {
       case 1: // 등록
-        add(PROJECT, new Project(), ProjectList);
+        add(titleNo, new Project(), ProjectList);
         break;
       case 2: // 목록
-        printList(PROJECT, pro, ProjectList, 3, 20);
+        printList(titleNo, pro, ProjectList, numWidth, titkeWidth);
         break;
       case 3: // 조회
-        print(PROJECT, pro, ProjectList);
+        print(titleNo, pro, ProjectList);
         break;
       case 4: // 변경
-        edit(PROJECT, pro, ProjectList);
+        edit(titleNo, pro, ProjectList);
         break;
       case 5: // 삭제
-        delete(PROJECT, ProjectList, inputSeqNo(PROJECT, ProjectList));
+        delete(titleNo, ProjectList);
         break;
       default:
         break;
@@ -73,7 +88,7 @@ public class ProjectMenu extends MenuExtends {
 
     // 팀원 등록
     if (objNo != 1) {
-      addUser(obj);
+      addUser(objNo, obj);
     }
   }// Method Project Add END
 

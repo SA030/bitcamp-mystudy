@@ -45,6 +45,11 @@ public class MenuExtends {
 
 
   ///////////////////////////////////////////////////////////
+  ////////////////////////// Menu ///////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
   ///////////////////////// 1. ADD //////////////////////////
   ///////////////////////////////////////////////////////////
 
@@ -69,10 +74,17 @@ public class MenuExtends {
   }// Method addObject END ///////////////////////////////////
 
 
+
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
   // Add Object's User
-  protected void addUser(Project pro) {
+  protected void addUser(int objNo, Object pro) {
     UserMenu userMenu = UserMenu.getInstance();
-    HashMap<Integer, User> proUser;
+    HashMap<Integer, User> userHash;
     String ans;
     int userNo;
 
@@ -88,20 +100,27 @@ public class MenuExtends {
       // 팀원 등록
       if (checkObject(USER, userMenu.getUserList(), Integer.parseInt(ans))) {
         userNo = Integer.parseInt(ans);
-        proUser = pro.getMembers();
+        userHash = getMembers(objNo, userNo);
 
-        if (proUser.containsKey(userNo)) {
+        if (userHash.containsKey(userNo)) {
           // userNo 팀원 중복, 등록X
           System.out.printf("'%s'은 현재 팀원입니다.\n", userMenu.getUser(userNo));
         } else {
           // userNo 팀원 등록
-          pro.setMembers(userNo, userMenu.getUser(userNo));
-          System.out.printf("'%s'을 추가했습니다.\n", pro.getMembers(userNo).getName());
+          setMembers(objNo, userNo, userMenu.getUser(userNo));
+          System.out.printf("'%s'을 추가했습니다.\n", userMenu.getUser(userNo));
+
         }
       }
-
     }
+
   }// Method addUser END
+   //////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
 
 
 
@@ -172,6 +191,7 @@ public class MenuExtends {
   ///////////////////////////////////////////////////////////
   // Object's Public Item Tile List
   protected ArrayList<String> getPublicTitle(int objNo, Object obj) {
+    // System.out.println(objNo + ":" + obj);
     if (obj != null) {
       switch (objNo) {
         case 1:
@@ -302,7 +322,7 @@ public class MenuExtends {
     }
 
     // Add Project user
-    addUser((Project) getObject(objNo, seqNo));
+    addUser(objNo, getObject(objNo, seqNo));
 
     // Edit End
     System.out.println("변경했습니다.");
@@ -344,7 +364,8 @@ public class MenuExtends {
   /////////////////////// 5. Delete /////////////////////////
   ///////////////////////////////////////////////////////////
   // Delete Object
-  protected void delete(int objNo, ArrayList<?> objList, int seqNo) {
+  protected void delete(int objNo, ArrayList<?> objList) {
+    int seqNo = inputSeqNo(objNo, objList);
     if (getObject(objNo, seqNo) != null) {
 
       for (int listNo = 0; listNo < objList.size(); listNo++) {
@@ -496,7 +517,7 @@ public class MenuExtends {
       case 1:
         return ((User) obj).getSeqNo();
       case 2:
-        // return ((Team) obj).getSeqNo();
+        return ((Team) obj).getSeqNo();
       case 3:
         return ((Project) obj).getSeqNo();
       default:
@@ -523,13 +544,31 @@ public class MenuExtends {
     return null;
   }
 
+  // Class set Object's User HashMap ///////////////////////////////////////
+  private void setMembers(int objNo, int seqNo, User members) {
+
+    Object obj = getObject(objNo, seqNo);
+
+    switch (objNo) {
+      case 2:
+        ((Team) obj).setMembers(getSeqNo(seqNo, obj), members);
+        // return ((Team) getObject(objNo, seqNo)).getMembers();
+        break;
+      case 3:
+        ((Project) obj).setMembers(getSeqNo(seqNo, obj), members);
+        break;
+      default:
+
+    }
+  }
+
 
 
   // Class get Object's User HashMap ///////////////////////////////////////
   private HashMap<Integer, User> getMembers(int objNo, int seqNo) {
     switch (objNo) {
       case 2:
-        // return ((Team) getObject(objNo, seqNo)).getMembers();
+        return ((Team) getObject(objNo, seqNo)).getMembers();
       case 3:
         return ((Project) getObject(objNo, seqNo)).getMembers();
       default:
