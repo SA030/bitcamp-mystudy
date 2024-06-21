@@ -111,14 +111,21 @@ public class Project {
     switch (itemNo) {
       case 0:
         setSeqNo(Integer.parseInt(userItem));
+        break;
       case 1:
         setTitle(userItem);
+        break;
       case 2:
         setDiscription(userItem);
+        break;
       case 3:
         setStartDate(userItem);
+        break;
       case 4:
         setEnd(userItem);
+        break;
+      default:
+        return;
     }
   }// Method setItem END
 
@@ -175,8 +182,8 @@ public class Project {
     this.members.putAll(members);;
   }
 
-  public void setMembers(int members, User user) {
-    this.members.put(members, user);
+  public void setMembers(int seqNo, User user) {
+    this.members.put(seqNo, user);
     this.memberSize += 1;
   }
 

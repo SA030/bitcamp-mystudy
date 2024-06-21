@@ -83,13 +83,13 @@ public class ProjectMenu extends SubMenu {
   ///////////////////////////////////////////////////////////
   protected void add(int objNo, Project obj, ArrayList<Project> objList) {
 
-    addObject(objNo, obj, 1);
+    int seqNo = addObject(objNo, obj, objList, 1);
     objList.add(obj);
     obj.setSeqNo(objList.size());
 
     // 팀원 등록
     if (objNo != 1) {
-      addUser(objNo, obj);
+      addUser(objNo, seqNo);
     }
   }// Method Project Add END
 

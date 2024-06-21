@@ -81,7 +81,7 @@ public class UserMenu extends SubMenu {
   ///////////////////////// 1. 등록 /////////////////////////
   ///////////////////////////////////////////////////////////
   protected void add(int objNo, User obj, ArrayList<User> objList) {
-    addObject(objNo, obj, 1);
+    addObject(objNo, obj, objList, 1);
     objList.add(obj);
     obj.setSeqNo(objList.size());
 

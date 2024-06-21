@@ -106,8 +106,12 @@ public class Team {
     switch (itemNo) {
       case 0:
         setSeqNo(Integer.parseInt(userItem));
+        break;
       case 1:
         setName(userItem);
+        break;
+      default:
+        return;
     }
   }// Method setItem END
 

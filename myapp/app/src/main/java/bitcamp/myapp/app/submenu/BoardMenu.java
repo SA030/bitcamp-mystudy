@@ -81,7 +81,7 @@ public class BoardMenu extends SubMenu {
   ///////////////////////////////////////////////////////////
   protected void add(int objNo, Board obj, ArrayList<Board> objList) {
 
-    addObject(objNo, obj, 1, 2);
+    addObject(objNo, obj, objList, 1, 2);
     objList.add(obj);
     obj.setSeqNo(objList.size());
 

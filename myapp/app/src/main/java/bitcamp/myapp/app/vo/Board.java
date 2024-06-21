@@ -116,14 +116,19 @@ public class Board {
     switch (itemNo) {
       case 0:
         setSeqNo(Integer.parseInt(userItem));
+        break;
       case 1:
         setTitle(userItem);
+        break;
       case 2:
         setDiscription(userItem);
+        break;
       case 3:
         setToday(new Date());
+        break;
       case 4:
         setCnt(0);
+        break;
     }
   }// Method setItem END
 
