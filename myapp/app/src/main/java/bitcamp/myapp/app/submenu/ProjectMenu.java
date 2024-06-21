@@ -1,9 +1,11 @@
 package bitcamp.myapp.app.submenu;
 
+
 import java.util.ArrayList;
+import bitcamp.myapp.app.util.SubMenu;
 import bitcamp.myapp.app.vo.Project;
 
-public class ProjectMenu extends MenuExtends {
+public class ProjectMenu extends SubMenu {
 
 
   private Project pro = Project.getInstance();
@@ -13,7 +15,6 @@ public class ProjectMenu extends MenuExtends {
 
   /********************************************************/
 
-  private static final int PROJECT = 3;
   private int numWidth = 3;
   private int titleWidth = 20;
 
@@ -125,7 +126,7 @@ public class ProjectMenu extends MenuExtends {
   ///////////////////////////////////////////////////////////
 
   // 프로젝트 가져오기
-  Project getPro(int proNo) {
+  public Project getPro(int proNo) {
     if (proNo > 0) {
       for (int listNo = 0; listNo < ProjectList.size(); listNo++) {
         if (ProjectList.get(listNo).getSeqNo() == proNo) {

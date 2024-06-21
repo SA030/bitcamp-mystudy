@@ -1,7 +1,7 @@
 package bitcamp.myapp.app.command;
 
-import bitcamp.myapp.app.submenu.MenuExtends;
 import bitcamp.myapp.app.util.Menu;
+import bitcamp.myapp.app.util.SubMenu;
 
 public class Printer {
   Menu menu = Menu.getInstance();
@@ -57,7 +57,7 @@ public class Printer {
 
   // User Prompt 위치 출력
   private String printMenuPrompt(int current) {
-    MenuExtends p = new MenuExtends();
+    SubMenu p = new SubMenu();
 
     // 메인/회원>__
     System.out.print("메인");

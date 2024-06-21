@@ -1,9 +1,10 @@
 package bitcamp.myapp.app.submenu;
 
 import java.util.ArrayList;
+import bitcamp.myapp.app.util.SubMenu;
 import bitcamp.myapp.app.vo.User;
 
-public class UserMenu extends MenuExtends {
+public class UserMenu extends SubMenu {
 
 
   private User user = User.getInstance();
@@ -13,7 +14,6 @@ public class UserMenu extends MenuExtends {
 
   /********************************************************/
 
-  private static final int USER = 1;
   private int numWidth = 3;
   private int titleWidth = 15;
 

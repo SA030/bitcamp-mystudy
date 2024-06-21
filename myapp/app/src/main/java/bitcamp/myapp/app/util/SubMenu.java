@@ -1,19 +1,34 @@
-package bitcamp.myapp.app.submenu;
+package bitcamp.myapp.app.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
-import bitcamp.myapp.app.util.Menu;
-import bitcamp.myapp.app.util.Title;
+import bitcamp.myapp.app.submenu.BoardMenu;
+import bitcamp.myapp.app.submenu.ProjectMenu;
+import bitcamp.myapp.app.submenu.TeamMenu;
+import bitcamp.myapp.app.submenu.UserMenu;
+import bitcamp.myapp.app.vo.Board;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
-public class MenuExtends {
+public class SubMenu {
   Scanner sc = new Scanner(System.in);
-  private static final int USER = 1;
+
+
+
+  /********************************************************/
+
+  protected static final int USER = 1;
+  protected static final int TEAM = 2;
+  protected static final int PROJECT = 3;
+  protected static final int BOARD = 4;
+
+  /********************************************************/
+
+
 
   // protected ArrayList<Object> list = new ArrayList<Object>();
 
@@ -34,11 +49,12 @@ public class MenuExtends {
   /////////////////////// Title form ////////////////////////
   ///////////////////////////////////////////////////////////
   // Title 간격 조정
-  protected String formString(int width, String text) {
+  private String formString(int width, String text) {
     return String.format("%-" + width + "s", text);
   }// Method formString END
 
-  protected String formString(int width, int text) {
+  @SuppressWarnings("unused")
+  private String formString(int width, int text) {
     return String.format("%-" + width + "d", text);
   }// Method formString END
 
@@ -54,33 +70,26 @@ public class MenuExtends {
   ///////////////////////////////////////////////////////////
 
   // Add Object /////////////////////////////////////////
-  private void addObject(int objNo, Object obj) {
+  protected void addObject(int objNo, Object obj) {
     addObject(objNo, obj, 0);
   }
 
   protected void addObject(int objNo, Object obj, int start) {
     Title title = Title.getInstance(objNo);
 
-    addObject(objNo, obj, start, title.getTitleArrSize());
+    addObject(objNo, obj, start, title.getTitleArrSize() - 1);
   }
 
-  private void addObject(int objNo, Object obj, int start, int end) {
+  protected void addObject(int objNo, Object obj, int start, int end) {
     Title title = Title.getInstance(objNo);
 
-    for (int itemNo = start; itemNo < end; itemNo++) {
+    for (int itemNo = start; itemNo < end + 1; itemNo++) {
       System.out.printf("%s? ", title.getTitleString(itemNo));
       setItem(objNo, obj, itemNo, Scanner());
     }
   }// Method addObject END ///////////////////////////////////
 
 
-
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
   // Add Object's User
   protected void addUser(int objNo, Object pro) {
     UserMenu userMenu = UserMenu.getInstance();
@@ -115,12 +124,6 @@ public class MenuExtends {
     }
 
   }// Method addUser END
-   //////////////////////////////////////////////////////////////////////
-   //////////////////////////////////////////////////////////////////////
-   //////////////////////////////////////////////////////////////////////
-   //////////////////////////////////////////////////////////////////////
-   //////////////////////////////////////////////////////////////////////
-   //////////////////////////////////////////////////////////////////////
 
 
 
@@ -141,7 +144,7 @@ public class MenuExtends {
 
 
   // Print Title
-  protected String printTitle(int objNo, Object obj, int numWidth, int titleWidth) {
+  private String printTitle(int objNo, Object obj, int numWidth, int titleWidth) {
 
     // Copy Title List
     ArrayList<String> publicTitle = getPublicTitle(objNo, obj);
@@ -163,7 +166,7 @@ public class MenuExtends {
 
 
   // Print Information
-  protected String printInformation(int objNo, Object obj, ArrayList<?> objList, int numWidth,
+  private String printInformation(int objNo, Object obj, ArrayList<?> objList, int numWidth,
       int titleWidth) {
     ArrayList<String> publicTitle = getPublicTitle(objNo, obj);
     ArrayList<String> publicInfo;
@@ -183,45 +186,6 @@ public class MenuExtends {
     }
     return str;
   }// Method printInformation END
-
-
-
-  ///////////////////////////////////////////////////////////
-  ////////////////////// Public Info ////////////////////////
-  ///////////////////////////////////////////////////////////
-  // Object's Public Item Tile List
-  protected ArrayList<String> getPublicTitle(int objNo, Object obj) {
-    // System.out.println(objNo + ":" + obj);
-    if (obj != null) {
-      switch (objNo) {
-        case 1:
-          return ((User) obj).getPublicUserTitle();
-        case 2:
-          return ((Team) obj).getPublicTeamTitle();
-        case 3:
-          return ((Project) obj).getPublicProTitle();
-        default:
-      }
-    }
-    return null;
-  }// Method getPublicTitle END
-
-
-  // Object's Public Item List
-  protected ArrayList<String> getPublicItem(int objNo, int sepNo) {
-    // System.out.println(objNo + ":" + sepNo);
-    if (getObject(objNo, sepNo) != null) {
-      ArrayList<Integer> publicProItemNo = getPublicItemList(objNo, sepNo);
-      ArrayList<String> publicProItem = new ArrayList<String>();
-
-      for (int itemNo = 0; itemNo < publicProItemNo.size(); itemNo++) {
-        publicProItem.add(getItem(objNo, sepNo, publicProItemNo.get(itemNo)));
-      }
-
-      return publicProItem;
-    }
-    return null;
-  }// Method getPublicInfo END
 
 
 
@@ -285,8 +249,16 @@ public class MenuExtends {
 
   // Print Object's User Name Information
   private String printUserName(int objNo, int seqNo, int userNo) {
-    return ((Project) getObject(objNo, seqNo)).getMembers().get(userNo).getName();
+    switch (objNo) {
+      case TEAM:
+        return ((Team) getObject(objNo, seqNo)).getMembers().get(userNo).getName();
+      case PROJECT:
+        return ((Project) getObject(objNo, seqNo)).getMembers().get(userNo).getName();
+      default:
+        return null;
+    }
   }
+
 
 
   ///////////////////////////////////////////////////////////
@@ -333,22 +305,24 @@ public class MenuExtends {
     int seqNo = inputSeqNo(objNo, objList);
     Object obj = getObject(objNo, seqNo);
 
-    if (seqNo != 0) {
+    if (obj != null) {
       for (int itemNo = 1; itemNo < title.getTitleArrSize(); itemNo++) {
         System.out.printf("%s(%s)? ", //
             title.getTitleString(itemNo), // 수정할 정보 메뉴
-            getItem(objNo, seqNo, itemNo) // 현재 저장된 정보
+
+            //////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
+            getItem(objNo, seqNo, itemNo) // 현재 저장된 정보?
+        //////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////
         );
         setItem(objNo, obj, itemNo, Scanner()); // 수정
 
-        /////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////
+
+        // User Menu 외 작동(Member 프린트x) ////////////////////
         if ((objNo != 1) && (itemNo == title.getTitleArrSize() - 2)) {
           break;
         }
-        /////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////
 
       }
@@ -380,7 +354,7 @@ public class MenuExtends {
   }// Method delete END
 
   // Delete Object's User
-  protected int deleteUser(int objNo, int seqNo, int userNo) {
+  private int deleteUser(int objNo, int seqNo, int userNo) {
 
     String ans;
     String userName = printUserName(objNo, seqNo, userNo);
@@ -423,7 +397,7 @@ public class MenuExtends {
   }// Method isValidateUser END
 
   // Object seqNo 있는지 확인
-  protected boolean checkObject(int objNo, ArrayList<?> objList, int seqNo) {
+  private boolean checkObject(int objNo, ArrayList<?> objList, int seqNo) {
 
     if (isValidateObject(objNo, objList, seqNo)) {
       return true;
@@ -434,7 +408,7 @@ public class MenuExtends {
   }// Method checkUser END
 
   // Object seqNo 입력
-  protected int inputSeqNo(int objNo, ArrayList<?> objList) {
+  private int inputSeqNo(int objNo, ArrayList<?> objList) {
 
     Menu menu = Menu.getInstance();
     String ans;
@@ -447,6 +421,47 @@ public class MenuExtends {
 
     return checkObject(objNo, objList, num) ? num : 0;
   }// Method inputUserNo END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ////////////////////// Public Info ////////////////////////
+  ///////////////////////////////////////////////////////////
+  // Object's Public Item Tile List
+  private ArrayList<String> getPublicTitle(int objNo, Object obj) {
+    // System.out.println(objNo + ":" + obj);
+    if (obj != null) {
+      switch (objNo) {
+        case USER:
+          return ((User) obj).getPublicUserTitle();
+        case TEAM:
+          return ((Team) obj).getPublicTeamTitle();
+        case PROJECT:
+          return ((Project) obj).getPublicProTitle();
+        case BOARD:
+          return ((Board) obj).getPublicBoardTitle();
+        default:
+      }
+    }
+    return null;
+  }// Method getPublicTitle END
+
+
+  // Object's Public Item List
+  private ArrayList<String> getPublicItem(int objNo, int sepNo) {
+    // System.out.println(objNo + ":" + sepNo);
+    if (getObject(objNo, sepNo) != null) {
+      ArrayList<Integer> publicProItemNo = getPublicItemList(objNo, sepNo);
+      ArrayList<String> publicProItem = new ArrayList<String>();
+
+      for (int itemNo = 0; itemNo < publicProItemNo.size(); itemNo++) {
+        publicProItem.add(getItem(objNo, sepNo, publicProItemNo.get(itemNo)));
+      }
+
+      return publicProItem;
+    }
+    return null;
+  }// Method getPublicInfo END
 
 
 
@@ -467,14 +482,16 @@ public class MenuExtends {
   // Class set Item /////////////////////////////////////////
   private void setItem(int objNo, Object obj, int item, String str) {
     switch (objNo) {
-      case 1:
+      case USER:
         setUserItem((User) obj, item, str);
         break;
-      case 2:
+      case TEAM:
         setTeamItem((Team) obj, item, str);
         break;
-      case 3:
+      case PROJECT:
         setProItem((Project) obj, item, str);
+      case BOARD:
+        setBoardItem((Board) obj, item, str);
         break;
       default:
         break;
@@ -493,17 +510,23 @@ public class MenuExtends {
     pro.setItem(item, str);
   }
 
+  private void setBoardItem(Board board, int item, String str) {
+    board.setItem(item, str);
+  }
+
 
 
   // Class get Item /////////////////////////////////////////
   private String getItem(int objNo, int seqNo, int item) {
     switch (objNo) {
-      case 1:
+      case USER:
         return ((User) getObject(objNo, seqNo)).getItem(item);
-      case 2:
+      case TEAM:
         return ((Team) getObject(objNo, seqNo)).getItem(item);
-      case 3:
+      case PROJECT:
         return ((Project) getObject(objNo, seqNo)).getItem(item);
+      case BOARD:
+        return ((Board) getObject(objNo, seqNo)).getItem(item);
       default:
     }
     return null;
@@ -514,12 +537,14 @@ public class MenuExtends {
   // Class get SeqNo /////////////////////////////////////////
   private int getSeqNo(int objNo, Object obj) {
     switch (objNo) {
-      case 1:
+      case USER:
         return ((User) obj).getSeqNo();
-      case 2:
+      case TEAM:
         return ((Team) obj).getSeqNo();
-      case 3:
+      case PROJECT:
         return ((Project) obj).getSeqNo();
+      case BOARD:
+        return ((Board) obj).getSeqNo();
       default:
     }
     return 0;
@@ -530,15 +555,18 @@ public class MenuExtends {
   // Class get Object by seqNo /////////////////////////////////////////
   private Object getObject(int objNo, int seqNo) {
     switch (objNo) {
-      case 1:
+      case USER:
         UserMenu user = UserMenu.getInstance();
         return user.getUser(seqNo);
-      case 2:
+      case TEAM:
         TeamMenu team = TeamMenu.getInstance();
         return team.getTeam(seqNo);
-      case 3:
+      case PROJECT:
         ProjectMenu pro = ProjectMenu.getInstance();
         return pro.getPro(seqNo);
+      case BOARD:
+        BoardMenu board = BoardMenu.getInstance();
+        return board.getBoard(seqNo);
       default:
     }
     return null;
@@ -550,11 +578,11 @@ public class MenuExtends {
     Object obj = getObject(objNo, seqNo);
 
     switch (objNo) {
-      case 2:
+      case TEAM:
         ((Team) obj).setMembers(getSeqNo(seqNo, obj), members);
         // return ((Team) getObject(objNo, seqNo)).getMembers();
         break;
-      case 3:
+      case PROJECT:
         ((Project) obj).setMembers(getSeqNo(seqNo, obj), members);
         break;
       default:
@@ -567,9 +595,9 @@ public class MenuExtends {
   // Class get Object's User HashMap ///////////////////////////////////////
   private HashMap<Integer, User> getMembers(int objNo, int seqNo) {
     switch (objNo) {
-      case 2:
+      case TEAM:
         return ((Team) getObject(objNo, seqNo)).getMembers();
-      case 3:
+      case PROJECT:
         return ((Project) getObject(objNo, seqNo)).getMembers();
       default:
         return null;
@@ -581,16 +609,33 @@ public class MenuExtends {
   // Class get Public Item /////////////////////////////////////////
   private ArrayList<Integer> getPublicItemList(int objNo, int seqNo) {
     switch (objNo) {
-      case 1:
+      case USER:
         return ((User) getObject(objNo, seqNo)).getPublicUserItem();
-      case 2:
+      case TEAM:
         return ((Team) getObject(objNo, seqNo)).getPublicTeamItem();
-      case 3:
+      case PROJECT:
         return ((Project) getObject(objNo, seqNo)).getPublicProItem();
+      case BOARD:
+        return ((Board) getObject(objNo, seqNo)).getPublicBoardItem();
       default:
     }
     return null;
   }
 
 
-}// Class MenuExtends END
+
+  public interface Commmand {
+
+    void setUserItem(int item, String str);
+
+    String getItem(int objNo, int seqNo, int item);
+
+    int getSeqNo(int objNo, Object obj);
+
+    void setMembers(int objNo, int seqNo, User members);
+
+    HashMap<Integer, User> getMembers(int objNo, int seqNo);
+  }
+
+}
+// Class MenuExtends END

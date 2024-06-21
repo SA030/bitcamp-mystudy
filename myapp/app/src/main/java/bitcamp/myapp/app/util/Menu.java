@@ -1,5 +1,6 @@
 package bitcamp.myapp.app.util;
 
+import bitcamp.myapp.app.submenu.BoardMenu;
 import bitcamp.myapp.app.submenu.ProjectMenu;
 import bitcamp.myapp.app.submenu.TeamMenu;
 import bitcamp.myapp.app.submenu.UserMenu;
@@ -121,6 +122,8 @@ public class Menu {
         p.menu(menuNo);
         break;
       case 4: // 게시판
+        BoardMenu b = BoardMenu.getInstance();
+        b.menu(menuNo);
         break;
       case 5: // 도움말
         break;

@@ -1,90 +1,148 @@
 package bitcamp.myapp.app.submenu;
 
-import bitcamp.myapp.app.util.Menu;
-import bitcamp.myapp.app.vo.Team;
+import java.util.ArrayList;
+import bitcamp.myapp.app.util.SubMenu;
+import bitcamp.myapp.app.vo.Board;
 
-public class BoardMenu {
+public class BoardMenu extends SubMenu {
 
-  UserMenu user = UserMenu.getInstance();
-  Team team = Team.getInstance();
+  private Board board = Board.getInstance();
+  private ArrayList<Board> boardList = new ArrayList<Board>();
+
+
+
+  /********************************************************/
+
+  private int numWidth = 3;
+  private int titleWidth = 20;
+
+  /********************************************************/
+
+
 
   ///////////////////////////////////////////////////////////
-  ////////////////////// Team Menu //////////////////////////
+  ////////////////// private Instance User //////////////////
   ///////////////////////////////////////////////////////////
+  private static BoardMenu boardMenu;
 
-  public void menuTeam(int menuNo) {
+  // setup User Instance
+  public static BoardMenu getInstance() {
 
-    Menu menu = Menu.getInstance();
-
-    if (menuNo < menu.getMenuArr().length - 1) {
-      System.out.printf("[%s]\n", menu.getMenuArr()[menuNo - 1]);
+    if (boardMenu == null) {
+      boardMenu = new BoardMenu();
     }
 
+    return boardMenu;
+  }// Method getInstance END
 
-    // switch (menuNo) {
-    // case 1: // 등록
-    // add();
-    // break;
-    // case 2: // 목록
-    // printList(0);
-    // break;
-    // case 3: // 조회
-    // print(user.inputSeqNo());
-    // break;
-    // case 4: // 변경
-    // edit(user.inputSeqNo());
-    // break;
-    // case 5: // 삭제
-    // delete(user.inputSeqNo());
-    // break;
-    // default:
-    // break;
-    // }
+  // reset User Instance
+  public static void freeInstance() {
+    boardMenu = null;
+  }// Method freeInstance END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////// Project Menu ////////////////////////
+  ///////////////////////////////////////////////////////////
+  public void menu(int menuNo) {
+    menuBoard(menuNo, BOARD, board, boardList, numWidth, titleWidth);
   }
 
 
-  // 1. 등록
-  private void add() {
+  public void menuBoard(int menuNo, int titleNo, Board borad, ArrayList<Board> BoardList, //
+      int numWidth, int titkeWidth) {
 
+    switch (menuNo) {
+      case 1: // 등록
+        add(titleNo, new Board(), BoardList);
+        break;
+      case 2: // 목록
+        printList(titleNo, borad, BoardList, numWidth, titkeWidth);
+        break;
+      case 3: // 조회
+        print(titleNo, borad, BoardList);
+        break;
+      case 4: // 변경
+        edit(titleNo, borad, BoardList);
+        break;
+      case 5: // 삭제
+        delete(titleNo, BoardList);
+        break;
+      default:
+        break;
+    }
+  }// Method menuProject END
+
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 1. 등록 /////////////////////////
+  ///////////////////////////////////////////////////////////
+  protected void add(int objNo, Board obj, ArrayList<Board> objList) {
+
+    addObject(objNo, obj, 1, 2);
+    objList.add(obj);
+    obj.setSeqNo(objList.size());
+
+  }// Method Board Add END
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 2. 목록 /////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 3. 조회 /////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 4. 변경 /////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////// 5. 삭제 /////////////////////////
+  ///////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////// public getter, setter ///////////////////
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  //////////////////////// ---------- ///////////////////////
+  ////////////////////////// ------ /////////////////////////
+  //////////////////////////// -- ///////////////////////////
+  ///////////////////////////////////////////////////////////
+
+  // 게시판 가져오기
+  public Board getBoard(int boardNo) {
+    if (boardNo > 0) {
+      for (int listNo = 0; listNo < boardList.size(); listNo++) {
+        if (boardList.get(listNo).getSeqNo() == boardNo) {
+          return boardList.get(listNo);
+        }
+      }
+    }
+    return null;
+  }// Method getPro END
+
+
+  public void add(Board board) {
+    boardList.add(board);
   }
 
-  // 1-1. 팀원 등록
-  private void addUser(Team addTeam) {
-
+  public ArrayList<Board> getBoardList() {
+    return boardList;
   }
 
-  // 2. 목록
-  private void printList(int... num) {
-
+  public void setProjectList(ArrayList<Board> BoardList) {
+    this.boardList = BoardList;
   }
-
-  // 3. 조회
-  private void print(int teamNo) {
-
-  }
-
-  // 3-1. 팀원 이름 조회
-  private void printUserName(int teamNo, int userNo) {
-
-  }
-
-  // 4. 변경
-  private void edit(int teamNo) {
-
-
-  }
-
-  // 5. 삭제
-  private void delete(int teamNo) {
-
-
-  }
-
-  // 5-1. 팀원 삭제
-  private void deleteUser(int teamNo, int userNo) {
-
-  }
-
 
 
 }

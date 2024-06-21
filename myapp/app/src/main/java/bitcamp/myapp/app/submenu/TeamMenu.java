@@ -1,9 +1,11 @@
 package bitcamp.myapp.app.submenu;
 
+
 import java.util.ArrayList;
+import bitcamp.myapp.app.util.SubMenu;
 import bitcamp.myapp.app.vo.Team;
 
-public class TeamMenu extends MenuExtends {
+public class TeamMenu extends SubMenu {
 
   private Team team = Team.getInstance();
   private ArrayList<Team> TeamList = new ArrayList<Team>();
@@ -11,7 +13,6 @@ public class TeamMenu extends MenuExtends {
 
   /********************************************************/
 
-  private static final int TEAM = 2;
   private int numWidth = 3;
   private int titleWidth = 20;
 
@@ -120,7 +121,7 @@ public class TeamMenu extends MenuExtends {
   ///////////////////////////////////////////////////////////
 
   // 팀 가져오기
-  Team getTeam(int teamNo) {
+  public Team getTeam(int teamNo) {
     if (teamNo > 0) {
       for (int listNo = 0; listNo < TeamList.size(); listNo++) {
         if (TeamList.get(listNo).getSeqNo() == teamNo) {

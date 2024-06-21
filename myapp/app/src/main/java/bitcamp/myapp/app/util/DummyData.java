@@ -1,8 +1,10 @@
 package bitcamp.myapp.app.util;
 
+import bitcamp.myapp.app.submenu.BoardMenu;
 import bitcamp.myapp.app.submenu.ProjectMenu;
 import bitcamp.myapp.app.submenu.TeamMenu;
 import bitcamp.myapp.app.submenu.UserMenu;
+import bitcamp.myapp.app.vo.Board;
 import bitcamp.myapp.app.vo.Project;
 import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
@@ -11,8 +13,9 @@ public class DummyData {
   Menu menu = Menu.getInstance();
 
   UserMenu userm = UserMenu.getInstance();
-  ProjectMenu prom = ProjectMenu.getInstance();
   TeamMenu teamm = TeamMenu.getInstance();
+  ProjectMenu prom = ProjectMenu.getInstance();
+  BoardMenu boardm = BoardMenu.getInstance();
 
 
   //////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +30,8 @@ public class DummyData {
     addTeamDummy();
     menu.setCurrent(3);
     addProjectDummy();
+    menu.setCurrent(4);
+    addBoardDummy();
     menu.setCurrent(0);
   }
 
@@ -76,7 +81,7 @@ public class DummyData {
       proName = String.format("%c%c%c", 'A' + (3 * proNo), 'B' + (3 * proNo), 'C' + (3 * proNo));
 
       pro.setTitle(proName);
-      pro.setDiscription(proName);
+      pro.setDiscription(proName + " is String");
       pro.setStartDate("2024-06-18");
       pro.setEnd("2024-11-29");
       pro.setMembers(1 + (3 * proNo), userm.getUser(1 + (3 * proNo)));// A
@@ -85,6 +90,26 @@ public class DummyData {
 
       prom.add(pro); //
       pro.setSeqNo(prom.getProjectList().size());
+    }
+  }
+
+
+
+  // 미리 게시판 추가(4개 AAA/BBB)
+  private void addBoardDummy() {
+    String boardChar, boardName;
+
+    for (int boardNo = 0; boardNo < 4; boardNo++) {
+
+      Board board = new Board();
+      boardChar = String.format("%c", 'A' + boardNo);
+      boardName = boardChar + boardChar + boardChar;
+
+      board.setTitle(boardName);
+      board.setDiscription(boardName + " is String");
+
+      boardm.add(board); //
+      board.setSeqNo(boardm.getBoardList().size());
     }
   }
 }

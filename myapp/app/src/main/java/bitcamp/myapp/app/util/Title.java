@@ -47,6 +47,21 @@ public class Title {
     return projectTitle;
   }// Method setProjectTitle END
 
+
+
+  private ArrayList<AccessTitle> setBoardTitle() {
+
+    ArrayList<AccessTitle> boardTitle = new ArrayList<AccessTitle>();
+
+    boardTitle.add(new AccessTitle("No", 1)); // 0
+    boardTitle.add(new AccessTitle("Title", 1)); // 1
+    boardTitle.add(new AccessTitle("content", 1)); // 2
+    boardTitle.add(new AccessTitle("Date", 1)); // 3
+    boardTitle.add(new AccessTitle("cnt", 1)); // 4
+
+    return boardTitle;
+  }// Method setBoardTitle END
+
   /********************************************************/
 
 
@@ -88,6 +103,9 @@ public class Title {
         break;
       case 3:
         this.titleArr = setProjectTitle();
+        break;
+      case 4:
+        this.titleArr = setBoardTitle();
         break;
       default:
         this.titleArr = new ArrayList<AccessTitle>();
