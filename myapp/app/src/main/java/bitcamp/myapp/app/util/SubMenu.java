@@ -93,63 +93,66 @@ public class SubMenu {
   }// Method addObject END //////////////////////////////////
 
 
-  // Add New Object's User ///////////////////////////////////
+  // Add Object's User ///////////////////////////////////
+  // New Object's User
   protected void addUser(int objNo, Object obj) {
-    String ans = "";
-
-    // 팀원 등록
+    // 멤버 등록
     for (;;) {
-      System.out.printf("추가할 팀원 번호?(종료: 0) ");
-      ans = Scanner();
-      if (ans.equals("0")) {
+      if (getUserSeqNo().equals("0")) {
         return;
       }
       addMemberHashMap(objNo, getSeqNo(objNo, obj), Scanner());
     }
-
   }
 
-  // Add Old Object's User ///////////////////////////////////
+  // Old Object's User
   protected void addUser(int objNo, int seqNo) {
     String ans = "";
 
-    // 팀원 등록
+    // 멤버 등록
     for (;;) {
-      System.out.printf("추가할 팀원 번호?(종료: 0) ");
-      ans = Scanner();
+      ans = getUserSeqNo();
       if (ans.equals("0")) {
         return;
       }
-
       addMemberHashMap(objNo, seqNo, ans);
     }
-
   }// Method addUser END ////////////////////////////////////
 
 
+  // 팀원 번호 입력
+  private String getUserSeqNo() {
+    String ans = "";
+
+    System.out.printf("추가할 팀원 번호?(종료: 0) ");
+    ans = Scanner();
+    return ans;
+  }
+
+
+
+  // 유효한 멤버 등록
   private void addMemberHashMap(int objNo, int seqNo, String ans) {
     UserMenu userMenu = UserMenu.getInstance();
+    int userNo = Integer.parseInt(ans);
 
-    if (checkObject(USER, userMenu.getUserList(), Integer.parseInt(ans))) {
-      int userNo = Integer.parseInt(ans);
-
-      addMember(objNo, seqNo, userNo, userMenu.getUser(userNo));
-
+    if (checkObject(USER, userMenu.getUserList(), userNo)) {
+      addMemberHashMap(objNo, seqNo, userNo, userMenu.getUser(userNo));
     }
   }
 
-  // 멤버 추가
-  private void addMember(int objNo, int seqNo, int userNo, User user) {
+  // 멤버 추가 메세지 출력
+  private void addMemberHashMap(int objNo, int seqNo, int userNo, User user) {
 
     if (!isDuplicateMember(objNo, seqNo, userNo)) {
       setMembers(objNo, seqNo, user);
     }
-    System.out.printf(printAddMember(objNo, seqNo, userNo, user.getName()));
+    System.out.printf(printAddMemberHashMap(objNo, seqNo, userNo, user.getName()));
   }
 
 
   // 멤버 중복 메세지 출력
-  private String printAddMember(int objNo, int seqNo, int userNo, String userName) {
+  private String printAddMemberHashMap(int objNo, int seqNo, int userNo, String userName) {
     return !isDuplicateMember(objNo, seqNo, userNo) ? //
         String.format("'%s'을 추가했습니다.\n", userName) : // true: 신규
         String.format("'%s'은 현재 팀원입니다.\n", userName); // false: 중복
