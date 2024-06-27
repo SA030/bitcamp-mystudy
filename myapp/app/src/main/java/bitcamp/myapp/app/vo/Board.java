@@ -3,9 +3,11 @@ package bitcamp.myapp.app.vo;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import bitcamp.myapp.app.util.SubMenu.VoList;
 import bitcamp.myapp.app.util.Title;
 
-public class Board {
+public class Board implements VoList {
 
 
   public Title boardTitle = new Title(4);
@@ -92,6 +94,7 @@ public class Board {
   ///////////////// Item getter, setter /////////////////////
   ///////////////////////////////////////////////////////////
 
+  @Override
   public String getItem(int itemNo) {
 
     switch (itemNo) {
@@ -112,6 +115,7 @@ public class Board {
   }// Method getItem END
 
 
+  @Override
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
@@ -136,10 +140,12 @@ public class Board {
 
   ///////////////// title /////////////////////
 
+  @Override
   public int getSeqNo() {
     return seqNo;
   }
 
+  @Override
   public void setSeqNo(int seqNo) {
     this.seqNo = seqNo;
   }
@@ -190,6 +196,18 @@ public class Board {
 
   public ArrayList<Integer> getPublicBoardItem() {
     return boardTitle.getPublicTitleNo();
+  }
+
+  @Override
+  public void setMembers(int seqNo, User members) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public HashMap<Integer, User> getMembers() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

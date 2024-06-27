@@ -1,116 +1,83 @@
 package study.lang.linked;
 
+import java.util.Arrays;
+
 public class LinkedList {
 
-  Node first;
-  Node last;
-  int size;
+  private static final int MAX_SIZE = 3;
 
+  private Object[] list = new Object[MAX_SIZE];
+  private int size = 0;
 
-  public static void main(String[] args) {
-    LinkedList list = new LinkedList();
-    list.append("홍길동");
-    list.append("임꺽정");
-    list.append("유관순");
+  public void add(Object obj) {
+    if (size == list.length) {
+      // 1) 우리가 만든 메서드를 사용하여 배열 크기 증가
+      // grow();
 
-    // list.printAll();
-
-    for (int i = 0; i < list.size; i++) {
-      System.out.println();
+      // 2) 자바에서 제공하는 클래스를 사용하여 배열 크기 증가
+      int oldSize = list.length;
+      int newSize = oldSize + (oldSize >> 1);
+      list = Arrays.copyOf(list, newSize);
     }
-
+    list[size++] = obj;
   }
 
+  private void grow() {
+    int oldSize = list.length;
+    int newSize = oldSize + (oldSize >> 1); // 50% 증가
 
-  public void append(Object value) {
-    Node newNode = new Node(value);
+    Object[] arr = new Object[newSize]; // 새 배열을 만든다.
 
-    if (first == null) {
-      last = first = newNode;
-    } else {
-      last.next = newNode;
-      last = newNode;
+    for (int i = 0; i < list.length; i++) { // 기존 배열의 값을 복사해온다.
+      arr[i] = list[i];
     }
-    size++;
+
+    list = arr; // 기존 배열의 주소를 버리고 새 배열의 주소를 담는다.
   }
 
-  public Object delete(int index) {
+  public Object remove(int index) {
     if (index < 0 || index >= size) {
       return null;
     }
-
-    Node deleteNode = null;
-    size--;
-
-    if (index == 0) {
-      deleteNode = first;
-      first.value = null;
-      first.next = null;
-      first = first.next;
-      if (first == null) {
-        last = null;
-      }
-      return null;
+    Object deletedObj = list[index];
+    for (int i = index + 1; i < size; i++) {
+      list[i - 1] = list[i];
     }
-
-    Node cursor = first;
-    int currentIndex = 0;
-
-    while (cursor != null && currentIndex < index - 1) {
-      cursor = cursor.next;
-      currentIndex++;
-    }
-
-
-    deleteNode = cursor.next;
-    cursor.next = cursor.next.next;
-
-
-    if (cursor.next == last) {
-      last = cursor;
-    }
-    return deleteNode;
-
-
+    list[--size] = null;
+    return deletedObj;
   }
 
-  public Object getValue(int index) {
-
-    // 무효일 시 처음부터 팅겨냄!
-    if (index < 0 || index >= size) {
-      throw null;
+  public Object[] toArray() {
+    Object[] arr = new Object[size];
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = list[i];
     }
+    return arr;
+  }
 
-    Node cursor = first;
-    int currentIndex = 0;
-
-    while (cursor != null) {
-      if (currentIndex == index) {
-        return cursor.value;
+  public int indexOf(Object obj) {
+    for (int i = 0; i < size; i++) {
+      if (list[i] == obj) {
+        return i;
       }
-      cursor = cursor.next;
-      currentIndex++;
     }
-
-    return null;
-
+    return -1;
   }
 
   public int size() {
-
     return size;
   }
 
-
-  public void printAll() {
-    Node cursor = first;
-
-    while (cursor != null) {
-      System.out.println(cursor.value);
-      cursor = cursor.next;
+  public Object get(int index) {
+    if (index < 0 || index >= size) {
+      return null;
     }
+    java.util.ArrayList l;
+    return list[index];
   }
 
-
+  public boolean contains(Object obj) {
+    return indexOf(obj) != -1;
+  }
 
 }

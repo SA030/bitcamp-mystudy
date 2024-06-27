@@ -2,9 +2,10 @@ package bitcamp.myapp.app.vo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import bitcamp.myapp.app.util.SubMenu.VoList;
 import bitcamp.myapp.app.util.Title;
 
-public class Team {
+public class Team implements VoList {
 
   public Title title = new Title(2);
 
@@ -90,6 +91,7 @@ public class Team {
   ///////////////// Item getter, setter /////////////////////
   ///////////////////////////////////////////////////////////
 
+  @Override
   public String getItem(int itemNo) {
     switch (itemNo) {
       case 0:
@@ -102,6 +104,7 @@ public class Team {
   }// Method getItem END
 
 
+  @Override
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
@@ -116,10 +119,12 @@ public class Team {
   }// Method setItem END
 
 
+  @Override
   public int getSeqNo() {
     return seqNo;
   }
 
+  @Override
   public void setSeqNo(int seqNo) {
     this.seqNo = seqNo;
   }
@@ -132,6 +137,7 @@ public class Team {
     this.name = name;
   }
 
+  @Override
   public HashMap<Integer, User> getMembers() {
     return members;
   }
@@ -144,6 +150,7 @@ public class Team {
     this.members.putAll(members);;
   }
 
+  @Override
   public void setMembers(int members, User user) {
     this.members.put(members, user);
     this.memberSize += 1;

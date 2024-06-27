@@ -1,9 +1,11 @@
 package bitcamp.myapp.app.vo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import bitcamp.myapp.app.util.SubMenu.VoList;
 import bitcamp.myapp.app.util.Title;
 
-public class User {
+public class User implements VoList {
 
   public Title title = new Title(1);
 
@@ -79,6 +81,7 @@ public class User {
   ///////////////// Item getter, setter /////////////////////
   ///////////////////////////////////////////////////////////
 
+  @Override
   public String getItem(int itemNo) {
     switch (itemNo) {
       case 0:
@@ -97,6 +100,7 @@ public class User {
   }// Method getItem END
 
 
+  @Override
   public void setItem(int itemNo, String userItem) {
     switch (itemNo) {
       case 0:
@@ -119,6 +123,15 @@ public class User {
 
   ///////////////////////////////////////////////////////////
 
+  @Override
+  public int getSeqNo() {
+    return this.seqNo;
+  }
+
+  @Override
+  public void setSeqNo(int seqNo) {
+    this.seqNo = seqNo;
+  }
 
   public String getName() {
     return this.name;
@@ -128,13 +141,6 @@ public class User {
     this.name = name;
   }
 
-  public int getSeqNo() {
-    return this.seqNo;
-  }
-
-  public void setSeqNo(int seqNo) {
-    this.seqNo = seqNo;
-  }
 
   public String getEmail() {
     return email;
@@ -177,6 +183,18 @@ public class User {
 
   public ArrayList<Integer> getPublicUserItem() {
     return title.getPublicTitleNo();
+  }
+
+  @Override
+  public void setMembers(int seqNo, User members) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public HashMap<Integer, User> getMembers() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }// Class User END

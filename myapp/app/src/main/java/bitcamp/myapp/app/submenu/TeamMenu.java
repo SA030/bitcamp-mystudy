@@ -13,8 +13,7 @@ public class TeamMenu extends SubMenu {
 
   /********************************************************/
 
-  private int numWidth = 3;
-  private int titleWidth = 20;
+  Format teamrForm = new Format(3, 20);
 
   /********************************************************/
 
@@ -44,19 +43,18 @@ public class TeamMenu extends SubMenu {
   ////////////////////// Team Menu //////////////////////////
   ///////////////////////////////////////////////////////////
   public void menu(int menuNo) {
-    menuProject(menuNo, TEAM, team, TeamList, numWidth, titleWidth);
+    menuProject(menuNo, TEAM, team, TeamList);
   }
 
 
-  public void menuProject(int menuNo, int titleNo, Team team, ArrayList<Team> TeamList, //
-      int numWidth, int titkeWidth) {
+  public void menuProject(int menuNo, int titleNo, Team team, ArrayList<Team> TeamList) {
 
     switch (menuNo) {
       case 1: // 등록
         add(titleNo, new Team(), TeamList);
         break;
       case 2: // 목록
-        printList(titleNo, team, TeamList, numWidth, titkeWidth);
+        printList(titleNo, team, TeamList, teamrForm);
         break;
       case 3: // 조회
         print(titleNo, team, TeamList);
@@ -85,28 +83,9 @@ public class TeamMenu extends SubMenu {
 
     // 팀원 등록
     if (objNo != 1) {
-      addUser(objNo, seqNo);
+      addMember(objNo, seqNo);
     }
   }// Method Project Add END
-   ///////////////////////////////////////////////////////////
-   ///////////////////////// 2. 목록 /////////////////////////
-   ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 3. 조회 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 4. 변경 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 5. 삭제 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
 
   ///////////////////////////////////////////////////////////
   ///////////////// public getter, setter ///////////////////

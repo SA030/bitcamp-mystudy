@@ -15,8 +15,7 @@ public class ProjectMenu extends SubMenu {
 
   /********************************************************/
 
-  private int numWidth = 3;
-  private int titleWidth = 20;
+  Format projectForm = new Format(3, 20);
 
   /********************************************************/
 
@@ -48,19 +47,18 @@ public class ProjectMenu extends SubMenu {
   ///////////////////// Project Menu ////////////////////////
   ///////////////////////////////////////////////////////////
   public void menu(int menuNo) {
-    menuProject(menuNo, PROJECT, pro, ProjectList, numWidth, titleWidth);
+    menuProject(menuNo, PROJECT, pro, ProjectList);
   }
 
 
-  public void menuProject(int menuNo, int titleNo, Project pro, ArrayList<Project> ProjectList, //
-      int numWidth, int titkeWidth) {
+  public void menuProject(int menuNo, int titleNo, Project pro, ArrayList<Project> ProjectList) {
 
     switch (menuNo) {
       case 1: // 등록
         add(titleNo, new Project(), ProjectList);
         break;
       case 2: // 목록
-        printList(titleNo, pro, ProjectList, numWidth, titkeWidth);
+        printList(titleNo, pro, ProjectList, projectForm);
         break;
       case 3: // 조회
         print(titleNo, pro, ProjectList);
@@ -89,28 +87,9 @@ public class ProjectMenu extends SubMenu {
 
     // 팀원 등록
     if (objNo != 1) {
-      addUser(objNo, seqNo);
+      addMember(objNo, seqNo);
     }
   }// Method Project Add END
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 2. 목록 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 3. 조회 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 4. 변경 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 5. 삭제 /////////////////////////
-  ///////////////////////////////////////////////////////////
 
 
   ///////////////////////////////////////////////////////////

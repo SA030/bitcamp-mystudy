@@ -15,10 +15,10 @@ import bitcamp.myapp.app.vo.Team;
 import bitcamp.myapp.app.vo.User;
 
 public class SubMenu {
-  Scanner sc = new Scanner(System.in);
 
 
 
+  // protected ArrayList<Object> list = new ArrayList<Object>();
   /********************************************************/
 
   protected static final int USER = 1;
@@ -28,16 +28,65 @@ public class SubMenu {
 
   /********************************************************/
 
+  // Member contents ////////////////////////////////////
+  private boolean isValidateMenu(int objNo) {
+    return objNo == TEAM || objNo == PROJECT ? true : false;
+  }
 
 
-  // protected ArrayList<Object> list = new ArrayList<Object>();
+  // Format /////////////////////////////////////////////
+  protected class Format {
+
+    private int numWidth, titleWidth;
+
+    public Format(int numWidth, int titleWidth) {
+      this.numWidth = numWidth;
+      this.titleWidth = titleWidth;
+    }
 
 
+    public int getNumWidth() {
+      return this.numWidth;
+    }
+
+    public int getTitleWidth() {
+      return this.titleWidth;
+    }
+  }
+
+
+  // List /////////////////////////////////////////////
+  protected class List {
+    private int priKey;
+    private Object obj;
+    private ArrayList<Object> list = new ArrayList<Object>();
+
+    public List(int priKey, Object obj) {
+      this.priKey = priKey;
+      this.obj = obj;
+    }
+
+    public int getPriKey() {
+      return priKey;
+    }
+
+    public Object getObj() {
+      return obj;
+    }
+
+    public ArrayList<Object> getList() {
+      return list;
+    }
+
+
+  }
 
   ///////////////////////////////////////////////////////////
   ///////////////////////// Scanner /////////////////////////
   ///////////////////////////////////////////////////////////
   public String Scanner() {
+    Scanner sc = new Scanner(System.in);
+
     String ans = sc.nextLine();
 
     return ans;
@@ -93,20 +142,21 @@ public class SubMenu {
   }// Method addObject END //////////////////////////////////
 
 
+
   // Add Object's User ///////////////////////////////////
   // New Object's User
-  protected void addUser(int objNo, Object obj) {
+  protected void addMember(int objNo, Object obj) {
     // 멤버 등록
     for (;;) {
       if (getUserSeqNo().equals("0")) {
         return;
       }
-      addMemberHashMap(objNo, getSeqNo(objNo, obj), Scanner());
+      isValidateMember(objNo, indexOf(objNo, obj), Scanner());
     }
   }
 
   // Old Object's User
-  protected void addUser(int objNo, int seqNo) {
+  protected void addMember(int objNo, int seqNo) {
     String ans = "";
 
     // 멤버 등록
@@ -115,44 +165,37 @@ public class SubMenu {
       if (ans.equals("0")) {
         return;
       }
-      addMemberHashMap(objNo, seqNo, ans);
+      isValidateMember(objNo, seqNo, ans);
     }
   }// Method addUser END ////////////////////////////////////
 
 
   // 팀원 번호 입력
   private String getUserSeqNo() {
-    String ans = "";
-
     System.out.printf("추가할 팀원 번호?(종료: 0) ");
-    ans = Scanner();
-    return ans;
+    return Scanner();
   }
 
-
-
   // 유효한 멤버 등록
-  private void addMemberHashMap(int objNo, int seqNo, String ans) {
+  private void isValidateMember(int objNo, int seqNo, String ans) {
     UserMenu userMenu = UserMenu.getInstance();
     int userNo = Integer.parseInt(ans);
 
     if (checkObject(USER, userMenu.getUserList(), userNo)) {
-      addMemberHashMap(objNo, seqNo, userNo, userMenu.getUser(userNo));
+      addMember(objNo, seqNo, userNo, getObject(USER, userNo));
     }
   }
 
-  // 멤버 추가 메세지 출력
-  private void addMemberHashMap(int objNo, int seqNo, int userNo, User user) {
-
+  // 멤버 추가
+  private void addMember(int objNo, int seqNo, int userNo, Object user) {
     if (!isDuplicateMember(objNo, seqNo, userNo)) {
-      setMembers(objNo, seqNo, user);
+      setMembers(objNo, seqNo, userNo, (User) user);
     }
-    System.out.printf(printAddMemberHashMap(objNo, seqNo, userNo, user.getName()));
+    System.out.printf(printAddMember(objNo, seqNo, userNo, ((User) user).getName()));
   }
 
-
-  // 멤버 중복 메세지 출력
-  private String printAddMemberHashMap(int objNo, int seqNo, int userNo, String userName) {
+  // 멤버 추가/중복 메세지 출력
+  private String printAddMember(int objNo, int seqNo, int userNo, String userName) {
     return !isDuplicateMember(objNo, seqNo, userNo) ? //
         String.format("'%s'을 추가했습니다.\n", userName) : // true: 신규
         String.format("'%s'은 현재 팀원입니다.\n", userName); // false: 중복
@@ -160,9 +203,7 @@ public class SubMenu {
 
   // 멤버 중복 확인
   private boolean isDuplicateMember(int objNo, int seqNo, int userNo) {
-    HashMap<Integer, User> userHash = getMembers(objNo, seqNo);
-
-    return userHash.containsKey(userNo) ? true : false;
+    return getMembers(objNo, seqNo).containsKey(userNo) ? true : false;
   }
 
 
@@ -170,63 +211,73 @@ public class SubMenu {
   ///////////////////////////////////////////////////////////
   ///////////////////////// 2. List /////////////////////////
   ///////////////////////////////////////////////////////////
-  protected void printList(int objNo, Object obj, ArrayList<?> objList, int numWidth,
-      int titleWidth) {
+
+  protected void printList(int objNo, Object obj, ArrayList<?> objList, Format form) {
 
     String str = "";
-    str += printTitle(objNo, obj, numWidth, titleWidth);
-    str += printInformation(objNo, obj, objList, numWidth, titleWidth);
+    str += printTitle(objNo, obj, form);
+    str += printInfo(objNo, obj, objList, form);
 
     System.out.print(str);
 
   }// Method printList END
 
 
-
   // Print Title
-  private String printTitle(int objNo, Object obj, int numWidth, int titleWidth) {
+  private String printTitle(int objNo, Object obj, Format form) {
+    return printPublicTitle(getPublicTitle(objNo, obj), form);
+  }// Method printTitle END
 
-    // Copy Title List
-    ArrayList<String> publicTitle = getPublicTitle(objNo, obj);
+  // Print Public Title
+  private String printPublicTitle(ArrayList<String> publicTitle, Format form) {
     String str = "";
 
-    // Print Copy Title List
-    for (int i = 0; i < publicTitle.size(); i++) {
-      if (i == 0) {
-        str += formString(numWidth, publicTitle.get(i));
+    for (int titleNo = 0; titleNo < publicTitle.size(); titleNo++) {
+      if (titleNo == 0) {
+        str += formString(form.getNumWidth(), publicTitle.get(titleNo));
         continue;
       }
-      str += formString(titleWidth, publicTitle.get(i));
+      str += formString(form.getTitleWidth(), publicTitle.get(titleNo));
     }
     str += String.format("\n");
 
     return str;
-
-  }// Method printTitle END
+  }
 
 
   // Print Information
-  private String printInformation(int objNo, Object obj, ArrayList<?> objList, int numWidth,
-      int titleWidth) {
+  private String printInfo(int objNo, Object obj, ArrayList<?> objList, Format form) {
+
+    String str = "";
+
+    for (Object objs : objList) {
+      str += printPublicInfo(objNo, obj, form, objs);
+    }
+
+    return str;
+  }// Method printInformation END
+
+
+  // Print Public Information
+  private String printPublicInfo(int objNo, Object obj, Format form, Object objs) {
     ArrayList<String> publicTitle = getPublicTitle(objNo, obj);
     ArrayList<String> publicInfo;
     String str = "";
 
-    for (Object objs : objList) {
-      for (int titleNo = 0; titleNo < publicTitle.size(); titleNo++) {
-        publicInfo = getPublicItem(objNo, getSeqNo(objNo, objs));
 
-        if (titleNo == 0) {
-          str += formString(numWidth, publicInfo.get(titleNo));
-          continue;
-        }
-        str += formString(titleWidth, publicInfo.get(titleNo));
+    for (int titleNo = 0; titleNo < publicTitle.size(); titleNo++) {
+      publicInfo = getPublicItem(objNo, indexOf(objNo, objs));
+
+      if (titleNo == 0) {
+        str += formString(form.getNumWidth(), publicInfo.get(titleNo));
+        continue;
       }
-      str += String.format("\n");
+      str += formString(form.getTitleWidth(), publicInfo.get(titleNo));
     }
-    return str;
-  }// Method printInformation END
+    str += String.format("\n");
 
+    return str;
+  }
 
 
   ///////////////////////////////////////////////////////////
@@ -241,7 +292,7 @@ public class SubMenu {
     if (getObject(objNo, seqNo) != null) {
       str += printObject(objNo, obj, seqNo);
       // Print Object's User Information
-      if (objNo == TEAM || objNo == PROJECT) {
+      if (isValidateMenu(objNo)) {
         str += printUser(objNo, obj, objList, seqNo);
       }
 
@@ -307,64 +358,36 @@ public class SubMenu {
 
   protected void edit(int objNo, Object obj, ArrayList<?> objList) {
 
-    // Edit Project Info
+    // Edit Object
     int seqNo = editObject(objNo, objList);
 
-    // Delete Project user
-    if (objNo == TEAM || objNo == PROJECT) {
-      editUser(objNo, seqNo, objList);
+    // Delete Member
+    if (isValidateMenu(objNo) && (seqNo != 0)) {
+      editMember(objNo, seqNo);
     }
-
   }
 
-  private void editUser(int objNo, int seqNo, ArrayList<?> objList) {
-    HashMap<Integer, User> editUser = getMembers(objNo, seqNo);
-    ArrayList<Integer> editUserNo = new ArrayList<Integer>();
-    int num;
-
-    for (Entry<Integer, User> userItem : editUser.entrySet()) {
-      num = deleteUser(objNo, seqNo, userItem.getKey());
-      if (num > 0) {
-        editUserNo.add(num);
-      }
-    }
-
-    for (int userNo : editUserNo) {
-      getMembers(objNo, seqNo).remove(userNo);
-    }
-
-    // Add Project user
-    addUser(objNo, seqNo);
-
-    // Edit End
-    System.out.println("변경했습니다.");
-  }
 
   private int editObject(int objNo, ArrayList<?> objList) {
     Title title = Title.getInstance(objNo);
     int seqNo = inputSeqNo(objNo, objList);
+
     Object obj = getObject(objNo, seqNo);
 
-
-    if (obj != null) {
+    if (obj != null && seqNo != 0) {
       for (int itemNo = 1; itemNo < title.getTitleArrSize(); itemNo++) {
-        System.out.printf("%s(%s)? ", //
-            title.getTitleString(itemNo), // 수정할 정보 메뉴
 
-            //////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////
-            getItem(objNo, seqNo, itemNo) // 현재 저장된 정보?
-        //////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////
-        );
-        setItem(objNo, obj, itemNo, Scanner()); // 수정
+        // print Edit Object
+        printEditObject(objNo, objList, itemNo);
+        // set Member
+        setItem(objNo, obj, itemNo, Scanner());
 
-
-        // User Menu 외 작동(Member 프린트x) ////////////////////
-        if ((objNo != 1) && (itemNo == title.getTitleArrSize() - 2)) {
-          break;
+        // Project, Team =>User print(X)
+        if (isValidateMenu(objNo)) {
+          if ((itemNo == title.getTitleArrSize() - 2)) {
+            break;
+          }
         }
-        /////////////////////////////////////////////////////////
 
       }
     } else {
@@ -374,6 +397,48 @@ public class SubMenu {
   }// Method editUser END
 
 
+  private void printEditObject(int objNo, ArrayList<?> objList, int itemNo) {
+    Title title = Title.getInstance(objNo);
+    int seqNo = inputSeqNo(objNo, objList);
+
+    System.out.printf("%s(%s)? ", //
+        title.getTitleString(itemNo), // 수정할 정보 메뉴
+        getItem(objNo, seqNo, itemNo) // 현재 저장된 정보?
+    );
+  }
+
+  private void editMember(int objNo, int seqNo) {
+    // delete Member
+    deleteMember(objNo, seqNo);
+
+    // Add Member
+    addMember(objNo, seqNo);
+
+    // Edit End
+    System.out.println("변경했습니다.");
+  }
+
+  // delete Member
+  private void deleteMember(int objNo, int seqNo) {
+    for (int userNo : getDeleteUserNo(objNo, seqNo)) {
+      getMembers(objNo, seqNo).remove(userNo);
+    }
+  }
+
+  // get delete Member UserNo List
+  private ArrayList<Integer> getDeleteUserNo(int objNo, int seqNo) {
+    ArrayList<Integer> editUserNo = new ArrayList<Integer>();
+    int num;
+
+    for (Entry<Integer, User> userItem : getMembers(objNo, seqNo).entrySet()) {
+      num = deleteMember(objNo, seqNo, userItem.getKey());
+      if (num > 0) {
+        editUserNo.add(num);
+      }
+    }
+
+    return editUserNo;
+  }
 
   ///////////////////////////////////////////////////////////
   /////////////////////// 5. Delete /////////////////////////
@@ -384,7 +449,7 @@ public class SubMenu {
     if (getObject(objNo, seqNo) != null) {
 
       for (int listNo = 0; listNo < objList.size(); listNo++) {
-        if (getSeqNo(objNo, objList.get(listNo)) == seqNo) {
+        if (indexOf(objNo, objList.get(listNo)) == seqNo) {
 
           objList.remove(listNo);
           System.out.println("삭제하였습니다.");
@@ -395,7 +460,7 @@ public class SubMenu {
   }// Method delete END
 
   // Delete Object's User
-  private int deleteUser(int objNo, int seqNo, int userNo) {
+  private int deleteMember(int objNo, int seqNo, int userNo) {
 
     String ans;
     String userName = printUserName(objNo, seqNo, userNo);
@@ -428,7 +493,7 @@ public class SubMenu {
   private boolean isValidateObject(int objNo, ArrayList<?> objList, int seqNo) {
     if (seqNo > 0) {
       for (int listNo = 0; listNo < objList.size(); listNo++) {
-        if (getSeqNo(objNo, objList.get(listNo)) == seqNo) {
+        if (indexOf(objNo, objList.get(listNo)) == seqNo) {
           return true;
         }
       }
@@ -489,15 +554,16 @@ public class SubMenu {
 
 
   // Object's Public Item List
-  private ArrayList<String> getPublicItem(int objNo, int sepNo) {
+  private ArrayList<String> getPublicItem(int objNo, int seqNo) {
     // System.out.println(objNo + ":" + sepNo);
-    if (getObject(objNo, sepNo) != null) {
-      ArrayList<Integer> publicProItemNo = getPublicItemList(objNo, sepNo);
+    if (getObject(objNo, seqNo) != null) {
+      ArrayList<Integer> publicProItemNo = getPublicItemList(objNo, seqNo);
       ArrayList<String> publicProItem = new ArrayList<String>();
 
       for (int itemNo = 0; itemNo < publicProItemNo.size(); itemNo++) {
-        publicProItem.add(getItem(objNo, sepNo, publicProItemNo.get(itemNo)));
+        publicProItem.add(getItem(objNo, seqNo, publicProItemNo.get(itemNo)));
       }
+
 
       return publicProItem;
     }
@@ -557,7 +623,7 @@ public class SubMenu {
   }
 
 
-
+  // seqNo->Object
   // Class get Item /////////////////////////////////////////
   private String getItem(int objNo, int seqNo, int item) {
     switch (objNo) {
@@ -576,9 +642,9 @@ public class SubMenu {
   }
 
 
-
+  // Object->seqNo
   // Class get SeqNo /////////////////////////////////////////
-  private int getSeqNo(int objNo, Object obj) {
+  private int indexOf(int objNo, Object obj) {
     switch (objNo) {
       case USER:
         return ((User) obj).getSeqNo();
@@ -631,17 +697,17 @@ public class SubMenu {
   }
 
   // Class set Object's User HashMap ///////////////////////////////////////
-  private void setMembers(int objNo, int seqNo, User members) {
+  private void setMembers(int objNo, int seqNo, int userNo, User members) {
 
     Object obj = getObject(objNo, seqNo);
 
     switch (objNo) {
       case TEAM:
-        ((Team) obj).setMembers(seqNo, members);
+        ((Team) obj).setMembers(userNo, members);
         // return ((Team) getObject(objNo, seqNo)).getMembers();
         break;
       case PROJECT:
-        ((Project) obj).setMembers(seqNo, members);
+        ((Project) obj).setMembers(userNo, members);
         break;
       default:
         break;
@@ -682,19 +748,27 @@ public class SubMenu {
     return null;
   }
 
+  // 데이터 목록을 다루는 일을 할 객체의 사용법
+  // =>즉 '그 객체에게 일을 시킬 때 다음의 메서드를 호출하여 일을 시켜라."라고 지정하는 문법
+  // 메소드를 만들었다~ 라는 추상 의미
+  public interface VoList {
+    // Set Item
+    void setItem(int itemNo, String str);
 
+    // Get Item
+    String getItem(int itemNo);
 
-  public interface Commmand {
+    // Object->seqNo
+    int getSeqNo();
 
-    void setUserItem(int item, String str);
+    // seqNo->Object
+    void setSeqNo(int newSeqNo);
 
-    String getItem(int objNo, int seqNo, int item);
+    // set Members(TEAM, PROJECT)
+    void setMembers(int seqNo, User members);
 
-    int getSeqNo(int objNo, Object obj);
-
-    void setMembers(int objNo, int seqNo, User members);
-
-    HashMap<Integer, User> getMembers(int objNo, int seqNo);
+    // get Members(TEAM, PROJECT)
+    HashMap<Integer, User> getMembers();
   }
 
 }

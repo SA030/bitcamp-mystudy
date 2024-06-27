@@ -14,8 +14,7 @@ public class UserMenu extends SubMenu {
 
   /********************************************************/
 
-  private int numWidth = 3;
-  private int titleWidth = 15;
+  Format userForm = new Format(3, 15);
 
   /********************************************************/
 
@@ -47,18 +46,17 @@ public class UserMenu extends SubMenu {
   //////////////////////// User Menu ////////////////////////
   ///////////////////////////////////////////////////////////
   public void menu(int menuNo) {
-    menuUser(menuNo, USER, user, UserList, numWidth, titleWidth);
+    menuUser(menuNo, USER, user, UserList);
   }
 
-  public void menuUser(int menuNo, int titleNo, User user, ArrayList<User> UserList, //
-      int numWidth, int titleWidth) {
+  public void menuUser(int menuNo, int titleNo, User user, ArrayList<User> UserList) {
 
     switch (menuNo) {
       case 1: // 등록
         add(titleNo, new User(), UserList);
         break;
       case 2: // 목록
-        printList(titleNo, user, UserList, numWidth, titleWidth);
+        printList(titleNo, user, UserList, userForm);
         break;
       case 3: // 조회
         print(titleNo, user, UserList);
@@ -87,23 +85,6 @@ public class UserMenu extends SubMenu {
 
   }// Method User Add END
 
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 2. 목록 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 3. 조회 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 4. 변경 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 5. 삭제 /////////////////////////
-  ///////////////////////////////////////////////////////////
 
 
   ///////////////////////////////////////////////////////////

@@ -13,8 +13,7 @@ public class BoardMenu extends SubMenu {
 
   /********************************************************/
 
-  private int numWidth = 3;
-  private int titleWidth = 20;
+  Format boradrForm = new Format(3, 20);
 
   /********************************************************/
 
@@ -46,19 +45,18 @@ public class BoardMenu extends SubMenu {
   ///////////////////// Project Menu ////////////////////////
   ///////////////////////////////////////////////////////////
   public void menu(int menuNo) {
-    menuBoard(menuNo, BOARD, board, boardList, numWidth, titleWidth);
+    menuBoard(menuNo, BOARD, board, boardList);
   }
 
 
-  public void menuBoard(int menuNo, int titleNo, Board borad, ArrayList<Board> BoardList, //
-      int numWidth, int titkeWidth) {
+  public void menuBoard(int menuNo, int titleNo, Board borad, ArrayList<Board> BoardList) {
 
     switch (menuNo) {
       case 1: // 등록
         add(titleNo, new Board(), BoardList);
         break;
       case 2: // 목록
-        printList(titleNo, borad, BoardList, numWidth, titkeWidth);
+        printList(titleNo, borad, BoardList, boradrForm);
         break;
       case 3: // 조회
         print(titleNo, borad, BoardList);
@@ -87,24 +85,6 @@ public class BoardMenu extends SubMenu {
 
   }// Method Board Add END
 
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 2. 목록 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 3. 조회 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 4. 변경 /////////////////////////
-  ///////////////////////////////////////////////////////////
-
-
-  ///////////////////////////////////////////////////////////
-  ///////////////////////// 5. 삭제 /////////////////////////
-  ///////////////////////////////////////////////////////////
 
 
   ///////////////////////////////////////////////////////////
