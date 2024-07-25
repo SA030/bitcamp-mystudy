@@ -1,13 +1,12 @@
-# 29. File I/O API 활용하기 II :  데코레이터를 이용한 데이터 변환 자동화
+# 35. 데이터 접근 로직을 캡슐화하기 : DAO 객체 도입
 
 ## 학습목표
 
-- GoF의 Decorator 설계 패턴을 이해하고 적용할 수 있다.
-- File I/O API의 데코레이터 클래스를 사용하여 Primitive type, String 타입 값을 byte[] 배열로 입출력 할 수 있다.
+- DAO 객체의 역할을 이해하고 프로젝트에 적용할 수 있다.
 
 ## 요구사항
 
-- 데이터를 입출력 할 때 File I/O API에서 데코레이터 클래스를 사용
+- XxxCommand 객체에서 데이터 접근 로직을 별도의 클래스로 캡슐화 하라.
 
 ## 실행 결과
 
@@ -15,16 +14,13 @@
 
 ## 작업
 
-- 데이터 로딩 및 저장 코드 변경
-  - loadUsers(), saveUsers() 메서드 변경
-  - loadProjects(), saveProjects() 메서드 변경
-  - loadBoards(), saveBoards() 메서드 변경
-- User, Project, Board 클래스 변경
-  - getBytes(), valueOf() 메서드 제거
-  
+- User 데이터 접근 로직을 캡슐화 하기
+  - UserDao 인터페이스 정의
+ 
 ## 소스 파일
 
 - App.java
-- Board.java
-- Project.java
-- User.java
+- BoardXxxCommand.java 
+- ProjectXxxCommand.java
+- UserXxxCommand.java
+- ProjectMemberHandler.java

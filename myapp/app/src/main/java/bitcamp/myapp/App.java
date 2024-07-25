@@ -20,54 +20,69 @@ import bitcamp.myapp.command.user.UserDeleteCommand;
 import bitcamp.myapp.command.user.UserListCommand;
 import bitcamp.myapp.command.user.UserUpdateCommand;
 import bitcamp.myapp.command.user.UserViewCommand;
+import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.dao.MapBoardDao;
+import bitcamp.myapp.dao.MapUserDao;
+import bitcamp.myapp.dao.UserDao;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Project;
 import bitcamp.myapp.vo.User;
 import bitcamp.util.Prompt;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class App {
 
 
   MenuGroup mainMenu = new MenuGroup("메인");
 
-  List<User> userList = new ArrayList<>();
-  List<Project> projectList = new LinkedList<>();
-  List<Board> boardList = new LinkedList<>();
+
+  Map<Integer, Board> boardMap = new HashMap<>();
+  List<Integer> boardNoList = new ArrayList<>();
+
+  Map<Integer, Project> projectMap = new HashMap<>();
+  List<Integer> projectNoList = new ArrayList<>();
+
+  UserDao userDao;
+  BoardDao boardDao;
 
   public App() {
 
+    //loadData();
+
+    userDao = new MapUserDao("data.xlsx");
+    boardDao = new MapBoardDao("data.xlsx");
+
     MenuGroup userMenu = new MenuGroup("회원");
-    userMenu.add(new MenuItem("등록", new UserAddCommand(userList)));
-    userMenu.add(new MenuItem("목록", new UserListCommand(userList)));
-    userMenu.add(new MenuItem("조회", new UserViewCommand(userList)));
-    userMenu.add(new MenuItem("변경", new UserUpdateCommand(userList)));
-    userMenu.add(new MenuItem("삭제", new UserDeleteCommand(userList)));
+    userMenu.add(new MenuItem("등록", new UserAddCommand(userDao)));
+    userMenu.add(new MenuItem("목록", new UserListCommand(userDao)));
+    userMenu.add(new MenuItem("조회", new UserViewCommand(userDao)));
+    userMenu.add(new MenuItem("변경", new UserUpdateCommand(userDao)));
+    userMenu.add(new MenuItem("삭제", new UserDeleteCommand(userDao)));
     mainMenu.add(userMenu);
 
     MenuGroup projectMenu = new MenuGroup("프로젝트");
-    ProjectMemberHandler memberHandler = new ProjectMemberHandler(userList);
-    projectMenu.add(new MenuItem("등록", new ProjectAddCommand(projectList, memberHandler)));
-    projectMenu.add(new MenuItem("목록", new ProjectListCommand(projectList)));
-    projectMenu.add(new MenuItem("조회", new ProjectViewCommand(projectList)));
-    projectMenu.add(new MenuItem("변경", new ProjectUpdateCommand(projectList, memberHandler)));
-    projectMenu.add(new MenuItem("삭제", new ProjectDeleteCommand(projectList)));
+    ProjectMemberHandler memberHandler = new ProjectMemberHandler(null);
+    projectMenu.add(
+        new MenuItem("등록", new ProjectAddCommand(projectMap, projectNoList, memberHandler)));
+    projectMenu.add(new MenuItem("목록", new ProjectListCommand(projectMap, projectNoList)));
+    projectMenu.add(new MenuItem("조회", new ProjectViewCommand(projectMap)));
+    projectMenu.add(new MenuItem("변경", new ProjectUpdateCommand(projectMap, memberHandler)));
+    projectMenu.add(new MenuItem("삭제", new ProjectDeleteCommand(projectMap, projectNoList)));
     mainMenu.add(projectMenu);
 
     MenuGroup boardMenu = new MenuGroup("게시판");
-    boardMenu.add(new MenuItem("등록", new BoardAddCommand(boardList)));
-    boardMenu.add(new MenuItem("목록", new BoardListCommand(boardList)));
-    boardMenu.add(new MenuItem("조회", new BoardViewCommand(boardList)));
-    boardMenu.add(new MenuItem("변경", new BoardUpdateCommand(boardList)));
-    boardMenu.add(new MenuItem("삭제", new BoardDeleteCommand(boardList)));
+    boardMenu.add(new MenuItem("등록", new BoardAddCommand(boardDao)));
+    boardMenu.add(new MenuItem("목록", new BoardListCommand(boardDao)));
+    boardMenu.add(new MenuItem("조회", new BoardViewCommand(boardDao)));
+    boardMenu.add(new MenuItem("변경", new BoardUpdateCommand(boardDao)));
+    boardMenu.add(new MenuItem("삭제", new BoardDeleteCommand(boardDao)));
     mainMenu.add(boardMenu);
 
     mainMenu.add(new MenuItem("도움말", new HelpCommand()));
@@ -86,12 +101,29 @@ public class App {
     String line = "----------------------------------";
 
     try {
-      loadData();
       mainMenu.execute();
+
     } catch (Exception ex) {
       System.out.println("실행 오류!");
+      ex.printStackTrace();
+
     } finally {
-      saveData();
+      //saveData();
+      try {
+        ((MapUserDao) userDao).save();
+      } catch (Exception e) {
+        System.out.println("회원 데이터 저장 중 오류 발생!");
+        e.printStackTrace();
+        System.out.println();
+      }
+
+      try {
+        ((MapBoardDao) boardDao).save();
+      } catch (Exception e) {
+        System.out.println("게시글 데이터 저장 중 오류 발생!");
+        e.printStackTrace();
+        System.out.println();
+      }
     }
 
     System.out.println("종료합니다.");
@@ -100,177 +132,99 @@ public class App {
   }
 
   private void loadData() {
-    loadUsers();
-    loadProjects();
-    loadBoards();
-    System.out.println("데이터를 로딩 했습니다.");
-  }
+    try {
+      XSSFWorkbook workbook = new XSSFWorkbook("data.xlsx");
 
-  private void loadUsers() {
-    try (FileInputStream in0 = new FileInputStream("user.data");
-        DataInputStream in = new DataInputStream(in0)) {
+      loadProjects(workbook);
 
-      int userLength = in.readInt();
+      System.out.println("데이터를 로딩 했습니다.");
 
-      int maxUserNo = 0;
-      for (int i = 0; i < userLength; i++) {
-        User user = new User();
-        user.setNo(in.readInt());
-        user.setName(in.readUTF());
-        user.setEmail(in.readUTF());
-        user.setPassword(in.readUTF());
-        user.setTel(in.readUTF());
-
-        userList.add(user);
-
-        if (user.getNo() > maxUserNo) {
-          maxUserNo = user.getNo();
-        }
-      }
-
-      User.initSeqNo(maxUserNo);
-
-    } catch (IOException e) {
-      System.out.println("회원 정보 로딩 중 오류 발생!");
+    } catch (Exception e) {
+      System.out.println("데이터 로딩 중 오류 발생!");
+      e.printStackTrace();
     }
   }
 
-  private void loadProjects() {
-    try (FileInputStream in0 = new FileInputStream("project.data");
-        DataInputStream in = new DataInputStream(in0)) {
+  private void loadProjects(XSSFWorkbook workbook) {
+    XSSFSheet sheet = workbook.getSheet("projects");
 
-      int projectLength = in.readInt();
+    for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+      Row row = sheet.getRow(i);
 
-      int maxProjectNo = 0;
-      for (int i = 0; i < projectLength; i++) {
+      try {
         Project project = new Project();
-        project.setNo(in.readInt());
-        project.setTitle(in.readUTF());
-        project.setDescription(in.readUTF());
-        project.setStartDate(in.readUTF());
-        project.setEndDate(in.readUTF());
+        project.setNo(Integer.parseInt(row.getCell(0).getStringCellValue()));
+        project.setTitle(row.getCell(1).getStringCellValue());
+        project.setDescription(row.getCell(2).getStringCellValue());
+        project.setStartDate(row.getCell(3).getStringCellValue());
+        project.setEndDate(row.getCell(4).getStringCellValue());
 
-        int memberLength = in.readInt();
-        for (int j = 0; j < memberLength; j++) {
-          User user = new User();
-          user.setNo(in.readInt());
-          user.setName(in.readUTF());
-          user.setEmail(in.readUTF());
-          user.setPassword(in.readUTF());
-          user.setTel(in.readUTF());
-
-          project.getMembers().add(user);
+        String[] members = row.getCell(5).getStringCellValue().split(",");
+        for (String memberNo : members) {
+          User member = null; //userMap.get(Integer.valueOf(memberNo));
+          if (member != null) {
+            project.getMembers().add(member);
+          }
         }
+        projectMap.put(project.getNo(), project);
+        projectNoList.add(project.getNo());
 
-        projectList.add(project);
-
-        if (project.getNo() > maxProjectNo) {
-          maxProjectNo = project.getNo();
-        }
+      } catch (Exception e) {
+        System.out.printf("%s 번 프로젝트의 데이터 형식이 맞지 않습니다.\n", row.getCell(0).getStringCellValue());
       }
-
-      Project.initSeqNo(maxProjectNo);
-
-    } catch (IOException e) {
-      System.out.println("프로젝트 정보 로딩 중 오류 발생!");
     }
-  }
 
-  private void loadBoards() {
-    try (FileInputStream in0 = new FileInputStream("board.data");
-        DataInputStream in = new DataInputStream(in0)) {
-
-      int userLength = in.readInt();
-
-      int maxBoardNo = 0;
-      for (int i = 0; i < userLength; i++) {
-        Board board = new Board();
-        board.setNo(in.readInt());
-        board.setTitle(in.readUTF());
-        board.setContent(in.readUTF());
-        board.setCreatedDate(new Date(in.readLong()));
-        board.setViewCount(in.readInt());
-
-        boardList.add(board);
-
-        if (board.getNo() > maxBoardNo) {
-          maxBoardNo = board.getNo();
-        }
-      }
-
-      Board.initSeqNo(maxBoardNo);
-
-    } catch (IOException e) {
-      System.out.println("게시글 정보 로딩 중 오류 발생!");
-    }
+    Project.initSeqNo(projectNoList.getLast());
   }
 
   private void saveData() {
-    saveUsers();
-    saveProjects();
-    saveBoards();
-    System.out.println("데이터를 저장 했습니다.");
-  }
+    try {
+      XSSFWorkbook workbook = new XSSFWorkbook();
 
-  private void saveUsers() {
-    try (FileOutputStream out0 = new FileOutputStream("user.data");
-        DataOutputStream out = new DataOutputStream(out0)) {
+      saveProjects(workbook);
 
-      out.writeInt(userList.size());
-
-      for (User user : userList) {
-        out.writeInt(user.getNo());
-        out.writeUTF(user.getName());
-        out.writeUTF(user.getEmail());
-        out.writeUTF(user.getPassword());
-        out.writeUTF(user.getTel());
+      try (FileOutputStream out = new FileOutputStream("data.xlsx")) {
+        workbook.write(out);
       }
-    } catch (IOException e) {
-      System.out.println("회원 정보 저장 중 오류 발생!");
+      System.out.println("데이터를 저장 했습니다.");
+
+    } catch (Exception e) {
+      System.out.println("데이터 저장 중 오류 발생!");
+      e.printStackTrace();
     }
   }
 
-  private void saveProjects() {
-    try (FileOutputStream out0 = new FileOutputStream("project.data");
-        DataOutputStream out = new DataOutputStream(out0)) {
 
-      out.writeInt(projectList.size());
+  private void saveProjects(XSSFWorkbook workbook) {
+    XSSFSheet sheet = workbook.createSheet("projects");
 
-      for (Project project : projectList) {
-        out.writeInt(project.getNo());
-        out.writeUTF(project.getTitle());
-        out.writeUTF(project.getDescription());
-        out.writeUTF(project.getStartDate());
-        out.writeUTF(project.getEndDate());
-        out.writeInt(project.getMembers().size());
-        for (User member : project.getMembers()) {
-          out.writeInt(member.getNo());
-          out.writeUTF(member.getName());
-          out.writeUTF(member.getEmail());
-          out.writeUTF(member.getPassword());
-          out.writeUTF(member.getTel());
+    // 셀 이름 출력
+    String[] cellHeaders = {"no", "title", "description", "start_date", "end_date", "members"};
+    Row headerRow = sheet.createRow(0);
+    for (int i = 0; i < cellHeaders.length; i++) {
+      headerRow.createCell(i).setCellValue(cellHeaders[i]);
+    }
+
+    // 데이터 저장
+    int rowNo = 1;
+    for (Integer projectNo : projectNoList) {
+      Project project = projectMap.get(projectNo);
+      Row dataRow = sheet.createRow(rowNo++);
+      dataRow.createCell(0).setCellValue(String.valueOf(project.getNo()));
+      dataRow.createCell(1).setCellValue(project.getTitle());
+      dataRow.createCell(2).setCellValue(project.getDescription());
+      dataRow.createCell(3).setCellValue(project.getStartDate());
+      dataRow.createCell(4).setCellValue(project.getEndDate());
+
+      StringBuilder strBuilder = new StringBuilder();
+      for (User member : project.getMembers()) {
+        if (strBuilder.length() > 0) {
+          strBuilder.append(",");
         }
+        strBuilder.append(member.getNo());
       }
-    } catch (IOException e) {
-      System.out.println("프로젝트 정보 저장 중 오류 발생!");
+      dataRow.createCell(5).setCellValue(strBuilder.toString());
     }
   }
 
-  private void saveBoards() {
-    try (FileOutputStream out0 = new FileOutputStream("board.data");
-        DataOutputStream out = new DataOutputStream(out0)) {
-
-      out.writeInt(boardList.size());
-
-      for (Board board : boardList) {
-        out.writeInt(board.getNo());
-        out.writeUTF(board.getTitle());
-        out.writeUTF(board.getContent());
-        out.writeLong(board.getCreatedDate().getTime());
-        out.writeInt(board.getViewCount());
-      }
-    } catch (IOException e) {
-      System.out.println("게시글 정보 저장 중 오류 발생!");
-    }
-  }
 }

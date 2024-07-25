@@ -1,11 +1,12 @@
 package bitcamp.myapp.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Board {
+public class Board implements Serializable {
 
-  private static int seqNo;
+  private static final long serialVersionUID = 1L;
 
   private int no;
   private String title;
@@ -20,16 +21,15 @@ public class Board {
     this.no = no;
   }
 
-  public static int getNextSeqNo() {
-    return ++seqNo;
-  }
-
-  public static void initSeqNo(int no) {
-    seqNo = no;
-  }
-
-  public static int getSeqNo() {
-    return seqNo;
+  @Override
+  public String toString() {
+    return "Board{" +
+        "no=" + no +
+        ", title='" + title + '\'' +
+        ", content='" + content + '\'' +
+        ", createdDate=" + createdDate +
+        ", viewCount=" + viewCount +
+        '}';
   }
 
   @Override
@@ -48,7 +48,7 @@ public class Board {
   public int hashCode() {
     return Objects.hashCode(no);
   }
-
+  
   public int getNo() {
     return no;
   }
