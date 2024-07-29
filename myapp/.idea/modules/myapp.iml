@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$/../.." dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/../../app" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-01" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-02" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-03" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-04" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-05" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-06" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-07" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-08" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-09" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-10" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-11" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-12" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-13" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-14" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-15" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-16" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-17" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-18" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-19" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-20" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-21" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-22" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-23" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-24" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-25" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-26" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-27" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-28" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-29" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-30" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-31" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-32" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-33" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-34" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-35" />
+      <excludeFolder url="file://$MODULE_DIR$/../../app-36" />
+    </content>
+  </component>
+</module>
