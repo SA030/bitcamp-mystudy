@@ -37,14 +37,17 @@
 ## 35. 데이터 접근 로직을 캡슐화하기 : DAO 객체 도입
 ## 36. 애플리케이션 시작/종료 상태일 때 알림 받기 : GoF의 Observer 패턴 적용 
 ## 37. 애플리케이션 간에 데이터 공유하기 : Client/Server 아키텍처로 전환
+## 38. 여러 클라이언트의 요청을 순차적으로 처리하기: Stateful vs Stateless
+## 39. 여러 클라이언트 요청을 동시에 처리하기: Multi-thread 적용
 
-- 네트워크 프로그래밍 방법
-  - Client와 Server 개념
-  - 프로토콜에 따라 애플리케이션 간에 데이터를 주고 받기
-- Reflection API를 사용하는 방법
-  - 서버의 DAO 메서드 호출을 자동화 하는 방법
-- GoF의 "Proxy" 패턴 적용
-  - 원격 객체와 동일한 인터페이스를 갖는 대행 객체(프록시) 구현하기
+- 멀티태스킹의 메커니즘 이해
+  - 프로세스 스케쥴링: Round Robin 방식, Priority + Aging 방식
+  - 컨텍스트 스위칭 개념
+  - 프로세스 복제(fork)방식과 스레드 방식 비교
+  - 임계영역(Critical Region, Critical Section): 세마포어(Semaphore)와 뮤텍스(Mutex)
+- 스레드의 구동원리와 사용법
+  - 스레드의 라이프사이클 이해
+  - Thread 클래스와 Runnable 인터페이스 사용법
 
 
 ## 18. 인스턴스 목록 제어 기능을 별도의 클래스로 캡슐화: 재사용성 높임
@@ -115,24 +118,8 @@
 - Reflection API를 사용하여 메서드 정보를 추출하기
 - GoF의 Factory Method 패턴 활용 
 
-## 43. 여러 클라이언트의 요청을 순차적으로 처리하기: Stateless 방식
 
-- Stateless 방식으로 통신하는 방법
-  - Connection-Oriented vs Connectionless
-  - Stateful vs Stateless
-- Stateless 방식의 구동 원리와 Stateful 방식 대비 이점
-- Stateless 방식의 문제점
 
-## 44. 여러 클라이언트 요청을 동시에 처리하기: Thread 적용
-
-- 멀티태스킹의 메커니즘 이해
-  - 프로세스 스케쥴링: Round Robin 방식, Priority + Aging 방식
-  - 컨텍스트 스위칭 개념
-  - 프로세스 복제(fork)방식과 스레드 방식 비교
-  - 임계영역(Critical Region, Critical Section): 세마포어(Semaphore)와 뮤텍스(Mutex)
-- 스레드의 구동원리와 사용법
-  - 스레드의 라이프사이클 이해
-  - Thread 클래스와 Runnable 인터페이스 사용법
 
 ## 45. 스레드 재사용하기 : 스레드풀(thread pool) 구현
 
