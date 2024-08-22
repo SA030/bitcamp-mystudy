@@ -39,15 +39,14 @@
 ## 37. 애플리케이션 간에 데이터 공유하기 : Client/Server 아키텍처로 전환
 ## 38. 여러 클라이언트의 요청을 순차적으로 처리하기: Stateful vs Stateless
 ## 39. 여러 클라이언트의 요청을 동시에 처리하기: Multi-thread 적용
+## 40. DBMS 도입하기
+## 41. 외부키(Foreign Key) 사용하기
+## 42. 로그인/로그아웃 적용하기
+## 43. SQL 삽입 공격 차단하기
+## 44. Application Server 아키텍처로 전환하기
 
-- 멀티태스킹의 메커니즘 이해
-  - 프로세스 스케쥴링: Round Robin 방식, Priority + Aging 방식
-  - 컨텍스트 스위칭 개념
-  - 프로세스 복제(fork)방식과 스레드 방식 비교
-  - 임계영역(Critical Region, Critical Section): 세마포어(Semaphore)와 뮤텍스(Mutex)
-- 스레드의 구동원리와 사용법
-  - 스레드의 라이프사이클 이해
-  - Thread 클래스와 Runnable 인터페이스 사용법
+- 애플리케이션 서버 아키텍처의 특징과 구현
+- Executor를 이용하여 스레드를 풀링하기
 
 
 ## 42. DAO 프록시 객체(스텁 객체)를 자동 생성하기
@@ -66,22 +65,11 @@
 
 - Excutors/ExcutorService 사용법
 
-## 47. DBMS 도입하기
 
-- DBMS 설치 및 사용법
-- SQL 및 JDBC Driver 개념과 사용법
-- 테이블 정의 및 예제 데이터 입력 SQL 준비
-- DBMS와 연동하여 작업하는 DAO 구현
 
-## 48. SQL 삽입 공격 차단하기
 
-- SQL 삽입 공격의 원리 이해
-- PreparedStatement 사용법
 
-## 49. Application Server 아키텍처로 전환하기
 
-- 애플리케이션 서버 아키텍처의 특징과 구현
-- Executor를 이용하여 스레드를 풀링하기
 
 ## 50. 여러 스레드가 DB 커넥션을 공유할 때의 문제점과 해결책 I
 
@@ -118,11 +106,7 @@
 - 컨넥션 객체 사용 후 커넥션풀에 자동 반납하는 방법
   - Proxy 패턴을 이용하여 Connection 객체의 close() 기능 변경
 
-## 55. 외부키(Foreign Key) 사용하기
 
-- 자동 생성된 PK 를 알아내는 방법
-- 외부키를 설정하고 사용하는 방법
-- 조인을 이용하여 외부 테이블의 값을 가져오는 방법
 
 ## 56. 로그인/로그아웃 적용하기
 
